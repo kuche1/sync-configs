@@ -50,8 +50,18 @@ def main(user):
                     safely_symlink(real_path, to_be_symlinked)
                 break
         break
+    
+    print('Done')
 
 if __name__ == '__main__':
     # TODO argparse
 
-    main('me')
+    parser = argparse.ArgumentParser(description='Utility for syncing the config files')
+    parser.add_argument(
+        'user',
+        choices=[i[0] for i in pwd.getpwall()],
+        help='User to set up the config files for',
+    )
+    args = parser.parse_args()
+
+    main(args.user)
