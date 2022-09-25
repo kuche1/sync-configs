@@ -54,8 +54,6 @@ def main(user):
     print('Done')
 
 if __name__ == '__main__':
-    # TODO argparse
-
     parser = argparse.ArgumentParser(description='Utility for syncing the config files')
     parser.add_argument(
         'user',
