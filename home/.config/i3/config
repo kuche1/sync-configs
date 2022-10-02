@@ -47,12 +47,14 @@ exec --no-startup-id nm-applet
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-## keybinds
+##### keybinds
 
 # kill focused window; sends SIGTERM
 bindsym $mod+Shift+q kill
 
 bindsym Print exec spectacle --region
+
+### volume
 
 # Use pactl to adjust volume in PulseAudio.
 #set $refresh_i3status killall -SIGUSR1 i3status
@@ -60,6 +62,10 @@ bindsym Print exec spectacle --region
 set $refresh_i3status pkill -RTMIN+10 i3blocks
 	# i3blocks
 
+# mute
+bindsym $mod+m exec pkill -RTMIN+11 i3blocks
+
+# adjust volume
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
@@ -343,11 +349,14 @@ for_window [class="steam_proton" title="^euphoria$"] floating enable
 # display
 exec --no-startup-id xrandr --output DisplayPort-0 --mode 1920x1080 --rate 144.00 --primary
 
-# open torrent but only if not laptop
-exec --no-startup-id python3 -c '__import__("sys").exit(__import__("psutil").sensors_battery())' && transmission-gtk --minimized
-
 # polkit
 exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
+
+# thunar preload
+exec --no-startup-id thunar --daemon
+
+# open torrent but only if not laptop
+exec --no-startup-id python3 -c '__import__("sys").exit(__import__("psutil").sensors_battery())' && transmission-gtk --minimized
 
 # keyboard language
 #bindsym $mod+i exec --no-startup-id setxkbmap -layout "us"
