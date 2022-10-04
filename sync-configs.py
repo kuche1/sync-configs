@@ -109,7 +109,7 @@ if __name__ == '__main__':
     parser.add_argument(
         'user',
         choices=[i[0] for i in pwd.getpwall()],
-        help='User to set up the config files for',
+        help='User to set up the config files for. If in doubt, you can use `$USER`.',
     )
     args = parser.parse_args()
 
