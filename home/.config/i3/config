@@ -332,6 +332,7 @@ bar {
 ## set floating
 for_window [class="gnome-calculator"] floating enable
 for_window [title="Maggot baits"] floating enable
+for_window [class="matplotlib"] floating enable
 for_window [class="simple-3d-game"] floating enable # godot
 for_window [class="SIGMA"] floating enable          # godot
 for_window [class="steam_proton" title="^euphoria$"] floating enable
