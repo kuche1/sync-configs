@@ -11,14 +11,15 @@ on_or_off=$(awk -F"[][]" '{print $4}' <<< "${last_line}")
 
 case "${on_or_off}" in
 	"on")
-		fg_col='blue'
+		fg_col='green'
 		;;
 	"off")
 		fg_col='red'
 		;;
 	*)
 		fg_col='yellow'
-		on_or_off="${last_line}"
+		on_or_off="ERROR:${last_line}"
+		echo "${all_output}" > /tmp/microphone-widget-error-log
 		;;
 esac
 
