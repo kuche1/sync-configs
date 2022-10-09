@@ -63,7 +63,7 @@ set $refresh_i3status pkill -RTMIN+10 i3blocks
 	# i3blocks
 
 # mute
-bindsym $mod+m exec pkill -RTMIN+11 i3blocks
+bindsym $mod+m exec ~/.config/minq-utilities/microphone-set.sh && pkill -RTMIN+11 i3blocks
 
 # adjust volume
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
