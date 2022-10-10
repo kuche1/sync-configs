@@ -57,6 +57,7 @@ bindsym Print exec spectacle --region
 ### volume
 
 # Use pactl to adjust volume in PulseAudio.
+# TODO rename to `refresh_volume` or something, and check if it is being used anywhere else
 #set $refresh_i3status killall -SIGUSR1 i3status
 	# i3status
 set $refresh_i3status pkill -RTMIN+10 i3blocks
@@ -66,13 +67,13 @@ set $refresh_i3status pkill -RTMIN+10 i3blocks
 bindsym $mod+m exec ~/.config/minq-utilities/microphone-set.sh && pkill -RTMIN+11 i3blocks
 
 # adjust volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/minq-utilities/volume-increase-5.sh && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/minq-utilities/volume-decrease-5.sh && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-bindsym XF86AudioNext exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
-bindsym XF86AudioPrev exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioNext exec --no-startup-id ~/.config/minq-utilities/volume-increase-5.sh && $refresh_i3status
+bindsym XF86AudioPrev exec --no-startup-id ~/.config/minq-utilities/volume-decrease-5.sh && $refresh_i3status
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
