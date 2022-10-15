@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-here=$(dirname "$0")
+here=$(dirname "$BASH_SOURCE")
 
 # this only works for `mono`
 #awk -F"[][]" '/Mono:/ { print $4 }' <(amixer set Capture toggle)

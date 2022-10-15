@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-here=$(dirname "$0")
+here=$(dirname "$BASH_SOURCE")
 
 # this only works if the icon was clicked in `i3blocks`
 case "${button}" in
