@@ -9,7 +9,7 @@ all_output=$(amixer get Capture toggle)
 last_line=$(tail -1 <<< "${all_output}")
 on_or_off=$(awk -F"[][]" '{print $4}' <<< "${last_line}")
 
-# this obly works with `pango` markdown
+# this only works with `pango` markdown
 case "${on_or_off}" in
 	"on")
 		fg_col='green'
