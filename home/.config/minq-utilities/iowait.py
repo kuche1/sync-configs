@@ -11,7 +11,7 @@ def collect_data_and_print(process):
     while True:
         line = process.stdout.readline()
         if line == b'':
-            time.sleep(0.25)
+            time.sleep(1)
             continue
         line = line.decode()
 
