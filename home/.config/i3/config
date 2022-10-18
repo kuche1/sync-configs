@@ -67,13 +67,13 @@ set $refresh_volume_widget pkill -RTMIN+10 i3blocks
 bindsym $mod+m exec ~/.config/minq-utilities/microphone-set.sh && pkill -RTMIN+11 i3blocks
 
 # adjust volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/minq-utilities/volume-increase-5.sh && $refresh_volume_widget
-bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/minq-utilities/volume-decrease-5.sh && $refresh_volume_widget
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh +2.5% && $refresh_volume_widget
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh -2.5% && $refresh_volume_widget
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_volume_widget
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_volume_widget
 
-bindsym XF86AudioNext exec --no-startup-id ~/.config/minq-utilities/volume-increase-5.sh && $refresh_volume_widget
-bindsym XF86AudioPrev exec --no-startup-id ~/.config/minq-utilities/volume-decrease-5.sh && $refresh_volume_widget
+bindsym XF86AudioNext exec --no-startup-id ~/.config/minq-utilities/volume-set.sh +5% && $refresh_volume_widget
+bindsym XF86AudioPrev exec --no-startup-id ~/.config/minq-utilities/volume-set.sh -5% && $refresh_volume_widget
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
