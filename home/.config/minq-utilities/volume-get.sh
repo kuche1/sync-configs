@@ -7,10 +7,10 @@ case "${button}" in
     "") # no event
         ;;
     "4") # mwheelup
-        "${here}"/volume-set.sh +5%
+        "${here}"/volume-set.sh inc
         ;;
     "5") # mwheeldown
-        "${here}"/volume-set.sh -5%
+        "${here}"/volume-set.sh dec
         ;;
     *) # anything else
         pavucontrol > /dev/null &

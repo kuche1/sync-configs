@@ -7,6 +7,19 @@ if [ "$#" -ne 1 ]; then
 	exit 1
 fi
 
-amount="$1"
+type="$1"
 
-pactl set-sink-volume @DEFAULT_SINK@ ${amount}
+case "${type}" in
+	'inc')
+		amount='+2.0%'
+		;;
+	'dec')
+		amount='-2.0%'
+		;;
+	*)
+		echo "ERROR: invalid type"
+		exit 1
+		;;
+esac
+
+pactl set-sink-volume @DEFAULT_SINK@ "${amount}"
