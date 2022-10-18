@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+set -e
+
 here=$(dirname "$BASH_SOURCE")
 
 # this only works if the icon was clicked in `i3blocks`
@@ -18,4 +20,16 @@ case "${button}" in
 esac
 
 #awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master)
-awk -F"[][]" '/Left:/ { print $2 }' <(amixer -D pulse sget Master)
+vol=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer -D pulse sget Master))
+vol="${vol::-1}"
+	# delete the last character - `%`
+
+printf '♪'
+
+if [ "${vol}" -gt 100 ]; then
+	printf "<span foreground=\"red\">${vol}</span>"
+else
+	printf "${vol}"
+fi
+
+printf '%%\n'
