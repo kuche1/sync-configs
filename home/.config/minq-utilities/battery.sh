@@ -2,7 +2,9 @@
 
 # TODO make this work with multiple batteries
 
-bat=$(cat /sys/class/power_supply/BAT0/capacity)
-if [ "$bat" != "" ]; then
-	echo "BAT0:$bat"
-fi
+set -e
+
+name="BAT0"
+capacity=$(cat /sys/class/power_supply/${name}/capacity)
+state=$(cat /sys/class/power_supply/${name}/status)
+echo "${name}:${capacity}:${state}"
