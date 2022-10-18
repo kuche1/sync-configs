@@ -63,17 +63,16 @@ bindsym Print exec spectacle --region
 set $refresh_volume_widget pkill -RTMIN+10 i3blocks
 	# this only works for i3blocks
 
-# mute
-bindsym $mod+m exec ~/.config/minq-utilities/microphone-set.sh && pkill -RTMIN+11 i3blocks
-
-# adjust volume
+# adjust volume proper events
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh +2.5% && $refresh_volume_widget
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh -2.5% && $refresh_volume_widget
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_volume_widget
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_volume_widget
+bindsym XF86AudioMicMute exec --no-startup-id ~/.config/minq-utilities/volume-set.sh && $refresh_volume_widget
 
+# adjust volume fake events
 bindsym XF86AudioNext exec --no-startup-id ~/.config/minq-utilities/volume-set.sh +5% && $refresh_volume_widget
 bindsym XF86AudioPrev exec --no-startup-id ~/.config/minq-utilities/volume-set.sh -5% && $refresh_volume_widget
+bindsym $mod+m exec ~/.config/minq-utilities/microphone-set.sh && pkill -RTMIN+11 i3blocks
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
