@@ -1,20 +1,50 @@
 #! /usr/bin/env python3
 
-import argparse
+import re
 import subprocess
+import time
 
-out = subprocess.run(['mpstat', '--dec=0', '1', '1'], capture_output=True)
-out = out.stdout.decode()
+def collect_data_and_print(process):
+    records = []
+    records_max_len = 60
 
-tmp = 'Average:'
-idx = out.index(tmp)
-out = out[idx+len(tmp):]
+    while True:
+        line = process.stdout.readline()
+        if line == b'':
+            time.sleep(0.25)
+            continue
+        line = line.decode()
 
-out = out.strip()
+        tmp = 'all'
+        if tmp not in line:
+            continue
+        idx = line.index(tmp)
+        line = line[idx+len(tmp):]
 
-while '  ' in out:
-    out = out.replace('  ', ' ')
+        line = line.strip()
 
-out = out.split(' ')[4]
+        line = re.sub(' +', ' ', line)
 
-print(out)
+        iowait = line.split(' ')[3]
+        iowait = float(iowait)
+
+        records.append(iowait)
+        if len(records) > records_max_len:
+            del records[0]
+
+        items = len(records)
+        avg = sum(records) / items
+
+        print(f'{items}s{avg:6.2f}', flush=True)
+
+def main():
+    process = subprocess.Popen(['mpstat', '--dec=2', '1'], stdout=subprocess.PIPE)
+    # can use `--dec=0` to limit to `0` decimal places. default is 2
+
+    try:
+        collect_data_and_print(process)
+    finally:
+        process.terminate()
+
+if __name__ == '__main__':
+    main()
