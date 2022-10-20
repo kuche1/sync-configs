@@ -11,10 +11,10 @@ type="$1"
 
 case "${type}" in
 	'inc')
-		amount='+2.0%'
+		amount='+1.0%'
 		;;
 	'dec')
-		amount='-2.0%'
+		amount='-1.0%'
 		;;
 	*)
 		echo "ERROR: invalid type"

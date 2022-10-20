@@ -4,9 +4,11 @@ import re
 import subprocess
 import time
 
+LOG_ENTRIES = 6 # 1 entry == 1 second
+
 def collect_data_and_print(process):
     records = []
-    records_max_len = 60
+    records_max_len = LOG_ENTRIES
 
     while True:
         line = process.stdout.readline()
