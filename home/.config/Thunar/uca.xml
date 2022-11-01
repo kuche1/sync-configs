@@ -4,7 +4,7 @@
 	<icon>utilities-terminal</icon>
 	<name>Open Terminal Here</name>
 	<unique-id>1659027550877601-1</unique-id>
-	<command>wezterm start --cwd %f</command>
+	<command>xfce4-terminal --working-directory=%f</command>
 	<description>Example for a custom action</description>
 	<patterns>*</patterns>
 	<startup-notify/>
