@@ -361,7 +361,6 @@ exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
 exec --no-startup-id thunar --daemon
 
 # open torrent but only if not laptop
-#exec --no-startup-id python3 -c '__import__("sys").exit(__import__("psutil").sensors_battery())' && transmission-gtk --minimized
 exec --no-startup-id $is_not_laptop && transmission-gtk --minimized
 
 # keyboard language
@@ -378,5 +377,5 @@ exec_always --no-startup-id setxkbmap -layout "us,bg(phonetic)" -option "grp:ctr
 #exec_always --no-startup-id ~/.config/i3/on_shutdown.py
 
 # open vnc but only if not laptop
-#exec --no-startup-id python3 -c '__import__("sys").exit(__import__("psutil").sensors_battery())' && x0vncserver -rfbauth ~/.vnc/passwd
-exec --no-startup-id $is_not_laptop && x0vncserver -rfbauth ~/.vnc/passwd
+# restart on crash
+exec --no-startup-id $is_not_laptop && while true ; do x0vncserver -rfbauth ~/.vnc/passwd ; done
