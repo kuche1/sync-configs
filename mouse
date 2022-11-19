@@ -1,0 +1,7 @@
+
+Section "InputClass"
+        Identifier "Mouse With No Acceleration"
+        MatchDriver "libinput"
+        MatchIsPointer "yes"
+        Option "AccelProfile" "flat"
+EndSection

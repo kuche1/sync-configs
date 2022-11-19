@@ -32,6 +32,19 @@ def safely_symlink(dest, source):
     print(f'symlinking `{dest}` to point to `{source}`')
     os.symlink(source, dest)
 
+def sudo_safely_copy(from_, to):
+    from_ = os.path.realpath(from_)
+    to = os.path.realpath(to)
+
+    if os.path.exists(to):
+        safely_delete(to) # sudo_safely_delete ?
+
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
+        f.write('import shutil\n')
+        f.write(f'shutil.copyfile("{from_}", "{to}")\n')
+        script_name = f.name
+    subprocess.run(['sudo', 'python3', script_name])
+
 def sudo_append_to_file(file, data):
     file = shlex.quote(file)
     with tempfile.NamedTemporaryFile(mode='w') as f_data:
@@ -41,7 +54,7 @@ def sudo_append_to_file(file, data):
 
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as f_exec:
             f_exec_name = shlex.quote(f_exec.name)
-            f_exec.write('#! /usr/bin/env bash\n')
+            f_exec.write('#! /usr/bin/env bash\n') # TODO rewrite in python3
             f_exec.write(f'cat {f_data_name} >> {file}\n')
             f_exec.flush()
 
@@ -57,7 +70,8 @@ def main(user):
 
     home = f'/home/{user}/'
 
-    # sync local files
+    # sync home folder
+
     for d, fols, fils in os.walk(os.path.join(HERE, 'home')):
         for fil in fils:
             real_file = os.path.join(home, fil)
@@ -74,7 +88,8 @@ def main(user):
                 break
         break
     
-    # sync system files
+    # sync senvironment
+
     new_vars_for_env = []
 
     with open('/etc/environment', 'r') as f:
@@ -101,7 +116,13 @@ def main(user):
             to_append += f'{var}\n'
             to_append += '\n'
         sudo_append_to_file('/etc/environment', to_append)
-    
+
+    # sync mouse
+
+    tmp = '/usr/share/X11/xorg.conf.d/90-mouse-accel.conf'
+    print(f'setting file {tmp}')
+    sudo_safely_copy(os.path.join(HERE, 'mouse'), tmp)
+
     print('Done')
 
 if __name__ == '__main__':
