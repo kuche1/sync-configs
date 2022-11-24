@@ -331,13 +331,14 @@ bar {
 # per-applicatino settings [get class -> `xprop | grep CLASS` or `xprop | grep NAME`]
 #
 ## set floating
+for_window [class="fk"] floating enable #----------------------------# godot
 for_window [class="gnome-calculator"] floating enable
-for_window [title="Maggot baits"] floating enable
 for_window [class="matplotlib"] floating enable
-for_window [class="simple-3d-game"] floating enable # godot
-for_window [class="SIGMA"] floating enable          # godot
+for_window [class="simple-3d-game"] floating enable #----------------# godot
+for_window [class="SIGMA"] floating enable #-------------------------# godot
 for_window [class="steam_proton" title="^euphoria$"] floating enable
-for_window [class="wasp"] floating enable           # godot
+for_window [class="wasp"] floating enable #--------------------------# godot
+for_window [title="Maggot baits"] floating enable
 ## set sticky
 #for_window [class="spectacle"] sticky enable
 ## set workspace
