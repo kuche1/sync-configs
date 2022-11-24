@@ -32,7 +32,7 @@ def safely_symlink(dest, source):
     print(f'symlinking `{dest}` to point to `{source}`')
     os.symlink(source, dest)
 
-def sudo_safely_copy(from_, to):
+def sudo_safely_copy(from_, to): # TODO? check content if a copy is needed
     from_ = os.path.realpath(from_)
     to = os.path.realpath(to)
 
