@@ -28,6 +28,8 @@ readable() {
     fi
 }
 
+output=""
+
 for iface in $ifaces; do
     file_time="/tmp/net_usage_detector_${iface}_time"
     file_recv="/tmp/net_usage_detector_${iface}_recv"
@@ -76,7 +78,12 @@ for iface in $ifaces; do
     	sent=$(readable $sent)
 	fi
 
-    printf "${iface} ${sent}↑ ${recv}↓ ${time_}s"
+    #printf "${iface} ${sent}↑ ${recv}↓ ${time_}s | "
+    output="${output} | ${iface} ${sent}↑ ${recv}↓ ${time_}s"
 done
 
-echo ""
+if [ "${output}" != "" ]; then
+	output="${output:3}" # cut the first characters
+fi
+
+echo "${output}"
