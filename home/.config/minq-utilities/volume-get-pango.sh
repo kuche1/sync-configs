@@ -9,10 +9,10 @@ case "${button}" in
     "") # no event
         ;;
     "4") # mwheelup
-        "${here}"/volume-set.sh inc
+        "${here}"/volume-set.sh inc-small
         ;;
     "5") # mwheeldown
-        "${here}"/volume-set.sh dec
+        "${here}"/volume-set.sh dec-small
         ;;
     *) # anything else
         pavucontrol > /dev/null &

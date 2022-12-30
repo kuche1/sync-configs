@@ -65,8 +65,9 @@ set $refresh_volume_widget pkill -RTMIN+10 i3blocks
 set $refresh_mic_indicator pkill -RTMIN+11 i3blocks
 
 # adjust volume proper events
-bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh inc && $refresh_volume_widget
-bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh dec && $refresh_volume_widget
+#fucking shit cancer, might by worth trying with lower sleed values (to decrease lag)
+bindsym XF86AudioRaiseVolume exec --no-startup-id sleep 0.1 && ~/.config/minq-utilities/volume-set.sh inc-small && $refresh_volume_widget
+bindsym XF86AudioLowerVolume exec --no-startup-id sleep 0.1 && ~/.config/minq-utilities/volume-set.sh dec-small && $refresh_volume_widget
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_volume_widget
 bindsym XF86AudioMicMute exec --no-startup-id ~/.config/minq-utilities/volume-set.sh && $refresh_volume_widget
 
