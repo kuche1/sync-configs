@@ -284,6 +284,7 @@ bindsym $mod+Tab workspace back_and_forth
 # move focused container to adjesent workspace
 bindsym $mod+Shift+bracketright move container to workspace next
 bindsym $mod+Shift+bracketleft move container to workspace prev
+bindsym $mod+Shift+Tab move container to workspace back_and_forth
 
 
 # reload the configuration file
