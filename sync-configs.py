@@ -13,12 +13,14 @@ from typing import List
 
 HERE = os.path.dirname(os.path.realpath(__file__))
 
-def safely_delete(file):
+def get_name_for_deletion(file):
     now = datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')
     now = f'{now}.{time.time()}'
-
     new_name = f'{file}.deleted.{now}'
+    return new_name
 
+def safely_delete(file):
+    new_name = get_name_for_deletion(file)
     print(f'renaming `{file}` to `{new_name}`')
     os.rename(file, new_name)
 
@@ -32,12 +34,29 @@ def safely_symlink(dest, source):
     print(f'symlinking `{dest}` to point to `{source}`')
     os.symlink(source, dest)
 
+def sudo_safely_delete(file):
+    new_name = get_name_for_deletion(file)
+    print(f'sudo safely deleting `{file}` to `{new_name}`')
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f_exec:
+        f_exec_name = shlex.quote(f_exec.name)
+        f_exec.write('#! /usr/bin/env python3\n')
+        f_exec.write('import os\n')
+        
+        assert '"' not in file
+        assert '\\' not in file # is this needed? same goes for the bottom line
+
+        assert '"' not in new_name
+        assert '\\' not in new_name
+
+        f_exec.write(f'os.rename(r"{file}", r"{new_name}")\n')
+    subprocess.run(['sudo', 'python3', f_exec_name], check=True) # for some fucking reason using `env` instead of `python3` drops the permissions
+
 def sudo_safely_copy(from_, to): # TODO? check content if a copy is needed
     from_ = os.path.realpath(from_)
     to = os.path.realpath(to)
 
     if os.path.exists(to):
-        safely_delete(to) # sudo_safely_delete ?
+        sudo_safely_delete(to)
 
     with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
         f.write('import shutil\n')

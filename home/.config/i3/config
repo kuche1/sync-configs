@@ -81,7 +81,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+KP_Enter exec i3-sensible-terminal
 
 # start browser
-bindsym $mod+b exec librewolf
+bindsym $mod+b exec ~/.config/minq-utilities/browser.sh
 
 # start file explorer
 bindsym $mod+n exec thunar
@@ -351,6 +351,9 @@ for_window [title="Maggot baits"] floating enable
 # exec - executes only on initial launch of i3
 # exec_always - executes on every restart of i3
 #
+
+# fixes the theme
+exec --no-startup-id  xsettingsd
 
 set $is_not_laptop python3 -c '__import__("sys").exit(__import__("psutil").sensors_battery())'
 

@@ -28,6 +28,7 @@ def collect_data_and_print(process):
         line = re.sub(' +', ' ', line)
 
         iowait = line.split(' ')[3]
+        iowait = iowait.replace(',', '.') # on ubuntu `,` is used instead of `.`
         iowait = float(iowait)
 
         records.append(iowait)
