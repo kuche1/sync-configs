@@ -77,8 +77,12 @@ bindsym XF86AudioPrev exec --no-startup-id ~/.config/minq-utilities/volume-set.s
 bindsym $mod+m exec ~/.config/minq-utilities/microphone-set.sh && $refresh_mic_indicator
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+KP_Enter exec i3-sensible-terminal
+#bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec ~/.config/minq-utilities/terminal.sh
+bindsym $mod+KP_Enter exec ~/.config/minq-utilities/terminal.sh
+
+# start a terminal with python3
+bindsym $mod+backslash exec ~/.config/minq-utilities/terminal-python3.sh
 
 # start browser
 bindsym $mod+b exec ~/.config/minq-utilities/browser.sh
