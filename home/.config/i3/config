@@ -87,6 +87,9 @@ bindsym $mod+backslash exec ~/.config/minq-utilities/terminal-python3.sh
 # start browser
 bindsym $mod+b exec ~/.config/minq-utilities/browser.sh
 
+# start freenet browser
+bindsym $mod+Shift+b exec ~/.config/minq-utilities/browser-freenet.sh
+
 # start file explorer
 bindsym $mod+n exec thunar
 

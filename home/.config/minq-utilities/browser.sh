@@ -4,4 +4,4 @@
 #(firefox --version && firefox)
 
 librewolf ||
-firefox
+firefox -P default
