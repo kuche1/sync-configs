@@ -31,7 +31,7 @@ add_lvm2_hook_to_mkinitcpio(){ # TODO untested
 
 	# TODO can we make this run in chroot?
 	# same goes for all other instances that use this pattern
-	cat << EOF
+	(cat << EOF
 import re
 import sys
 
@@ -58,7 +58,8 @@ with open('/etc/mkinitcpio.conf', 'w') as f:
 	f.write(cont)
 
 sys.exit()
-EOF | chroot_run python3
+EOF
+	 ) | chroot_run python3
 }
 
 fix_pacman_config(){
@@ -75,7 +76,7 @@ fix_pacman_config(){
 	chroot_run sed -i -z 's%\n#ParallelDownloads = 5\n%\nParallelDownloads = 5\n%' /etc/pacman.conf
 
 	# install paru if not already installed
-	cat << EOF
+	(cat << EOF
 set -e
 paru --version && exit
 cd /tmp
@@ -84,7 +85,8 @@ git clone https://aur.archlinux.org/paru.git
 cd ./paru
 makepkg -si --noconfirm
 exit
-EOF | chroot_run bash
+EOF
+	 ) | chroot_run bash
 	# paru settings
 	chroot_run sed -i -z 's%\n#BottomUp\n%\nBottomUp\n%' /etc/paru.conf
 }
