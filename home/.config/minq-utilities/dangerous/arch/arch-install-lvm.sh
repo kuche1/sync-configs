@@ -92,7 +92,7 @@ EOF
 
 # let user select boot disk
 lsblk
-printf "Enter boot disk (example: /dev/sda): "
+printf ">>>>>> Enter boot disk (example: /dev/sda): \n"
 read boot_disk
 echo "checking if device exists"
 test -b ${boot_disk}
@@ -102,7 +102,7 @@ test -b ${boot_disk}
 additional_disks=""
 while true; do
 	lsblk
-	printf "Enter additional disks (example: /dev/sdb) (leave empty to end): "
+	printf ">>>>>> Enter additional disks (example: /dev/sdb) (leave empty to end): \n"
 	read disk
 	test -z "${disk}" && break
 	echo "checking if device exists"
