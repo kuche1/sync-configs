@@ -187,9 +187,8 @@ pacstrap /mnt base
 fix_pacman_config
 
 pkg_install base-devel
-set_up_aur_helper
-
 pkg_install git
+set_up_aur_helper
 
 # TODO fix pacman settings b4 doing some of these
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
