@@ -157,6 +157,10 @@ while true; do
 	additional_disks="${additional_disks} ${disk}"
 done
 
+# get password
+printf ">>>>>> Enter password: \n"
+read user_password
+
 # format boot disk
 parted -s ${boot_disk} mklabel gpt
 
@@ -240,10 +244,10 @@ chroot_run locale-gen
 
 chroot_run echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 
-chroot_run passwd
+echo "${user_password}" | chroot_run passwd
 
 chroot_run useradd -m -g users -G wheel me
-chroot_run passwd me
+echo "${user_password}" | chroot_run passwd me
 
 config_visudo
 
