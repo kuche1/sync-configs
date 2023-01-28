@@ -253,6 +253,7 @@ chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 chroot_run hwclock --systohc
 
 chroot_run echo 'navi' > /etc/hostname
+# TODO don't hardcode the hostname
 
 chroot_run echo '127.0.0.1   localhost' > /etc/hosts
 chroot_run echo '::1 localhost' >> /etc/hosts
