@@ -62,10 +62,7 @@ EOF
 	 ) | chroot_run python3
 }
 
-fix_pacman_config(){ # TODO split into `fix_pacman` and `fix_aur_helper`
-	# compilation threads (related to the AUR helper)
-	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
-		# we need `base-devel` installed, otherwise the config file will not be created
+fix_pacman_config(){
 	# enable 32 bit repo
 	chroot_run sed -i -z 's%\n#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist\n%\n\[multilib\]\nInclude = /etc/pacman.d/mirrorlist\n%' /etc/pacman.conf
     chroot_run pacman -Syuu
@@ -75,6 +72,12 @@ fix_pacman_config(){ # TODO split into `fix_pacman` and `fix_aur_helper`
 	chroot_run sed -i -z 's%\n#VerbosePkgLists\n%\nVerbosePkgLists\n%' /etc/pacman.conf
 	# parallel download
 	chroot_run sed -i -z 's%\n#ParallelDownloads = 5\n%\nParallelDownloads = 5\n%' /etc/pacman.conf
+}
+
+set_up_aur_helper(){
+	# compilation threads (related to the AUR helper)
+	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
+		# we need `base-devel` installed, otherwise the config file will not be created
 
 	# install paru if not already installed
 	(cat << EOF
@@ -181,8 +184,12 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 pacstrap /mnt base
 
-pkg_install base-devel
 fix_pacman_config
+
+pkg_install base-devel
+set_up_aur_helper
+
+pkg_install git
 
 # TODO fix pacman settings b4 doing some of these
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
