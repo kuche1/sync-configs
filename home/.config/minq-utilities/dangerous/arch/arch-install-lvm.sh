@@ -31,7 +31,7 @@ add_lvm2_hook_to_mkinitcpio(){ # TODO untested
 
 	# TODO can we make this run in chroot?
 	# same goes for all other instances that use this pattern
-	cat << EOF > /mnt/tmp/fix-hooks.py
+	cat << EOF
 import re
 import sys
 
@@ -56,8 +56,9 @@ cont = cont[:found.start()] + hooks + cont[found.end():]
 
 with open('/etc/mkinitcpio.conf', 'w') as f:
 	f.write(cont)
-EOF
-	chroot_run python3 /tmp/fix-hooks.py
+
+sys.exit()
+EOF | chroot_run python3
 }
 
 fix_pacman_config(){
@@ -84,7 +85,6 @@ cd ./paru
 makepkg -si --noconfirm
 exit
 EOF | chroot_run bash
-	chroot_run bash /tmp/install-paru.sh
 	# paru settings
 	chroot_run sed -i -z 's%\n#BottomUp\n%\nBottomUp\n%' /etc/paru.conf
 }
@@ -179,6 +179,7 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 pacstrap /mnt base
 
+# TODO fix pacman settings b4 doing some of these
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
 # also install some wifi tools
 pkg_install wpa_supplicant wireless_tools netctl
