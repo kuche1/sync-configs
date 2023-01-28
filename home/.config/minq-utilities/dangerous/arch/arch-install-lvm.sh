@@ -62,11 +62,12 @@ EOF
 	 ) | chroot_run python3
 }
 
-fix_pacman_config(){
+fix_pacman_config(){ # TODO split into `fix_pacman` and `fix_aur_helper`
 	# compilation threads (related to the AUR helper)
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
+		# we need `base-devel` installed, otherwise the config file will not be created
 	# enable 32 bit repo
-	chroot_run sed -i -z 's%\n#[multilib]\n#Include = /etc/pacman.d/mirrorlist\n%\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n%' /etc/pacman.conf
+	chroot_run sed -i -z 's%\n#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist\n%\n\[multilib\]\nInclude = /etc/pacman.d/mirrorlist\n%' /etc/pacman.conf
     chroot_run pacman -Syuu
 	# add color
 	chroot_run sed -i -z 's%\n#Color\n%\nColor\n%' /etc/pacman.conf
@@ -180,13 +181,14 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 pacstrap /mnt base
 
+pkg_install base-devel
+fix_pacman_config
+
 # TODO fix pacman settings b4 doing some of these
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
 chroot_run systemctl enable NetworkManager
 # also install some wifi tools
 pkg_install wpa_supplicant wireless_tools netctl
-
-fix_pacman_config
 
 add_lvm2_hook_to_mkinitcpio
 chroot_run mkinitcpio -p linux-zen
