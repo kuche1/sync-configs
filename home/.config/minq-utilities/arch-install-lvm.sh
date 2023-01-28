@@ -87,8 +87,7 @@ arch-chroot /mnt passwd
 arch-chroot /mnt useradd -m -g users -G wheel me
 # TODO don't we have to set `me`'s password here also?
 
-# TODO what about `EDITOR=micro`
-arch-chroot /mnt visudo
+arch-chroot /mnt export EDITOR=micro && visudo
 # uncomment `# %wheel ALL=(ALL) ALL`
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
