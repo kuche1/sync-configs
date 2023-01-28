@@ -11,18 +11,18 @@ systemctl start sshd
 
 
 # format
-parted /dev/sda mklabel gpt
+parted -s /dev/sda mklabel gpt
 
-parted /dev/sda mkpart primary fat32 0% 512MiB
-parted /dev/sda set 1 esp on
+parted -s /dev/sda mkpart primary fat32 0% 512MiB
+parted -s /dev/sda set 1 esp on
 
-parted /dev/sda mkpart primary ext4 512MiB 100%
-parted /dev/sda set 2 lvm on
+parted -s /dev/sda mkpart primary ext4 512MiB 100%
+parted -s /dev/sda set 2 lvm on
 
 # format 2nd disk
-parted /dev/sdb mklabel gpt
-parted /dev/sdb mkpart primary ext4 0% 100%
-parted /dev/sdb set 1 lvm on
+parted -s /dev/sdb mklabel gpt
+parted -s /dev/sdb mkpart primary ext4 0% 100%
+parted -s /dev/sdb set 1 lvm on
 
 # activate
 pvcreate /dev/sda2
