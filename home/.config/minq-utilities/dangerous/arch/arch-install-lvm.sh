@@ -117,6 +117,7 @@ match cont.count(TO_REPLACE):
 	case 0:
 		count = cont.count(REPLACE_WITH)
 		assert count == 1, f'invalid number of occurances of uncommented wheel: {count}'
+		print('wheel already set up, exiting')
 		sys.exit()
 	case 1:
 		cont = cont.replace(TO_REPLACE, REPLACE_WITH)
