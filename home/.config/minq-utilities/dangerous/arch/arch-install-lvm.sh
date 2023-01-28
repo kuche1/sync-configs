@@ -77,7 +77,9 @@ fix_pacman_config(){ # TODO untested
 	chroot_run sed -i -z 's%\n#ParallelDownloads = 5\n%\nParallelDownloads = 5\n%' /etc/pacman.conf
 }
 
-set_up_aur_helper(){ # TODO untested
+set_up_aur_helper(){ # TODO untested # TODO this fails with `pacman failed to install missing dependencies: cargo`
+	return
+	
 	# compilation threads (related to the AUR helper)
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
 		# we need `base-devel` installed, otherwise the config file will not be created
@@ -91,7 +93,7 @@ rm -rf ./paru
 su me
 git clone https://aur.archlinux.org/paru.git
 cd ./paru
-makepkg -si --noconfirm
+echo "${user_password}" | makepkg -si --noconfirm
 exit
 exit
 EOF
