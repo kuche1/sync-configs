@@ -10,11 +10,11 @@ chroot_run(){
 }
 
 pkg_install(){
-	chroot_run pacman --noconfirm -S "$@"
+	chroot_run pacman --noconfirm -S --needed "$@"
 }
 
 aur_install(){
-	paru --noconfirm -S "$@"
+	paru --noconfirm -S --needed "$@"
 }
 
 # specific fncs
@@ -211,6 +211,7 @@ pkg_install vim # TODO fuck this I hate it
 chroot_run visudo
 # uncomment `# %wheel ALL=(ALL) ALL`
 
+pkg_install git
 set_up_aur_helper
 
 chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
