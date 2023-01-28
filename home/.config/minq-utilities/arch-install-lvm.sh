@@ -18,6 +18,8 @@ parted /dev/sda set 1 esp on
 parted /dev/sda mkpart primary ext4 512MiB 100%
 parted /dev/sda set 2 lvm on
 
+# format 2nd disk
+parted /dev/sdb mklabel gpt
 parted /dev/sdb mkpart primary ext4 0% 100%
 parted /dev/sdb set 2 lvm on
 
