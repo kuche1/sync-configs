@@ -107,7 +107,7 @@ while true; do
 	test -z "${disk}" && break
 	echo "checking if device exists"
 	test -b ${disk}
-	additional_disks=${additional_disks} ${disk}
+	additional_disks="${additional_disks} ${disk}"
 done
 
 # format boot disk
