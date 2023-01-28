@@ -158,8 +158,8 @@ while true; do
 done
 
 # get password
-#printf ">>>>>> Enter password: \n"
-#read user_password
+printf ">>>>>> Enter password: \n"
+read user_password
 
 # format boot disk
 parted -s ${boot_disk} mklabel gpt
@@ -244,11 +244,11 @@ chroot_run locale-gen
 
 chroot_run echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 
-# TODO this and the bottom one can be automated
 chroot_run passwd
+echo "root:${user_password}" | chpasswd
 
 chroot_run useradd -m -g users -G wheel me
-chroot_run passwd me
+echo "me:${user_password}" | chpasswd
 
 config_visudo
 
