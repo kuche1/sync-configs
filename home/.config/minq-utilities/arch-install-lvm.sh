@@ -1,5 +1,13 @@
 #! /usr/bin/env bash
 
+run_chroot(){
+	arch-chroot /mnt $@
+}
+
+pkg_install(){
+	run_chroot pacman --noconfirm -S $@
+}
+
 set -e
 set -o xtrace
 
@@ -51,7 +59,8 @@ lvs
 
 # format
 mkfs.fat -F32 /dev/sda1
-mkfs.ext4 /dev/mapper/myVolGr-myRootVol
+mkfs.ext4 -F /dev/mapper/myVolGr-myRootVol
+	# `-F` so that there are no confirmation prompts from the user
 
 mount /dev/mapper/myVolGr-myRootVol /mnt
 
@@ -65,7 +74,7 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 pacstrap /mnt base
 
-arch-chroot /mnt pacman -S linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
+arch-chroot /mnt pacman --noconfirm -S linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
 # wifi -> wpa_supplicant wireless_tools netctl
 
 arch-chroot /mnt systemctl enable NetworkManager
@@ -85,9 +94,10 @@ arch-chroot /mnt echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 arch-chroot /mnt passwd
 
 arch-chroot /mnt useradd -m -g users -G wheel me
-# TODO don't we have to set `me`'s password here also?
+arch-chroot /mnt passwd me
 
-arch-chroot /mnt export EDITOR=micro && visudo
+# TODO this might not work
+arch-chroot /mnt "export EDITOR=micro && visudo"
 # uncomment `# %wheel ALL=(ALL) ALL`
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
@@ -101,7 +111,7 @@ arch-chroot /mnt echo '::1 localhost' >> /etc/hosts
 arch-chroot /mnt echo '127.0.1.1   navi.localdomain    navi' >> /etc/hosts
 # use static instead of 127.0.0.1
 
-arch-chroot /mnt pacman -S grub efibootmgr dosfstools os-prober mtools openssh
+arch-chroot /mnt pacman --noconfirm -S grub efibootmgr dosfstools os-prober mtools openssh
 # os-prober -> if multiple OS-es
 
 # seems like all of this is needed only if u use encryption
@@ -113,9 +123,21 @@ arch-chroot /mnt pacman -S grub efibootmgr dosfstools os-prober mtools openssh
 	#
 	# uncomment "#GRUB_ENABLE_CRYPTODISK=y"
 
+# install grub
 arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=SEXlinux --recheck
-
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+
+# x
+pkg_install xorg-server
+# `xclip` for `micro`
+pkg_install xclip
+# login manager
+pkg_install lightdm lightdm-gtk-greeter
+run_chroot systemctl enable lightdm
+# DE
+pkg_install i3
+# terminal
+pkg_install xfce4-terminal
 
 sync
 
