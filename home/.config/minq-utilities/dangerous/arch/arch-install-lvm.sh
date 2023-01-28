@@ -74,7 +74,7 @@ fix_pacman_config(){
 	chroot_run sed -i -z 's%\n#ParallelDownloads = 5\n%\nParallelDownloads = 5\n%' /etc/pacman.conf
 
 	# install paru if not already installed
-	cat << EOF > /mnt/tmp/install-paru.sh
+	cat << EOF
 set -e
 paru --version && exit
 cd /tmp
@@ -82,7 +82,8 @@ rm -rf ./paru
 git clone https://aur.archlinux.org/paru.git
 cd ./paru
 makepkg -si --noconfirm
-EOF
+exit
+EOF | chroot_run bash
 	chroot_run bash /tmp/install-paru.sh
 	# paru settings
 	chroot_run sed -i -z 's%\n#BottomUp\n%\nBottomUp\n%' /etc/paru.conf
