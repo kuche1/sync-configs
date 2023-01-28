@@ -79,6 +79,7 @@ arch-chroot /mnt pacman --noconfirm -S linux-zen linux-zen-headers linux-firmwar
 
 arch-chroot /mnt systemctl enable NetworkManager
 
+# TODO this can be automated
 arch-chroot /mnt micro /etc/mkinitcpio.conf
 # find "HOOKS="
 # before "filesystem" insert "encrypt lvm2"
@@ -96,8 +97,8 @@ arch-chroot /mnt passwd
 arch-chroot /mnt useradd -m -g users -G wheel me
 arch-chroot /mnt passwd me
 
-# TODO this might not work
-arch-chroot /mnt "export EDITOR=micro && visudo"
+pkg_install vim # TODO fuck this I hate it
+arch-chroot /mnt visudo
 # uncomment `# %wheel ALL=(ALL) ALL`
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
