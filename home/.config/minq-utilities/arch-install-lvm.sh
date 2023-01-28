@@ -85,8 +85,10 @@ arch-chroot /mnt echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 arch-chroot /mnt passwd
 
 arch-chroot /mnt useradd -m -g users -G wheel me
+# TODO don't we have to set `me`'s password here also?
 
-arch-chroot /mnt EDITOR=micro visudo
+# TODO what about `EDITOR=micro`
+arch-chroot /mnt visudo
 # uncomment `# %wheel ALL=(ALL) ALL`
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
