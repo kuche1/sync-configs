@@ -50,7 +50,7 @@ match hooks.count(' lvm2 filesystem '):
 	case other:
 		assert(False, f'bad count ({other})')
 
-assert(hooks.count(' filesystem ') == 1)
+assert(hooks.count(' filesystem ') == 1, f'more than one "filesystem" found in hooks, "{hooks=}"')
 hooks = hooks.replace(' filesystem ', ' lvm2 filesystem ')
 cont = cont[:found.start()] + hooks + cont[found.end():]
 
