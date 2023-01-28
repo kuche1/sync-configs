@@ -31,29 +31,29 @@ pvcreate /dev/sdb1
 # check if everything is OK
 pvs
 
-vgcreate myVolGrp /dev/sda2 /dev/sdb1
+vgcreate myVolGr /dev/sda2 /dev/sdb1
 
 # check
 vgs
 
 # activate the volume group (wtf does this event do anything?)
 # this might be useless
-vgchange -a y myVolGrp
+vgchange -a y myVolGr
 
 # create logical volume
-lvcreate -l 100%FREE myVolGrp -n myRootVol
+lvcreate -l 100%FREE myVolGr -n myRootVol
 
 # activate the volume group (wtf does this event do anything?)
-vgchange -a y myVolGrp
+vgchange -a y myVolGr
 
 # check
 lvs
 
 # format
 mkfs.fat -F32 /dev/sda1
-mkfs.ext4 /dev/mapper/myVolGrp-myRootVol
+mkfs.ext4 /dev/mapper/myVolGr-myRootVol
 
-mount /dev/mapper/myVolGrp-myRootVol /mnt
+mount /dev/mapper/myVolGr-myRootVol /mnt
 
 mkdir -p /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
@@ -107,8 +107,8 @@ arch-chroot /mnt pacman -S grub efibootmgr dosfstools os-prober mtools openssh
 	#micro /etc/default/grub
 	# change GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"
 	#
-	# to GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 cryptdevice=/dev/sda2:myVolGrp:allow-discards"
-	# to GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 cryptdevice=/dev/sdb2:myVolGrp:allow-discards"
+	# to GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 cryptdevice=/dev/sda2:myVolGr:allow-discards"
+	# to GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 cryptdevice=/dev/sdb2:myVolGr:allow-discards"
 	#
 	# uncomment "#GRUB_ENABLE_CRYPTODISK=y"
 
