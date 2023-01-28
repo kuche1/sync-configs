@@ -65,7 +65,7 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 pacstrap /mnt base
 
-arch-chroot /mnt pacman -S linux linux-headers linux-firmware micro base-devel networkmanager dialog lvm2
+arch-chroot /mnt pacman -S linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
 # wifi -> wpa_supplicant wireless_tools netctl
 
 arch-chroot /mnt systemctl enable NetworkManager
@@ -73,7 +73,7 @@ arch-chroot /mnt systemctl enable NetworkManager
 arch-chroot /mnt micro /etc/mkinitcpio.conf
 # find "HOOKS="
 # before "filesystem" insert "encrypt lvm2"
-# (`encrypt` doesn't seem to be needed in this case since we're not using encryption, but let's keep it here for good measure)
+# (`encrypt` doesn't isn't needed in this case since we're not using encryption, but let's keep it here for good measure)
 
 arch-chroot /mnt mkinitcpio -p linux-zen
 
