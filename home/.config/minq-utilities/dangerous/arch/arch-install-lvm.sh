@@ -38,7 +38,7 @@ import sys
 with open('/etc/mkinitcpio.conf', 'r') as f:
 	cont = f.read()
 found = re.search('\nHOOKS=\(.*\)\n', cont)
-assert(found != None)
+assert(found != None, 'hooks line not found')
 hooks = cont[found.start():found.end()]
 
 match hooks.count(' lvm2 filesystem '):
@@ -48,7 +48,7 @@ match hooks.count(' lvm2 filesystem '):
 		print('lvm2 hook already set up, exiting')
 		sys.exit()
 	case other:
-		assert(False)
+		assert(False, f'bad count ({other})')
 
 assert(hooks.count(' filesystem ') == 1)
 hooks = hooks.replace(' filesystem ', ' lvm2 filesystem ')
