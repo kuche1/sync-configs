@@ -67,7 +67,7 @@ fix_pacman_config(){ # TODO split into `fix_pacman` and `fix_aur_helper`
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
 		# we need `base-devel` installed, otherwise the config file will not be created
 	# enable 32 bit repo
-	chroot_run sed -i -z 's%\n#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist\n%\n\[multilib\]\nInclude = /etc/pacman.d/mirrorlist\n%' /etc/pacman.conf
+	chroot_run sed -i -z 's%\n#\[multilib\]\n#Include \= /etc/pacman.d/mirrorlist\n%\n\[multilib\]\nInclude \= /etc/pacman.d/mirrorlist\n%' /etc/pacman.conf
     chroot_run pacman -Syuu
 	# add color
 	chroot_run sed -i -z 's%\n#Color\n%\nColor\n%' /etc/pacman.conf
