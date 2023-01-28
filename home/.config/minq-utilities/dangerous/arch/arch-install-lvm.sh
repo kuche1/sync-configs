@@ -97,6 +97,42 @@ EOF
 	chroot_run sed -i -z 's%\n#BottomUp\n%\nBottomUp\n%' /etc/paru.conf
 }
 
+config_visudo(){ # TODO this needs to be automated
+	chroot_run visudo
+	# uncomment `# %wheel ALL=(ALL) ALL`
+	(cat << EOF
+cat << EOF2 > /tmp/visudo-fixer.py
+#! /usr/bin/env python3
+import sys
+
+TO_REPLACE   = '\n# %wheel ALL=(ALL) ALL\n'
+REPLACE_WITH = '\n%wheel ALL=(ALL) ALL\n'
+
+visudo_file = sys.argv[1]
+with open(visudo_file, 'r') as f:
+	cont = f.read()
+
+match cont.count(TO_REPLACE):
+	case 0:
+		count = cont.count(REPLACE_WITH)
+		assert(count == 1, f'invalid number of occurances of uncommented wheel: {count}')
+		sys.exit()
+	case 1:
+		cont = cont.replace(TO_REPLACE, REPLACE_WITH)
+	case other:
+		assert(False, f'invalid number of occurances of commented wheel: {other}')
+
+with open(visudo_file, 'w') as f:
+	f.write(cont)
+
+EOF2
+chmod +x /tmp/visudo-fixer.py
+EDITOR=/tmp/visudo-fixer.py visudo
+exit
+EOF
+	) | chroot_run bash
+}
+
 # main
 
 # let user select boot disk
@@ -207,9 +243,7 @@ chroot_run passwd
 chroot_run useradd -m -g users -G wheel me
 chroot_run passwd me
 
-pkg_install vim # TODO fuck this I hate it
-chroot_run visudo
-# uncomment `# %wheel ALL=(ALL) ALL`
+config_visudo
 
 pkg_install git
 set_up_aur_helper
