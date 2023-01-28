@@ -180,8 +180,11 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 pacstrap /mnt base
 
+pkg_install base-devel
+fix_pacman_config
+
 # TODO fix pacman settings b4 doing some of these
-pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
+pkg_install linux-zen linux-zen-headers linux-firmware micro networkmanager dialog lvm2
 # also install some wifi tools
 pkg_install wpa_supplicant wireless_tools netctl
 
@@ -214,8 +217,6 @@ chroot_run echo '127.0.0.1   localhost' > /etc/hosts
 chroot_run echo '::1 localhost' >> /etc/hosts
 chroot_run echo '127.0.1.1   navi.localdomain    navi' >> /etc/hosts
 # use static instead of 127.0.0.1
-
-fix_pacman_config
 
 chroot_run pacman --noconfirm -S grub efibootmgr dosfstools os-prober mtools openssh
 # os-prober -> if multiple OS-es
