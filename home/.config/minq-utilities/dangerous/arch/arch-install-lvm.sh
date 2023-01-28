@@ -88,9 +88,9 @@ set -e
 paru --version && exit
 cd /tmp
 rm -rf ./paru
+su me
 git clone https://aur.archlinux.org/paru.git
 cd ./paru
-su me
 makepkg -si --noconfirm
 exit
 exit
@@ -100,7 +100,7 @@ EOF
 	chroot_run sed -i -z 's%\n#BottomUp\n%\nBottomUp\n%' /etc/paru.conf
 }
 
-config_visudo(){ # TODO this needs to be automated
+config_visudo(){ # TODO untested
 	(cat << EOF
 cat << EOF2 > /tmp/visudo-fixer.py
 #! /usr/bin/env python3
