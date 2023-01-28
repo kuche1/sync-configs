@@ -155,8 +155,7 @@ vgs
 vgchange -a y myVolGr
 
 # create logical volume
-lvcreate -l 100%FREE myVolGr -n myRootVol
-# TODO add `--yes` here?
+lvcreate --yes -l 100%FREE myVolGr -n myRootVol
 
 # activate the volume group (wtf does this event do anything?)
 vgchange -a y myVolGr
