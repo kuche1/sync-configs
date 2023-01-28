@@ -180,15 +180,13 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 pacstrap /mnt base
 
-pkg_install base-devel
-fix_pacman_config
-
 # TODO fix pacman settings b4 doing some of these
-pkg_install linux-zen linux-zen-headers linux-firmware micro networkmanager dialog lvm2
+pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
+chroot_run systemctl enable NetworkManager
 # also install some wifi tools
 pkg_install wpa_supplicant wireless_tools netctl
 
-chroot_run systemctl enable NetworkManager
+fix_pacman_config
 
 add_lvm2_hook_to_mkinitcpio
 chroot_run mkinitcpio -p linux-zen
