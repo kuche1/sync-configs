@@ -131,7 +131,7 @@ boot_partition=${boot_disk}1
 # write all LVM parts into variable
 lvm_partitions=${boot_disk}2
 for disk in ${additional_disks}; do
-	lvm_partitions=${lvm_partitions} ${disk}1
+	lvm_partitions="${lvm_partitions} ${disk}1"
 done
 
 # activate
