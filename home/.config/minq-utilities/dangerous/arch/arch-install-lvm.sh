@@ -78,8 +78,6 @@ fix_pacman_config(){ # TODO untested
 }
 
 set_up_aur_helper(){ # TODO untested # TODO this fails with `pacman failed to install missing dependencies: cargo`
-	return
-	
 	# compilation threads (related to the AUR helper)
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
 		# we need `base-devel` installed, otherwise the config file will not be created
@@ -93,7 +91,7 @@ rm -rf ./paru
 su me
 git clone https://aur.archlinux.org/paru.git
 cd ./paru
-echo "${user_password}" | makepkg -si --noconfirm
+makepkg -si
 exit
 exit
 EOF
@@ -160,8 +158,8 @@ while true; do
 done
 
 # get password
-printf ">>>>>> Enter password: \n"
-read user_password
+#printf ">>>>>> Enter password: \n"
+#read user_password
 
 # format boot disk
 parted -s ${boot_disk} mklabel gpt
@@ -246,10 +244,11 @@ chroot_run locale-gen
 
 chroot_run echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 
-echo "${user_password}" | chroot_run passwd
+# TODO this and the bottom one can be automated
+chroot_run passwd
 
 chroot_run useradd -m -g users -G wheel me
-echo "${user_password}" | chroot_run passwd me
+chroot_run passwd me
 
 config_visudo
 
