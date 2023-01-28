@@ -3,6 +3,8 @@
 set -e
 set -o xtrace
 
+trap 'umount /mnt/boot/efi ; umount /mnt ; vgremove myVolGr' EXIT
+
 # generic fncs
 
 chroot_run(){
@@ -38,7 +40,7 @@ import sys
 with open('/etc/mkinitcpio.conf', 'r') as f:
 	cont = f.read()
 found = re.search('\nHOOKS=\(.*\)\n', cont)
-assert(found != None, 'hooks line not found')
+assert found != None, 'hooks line not found'
 hooks = cont[found.start():found.end()]
 
 match hooks.count(' lvm2 filesystem '):
@@ -48,9 +50,9 @@ match hooks.count(' lvm2 filesystem '):
 		print('lvm2 hook already set up, exiting')
 		sys.exit()
 	case other:
-		assert(False, f'bad count ({other})')
+		assert False, f'bad count ({other})'
 
-assert(hooks.count(' filesystem ') == 1, f'more than one "filesystem" found in hooks, "{hooks=}"')
+assert hooks.count(' filesystem ') == 1, f'more than one "filesystem" found in hooks, "{hooks=}"'
 hooks = hooks.replace(' filesystem ', ' lvm2 filesystem ')
 cont = cont[:found.start()] + hooks + cont[found.end():]
 
@@ -62,7 +64,7 @@ EOF
 	 ) | chroot_run python3
 }
 
-fix_pacman_config(){
+fix_pacman_config(){ # TODO untested
 	# enable 32 bit repo
 	chroot_run sed -i -z 's%\n#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist\n%\n\[multilib\]\nInclude = /etc/pacman.d/mirrorlist\n%' /etc/pacman.conf
     chroot_run pacman -Syuu
@@ -74,7 +76,7 @@ fix_pacman_config(){
 	chroot_run sed -i -z 's%\n#ParallelDownloads = 5\n%\nParallelDownloads = 5\n%' /etc/pacman.conf
 }
 
-set_up_aur_helper(){
+set_up_aur_helper(){ # TODO untested
 	# compilation threads (related to the AUR helper)
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
 		# we need `base-devel` installed, otherwise the config file will not be created
@@ -98,8 +100,6 @@ EOF
 }
 
 config_visudo(){ # TODO this needs to be automated
-	chroot_run visudo
-	# uncomment `# %wheel ALL=(ALL) ALL`
 	(cat << EOF
 cat << EOF2 > /tmp/visudo-fixer.py
 #! /usr/bin/env python3
@@ -115,12 +115,12 @@ with open(visudo_file, 'r') as f:
 match cont.count(TO_REPLACE):
 	case 0:
 		count = cont.count(REPLACE_WITH)
-		assert(count == 1, f'invalid number of occurances of uncommented wheel: {count}')
+		assert count == 1, f'invalid number of occurances of uncommented wheel: {count}'
 		sys.exit()
 	case 1:
 		cont = cont.replace(TO_REPLACE, REPLACE_WITH)
 	case other:
-		assert(False, f'invalid number of occurances of commented wheel: {other}')
+		assert False, f'invalid number of occurances of commented wheel: {other}'
 
 with open(visudo_file, 'w') as f:
 	f.write(cont)
