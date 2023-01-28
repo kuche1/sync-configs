@@ -87,7 +87,9 @@ cd /tmp
 rm -rf ./paru
 git clone https://aur.archlinux.org/paru.git
 cd ./paru
+su me
 makepkg -si --noconfirm
+exit
 exit
 EOF
 	 ) | chroot_run bash
@@ -186,10 +188,6 @@ pacstrap /mnt base
 
 fix_pacman_config
 
-pkg_install base-devel
-pkg_install git
-set_up_aur_helper
-
 # TODO fix pacman settings b4 doing some of these
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
 chroot_run systemctl enable NetworkManager
@@ -212,6 +210,8 @@ chroot_run passwd me
 pkg_install vim # TODO fuck this I hate it
 chroot_run visudo
 # uncomment `# %wheel ALL=(ALL) ALL`
+
+set_up_aur_helper
 
 chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 
