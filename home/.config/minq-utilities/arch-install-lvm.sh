@@ -51,7 +51,7 @@ lvs
 
 # format
 mkfs.fat -F32 /dev/sda1
-mkfs.ext4 /dev/mapper/my--vol--group-my--root--vol
+mkfs.ext4 /dev/mapper/myVolGrp-myRootVol
 
 mount /dev/mapper/myVolGrp-myRootVol /mnt
 
