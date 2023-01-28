@@ -6,15 +6,15 @@ set -o xtrace
 # generic fncs
 
 chroot_run(){
-	arch-chroot /mnt $@
+	arch-chroot /mnt "$@"
 }
 
 pkg_install(){
-	chroot_run pacman --noconfirm -S $@
+	chroot_run pacman --noconfirm -S "$@"
 }
 
 aur_install(){
-	paru --noconfirm -S $@
+	paru --noconfirm -S "$@"
 }
 
 # specific fncs
