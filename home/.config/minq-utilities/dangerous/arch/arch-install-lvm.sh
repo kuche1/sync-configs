@@ -3,7 +3,7 @@
 set -e
 set -o xtrace
 
-trap 'umount /mnt/boot/efi ; umount /mnt ; vgremove myVolGr' EXIT
+trap 'echo "ctrl+c to enter debug" ; read tmp ; umount /mnt/boot/efi ; umount /mnt ; vgremove myVolGr' EXIT
 
 # generic fncs
 
@@ -78,6 +78,8 @@ fix_pacman_config(){ # TODO untested
 }
 
 set_up_aur_helper(){ # TODO untested # TODO this fails with `pacman failed to install missing dependencies: cargo`
+	# needs to be called after the user has been created
+
 	pkg_install base-devel
 	# compilation threads (related to the AUR helper)
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
@@ -133,7 +135,9 @@ with open(visudo_file, 'w') as f:
 EOF2
 chmod +x /tmp/visudo-fixer.py
 EDITOR=/tmp/visudo-fixer.py visudo
-exit
+
+echo "have some fun in debug mode"
+#exit
 EOF
 	) | chroot_run bash
 }
