@@ -19,10 +19,11 @@ aur_install(){
 	# chroot_run su me -c "echo \"${user_password}\" | paru --sudo sudo --sudoflags -S --noconfirm -S --needed \"$@\""
 	(cat << EOF
 su me
-echo "#! /usr/bin/env bash" > /tmp/free-sudo.sh
-echo "echo \"${user_password}\" | sudo -S -k \"\$@\"" >> /tmp/free-sudo.sh
-chmod +x /tmp/free-sudo.sh
-paru --sudo /tmp/free-sudo.sh --noconfirm -S --needed "$@"
+#echo "#! /usr/bin/env bash" > /tmp/free-sudo.sh
+#echo "echo \"${user_password}\" | sudo -S -k \"\$@\"" >> /tmp/free-sudo.sh
+#chmod +x /tmp/free-sudo.sh
+#paru --sudo /tmp/free-sudo.sh --noconfirm -S --needed "$@"
+paru --sudoflags -Sk --noconfirm -S --needed "$@"
 exit
 EOF
 	) | chroot_run bash
