@@ -33,7 +33,7 @@ aur_install(){
 	(cat << EOF
 su me
 echo "${user_password}" | sudo -S echo gaysex
-paru --noconfirm -S --needed "$@"
+paru --noconfirm -S --needed $@
 exit
 EOF
 	) | chroot_run bash
@@ -337,8 +337,6 @@ config_visudo
 
 set_up_aur_helper
 
-aur_install pirate-get-git # torrent browser
-
 chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 
 chroot_run hwclock --systohc
@@ -478,7 +476,7 @@ pkg_install spectacle # screenshooter
 pkg_install mate-polkit # polkit
 
 # additional programs
-aur_install mangohud-common mangohud lib32-mangohud # gayming overlay
+aur_install mangohud lib32-mangohud # gayming overlay
 #aur_install freezer-appimage # music # commented out due to slow download
 aur_install nuclear-player-bin # music
 aur_install mcomix-git # .cbr file reader (manga) (Junji Ito)
