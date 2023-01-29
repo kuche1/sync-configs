@@ -21,6 +21,7 @@ aur_install(){
 su me
 echo "#! /usr/bin/env bash" > /tmp/free-sudo.sh
 echo "\"${user_password}\" | sudo -S -k \"\$@\"" >> /tmp/free-sudo.sh
+chmod +x /tmp/free-sudo.sh
 paru --sudo /tmp/free-sudo.sh --noconfirm -S --needed "$@"
 exit
 EOF
