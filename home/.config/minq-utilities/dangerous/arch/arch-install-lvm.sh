@@ -21,7 +21,7 @@ aur_install(){
 
 # specific fncs
 
-add_lvm2_hook_to_mkinitcpio(){ # TODO untested
+add_lvm2_hook_to_mkinitcpio(){
 	# # TODO this can be automated
 	# chroot_run micro /etc/mkinitcpio.conf
 	# # find "HOOKS="
@@ -65,7 +65,7 @@ EOF
 	 ) | chroot_run python3
 }
 
-fix_pacman_config(){ # TODO untested
+fix_pacman_config(){
 	# enable 32 bit repo
 	chroot_run sed -i -z 's%\n#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist\n%\n\[multilib\]\nInclude = /etc/pacman.d/mirrorlist\n%' /etc/pacman.conf
     chroot_run pacman -Syuu
@@ -77,7 +77,7 @@ fix_pacman_config(){ # TODO untested
 	chroot_run sed -i -z 's%\n#ParallelDownloads = 5\n%\nParallelDownloads = 5\n%' /etc/pacman.conf
 }
 
-set_up_aur_helper(){ # TODO untested # TODO this fails with `pacman failed to install missing dependencies: cargo`
+set_up_aur_helper(){
 	# needs to be called after the user has been created
 
 	pkg_install base-devel
@@ -106,6 +106,7 @@ EOF
 }
 
 config_visudo(){ # TODO untested
+	chroot_run bash
 	(cat << EOF
 cat << EOF2 > /tmp/visudo-fixer.py
 #! /usr/bin/env python3
@@ -133,11 +134,10 @@ with open(visudo_file, 'w') as f:
 	f.write(cont)
 
 EOF2
+
 chmod +x /tmp/visudo-fixer.py
 EDITOR=/tmp/visudo-fixer.py visudo
-
-echo "have some fun in debug mode"
-#exit
+exit
 EOF
 	) | chroot_run bash
 }
