@@ -363,6 +363,14 @@ chroot_run pacman --noconfirm -S grub efibootmgr dosfstools os-prober mtools ope
 
 # install grub
 chroot_run grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=SEXlinux --recheck
+#chroot_run grub-mkconfig -o /boot/grub/grub.cfg
+# grub settings
+chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/grub
+# TODO make `quiet` into `noquiet`
+    # sudo_replace_string(GRUB_CONF_PATH,# TODO fix if not the first item
+    #     '\nGRUB_CMDLINE_LINUX_DEFAULT="quiet ',
+    #     '\nGRUB_CMDLINE_LINUX_DEFAULT="noquiet ')
+# update-grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
 # display server
@@ -544,23 +552,14 @@ pkg_install syncthing
     #     with open(VMWARE_PREFERENCES_PATH, mode) as f: # TODO check if exists first
     #         f.write('\nmks.gl.allowBlacklistedDrivers = "TRUE"\n')
 
-
 # login manager
 pkg_install lightdm lightdm-gtk-greeter
 # unneeded? create group # sudo groupadd -r autologin
 # unneeded? add to autologin # term(['sudo', 'gpasswd', '-a', USERNAME, 'autologin'])
 chroot_run sed -i -z 's%\n#autologin-user=\n%\nautologin-user=me\n%' /etc/lightdm/lightdm.conf
-	# TODO username is hardcoded
+#sudo groupadd -r autologin
+#sudo gpasswd -a me autologin
 chroot_run systemctl enable lightdm
-
-# boot time
-chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/grub
-chroot_run grub-mkconfig -o /boot/grub/grub.cfg
-# TODO make `quiet` into `noquiet`
-    # sudo_replace_string(GRUB_CONF_PATH,# TODO fix if not the first item
-    #     '\nGRUB_CMDLINE_LINUX_DEFAULT="quiet ',
-    #     '\nGRUB_CMDLINE_LINUX_DEFAULT="noquiet ')
-    # term(['sudo', 'update-grub'])
 
 # final touches
 sync
