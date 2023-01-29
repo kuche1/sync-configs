@@ -465,6 +465,7 @@ pkg_install network-manager-applet
 pkg_install rofi # menu
 pkg_install spectacle # screenshooter
 pkg_install mate-polkit # polkit
+pkg_install pacman-contrib # needed for `checkupdates`
 
 # additional programs
 aur_install mangohud lib32-mangohud # gayming overlay
