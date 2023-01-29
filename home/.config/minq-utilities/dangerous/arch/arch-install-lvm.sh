@@ -30,8 +30,17 @@ aur_install(){
 # 	) | chroot_run bash
 	# TODO chown might have been the problem with the `visudo` fail
 
-	chroot_run su me -c "paru -S --noconfirm \"$@\""
+	# chroot_run su me -c "paru -S --noconfirm \"$@\""
 	# TODO this needs to be automated
+
+	(cat << EOF
+su me
+echo "${user_password}" | sudo -Sk echo 1
+paru --noconfirm -S --needed "$@"
+exit
+exit
+EOF
+	) | chroot_run bash
 }
 
 # specific fncs
@@ -101,9 +110,7 @@ set_up_aur_helper(){
 		# we need `base-devel` installed, otherwise the config file will not be created
 
 	pkg_install git
-	#pkg_install cargo
 	# install paru if not already installed
-	# TODO this asks user password for sudo prompt
 	(cat << EOF
 set -e
 paru --version && exit
