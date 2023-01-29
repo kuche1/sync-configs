@@ -16,8 +16,6 @@ pkg_install(){
 }
 
 aur_install(){
-	return
-	# TODO fix paru installation
 	chroot_run paru --noconfirm -S --needed "$@"
 }
 
@@ -80,9 +78,6 @@ fix_pacman_config(){ # TODO untested
 }
 
 set_up_aur_helper(){ # TODO untested # TODO this fails with `pacman failed to install missing dependencies: cargo`
-	return
-	# TODO fix error
-
 	pkg_install base-devel
 	# compilation threads (related to the AUR helper)
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
@@ -251,11 +246,10 @@ chroot_run locale-gen
 
 chroot_run echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 
-echo "root:${user_password}" | chpasswd
+echo "root:${user_password}" | chroot_run chpasswd
 
 chroot_run useradd -m -g users -G wheel me
-#echo "me:${user_password}" | chpasswd # TODO this fails with error `user not known to the underlying authentication module`
-passwd me
+echo "me:${user_password}" | chroot_run chpasswd # TODO this fails with error `user not known to the underlying authentication module`
 
 config_visudo
 
