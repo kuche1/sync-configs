@@ -146,8 +146,6 @@ config_visudo(){ # TODO untested
 # 	) | chroot_run bash
 
 	(cat << EOF
-input('yes, im being executed (part0)')
-
 import sys
 import os
 import stat
@@ -155,8 +153,6 @@ import stat
 with open('/tmp/visudo-fixer.py', 'w') as f:
 	f.write('''#! /usr/bin/env python3
 import sys
-
-input('yes, im being executed (part1)')
 
 TO_REPLACE   = '\n# %wheel ALL=(ALL) ALL\n'
 REPLACE_WITH = '\n%wheel ALL=(ALL) ALL\n'
