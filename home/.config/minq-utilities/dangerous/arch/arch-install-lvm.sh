@@ -16,7 +16,7 @@ pkg_install(){
 }
 
 aur_install(){
-	return # TORo remove this when the paru installer starts working
+	return # TODO remove this when the paru installer starts working
 	chroot_run paru --noconfirm -S --needed "$@"
 }
 
@@ -247,7 +247,6 @@ chroot_run locale-gen
 
 chroot_run echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 
-chroot_run passwd
 echo "root:${user_password}" | chpasswd
 
 chroot_run useradd -m -g users -G wheel me
