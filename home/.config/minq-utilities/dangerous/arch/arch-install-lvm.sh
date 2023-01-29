@@ -201,6 +201,9 @@ config_visudo(){
 # EOF
 # 	) | chroot_run python3
 
+	pkg_install sudo
+		# this installs the `visudo` command
+
 	chroot_run bash -c "echo -e '\n%wheel ALL=(ALL:ALL) ALL\n' | EDITOR='tee -a' visudo"
 	# TODO this is gay but it works
 
