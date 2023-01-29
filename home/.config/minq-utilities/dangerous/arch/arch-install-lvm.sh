@@ -101,7 +101,7 @@ set_up_aur_helper(){
 		# we need `base-devel` installed, otherwise the config file will not be created
 
 	pkg_install git
-	pkg_install cargo
+	#pkg_install cargo
 	# install paru if not already installed
 	# TODO this asks user password for sudo prompt
 	(cat << EOF
