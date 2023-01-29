@@ -16,7 +16,7 @@ pkg_install(){
 }
 
 aur_install(){
-	chroot_run paru --noconfirm -S --needed "$@"
+	chroot_run su me -c paru --noconfirm -S --needed "$@"
 }
 
 # specific fncs
@@ -100,7 +100,7 @@ cd ./paru
 makepkg
 exit
 cd ./paru
-pacman -U paru-*.pkg.tar.zst
+pacman --noconfirm -U paru-*.pkg.tar.zst
 exit
 EOF
 	 ) | chroot_run bash
