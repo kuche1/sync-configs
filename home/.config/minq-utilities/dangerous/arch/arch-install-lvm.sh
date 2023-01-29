@@ -16,6 +16,8 @@ pkg_install(){
 }
 
 aur_install(){
+	return
+	# TODO remove once paru is fied
 	chroot_run paru --noconfirm -S --needed "$@"
 }
 
@@ -78,6 +80,9 @@ fix_pacman_config(){
 }
 
 set_up_aur_helper(){
+	return
+	# TODI remove after config_visudo is fixed
+
 	# needs to be called after the user has been created
 
 	pkg_install base-devel
@@ -191,6 +196,8 @@ config_visudo(){ # TODO untested
 	pkg_install vim
 	chroot_run visudo
 	# TODO this is cancer and needs to be automated
+
+	# WTFFFF THIS STILL DOESNT WORK
 
 }
 
