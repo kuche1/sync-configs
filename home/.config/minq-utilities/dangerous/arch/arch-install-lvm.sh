@@ -327,6 +327,8 @@ config_visudo
 
 set_up_aur_helper
 
+aur_install pirate-get-git # torrent browser
+
 chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 
 chroot_run hwclock --systohc
