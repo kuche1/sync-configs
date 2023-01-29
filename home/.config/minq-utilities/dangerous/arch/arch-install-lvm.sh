@@ -16,7 +16,7 @@ pkg_install(){
 }
 
 aur_install(){
-	echo "${user_password}" | chroot_run su me -c "paru --noconfirm -S --needed \"$@\""
+	chroot_run su me -c "echo \"${user_password}\" | paru --noconfirm -S --needed \"$@\""
 }
 
 # specific fncs
@@ -108,7 +108,7 @@ EOF
 	chroot_run sed -i -z 's%\n#BottomUp\n%\nBottomUp\n%' /etc/paru.conf
 }
 
-config_visudo(){ # TODO untested
+config_visudo(){
 	(cat << EOF
 
 cat << EOF2 > /tmp/visudo-fixer.py
@@ -356,10 +356,11 @@ pkg_install xfce4-terminal
 
 # shell
 pkg_install fish
-#chroot_run chsh -s $(which fish) $USER
-	# TODO
-	# use the mltiline string hack to create a script in tmp
-	# and do mething along the lines of 
+(cat << EOF
+chsh -s $(which fish) me
+exit
+EOF
+) | chroot_run bash
 
 # TODO
 # # ssh stuff
