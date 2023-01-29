@@ -16,7 +16,6 @@ pkg_install(){
 }
 
 aur_install(){
-	return # TODO remove this when the paru installer starts working
 	chroot_run paru --noconfirm -S --needed "$@"
 }
 
@@ -79,12 +78,13 @@ fix_pacman_config(){ # TODO untested
 }
 
 set_up_aur_helper(){ # TODO untested # TODO this fails with `pacman failed to install missing dependencies: cargo`
-	return # TODO fix the retarded error
-
+	pkg_install base-devel
 	# compilation threads (related to the AUR helper)
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
 		# we need `base-devel` installed, otherwise the config file will not be created
 
+	pkg_install git
+	pkg_install cargo
 	# install paru if not already installed
 	(cat << EOF
 set -e
@@ -232,8 +232,8 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 pacstrap /mnt base
 
 fix_pacman_config
+set_up_aur_helper
 
-# TODO fix pacman settings b4 doing some of these
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
 chroot_run systemctl enable NetworkManager
 # also install some wifi tools
@@ -254,7 +254,6 @@ echo "me:${user_password}" | chpasswd
 
 config_visudo
 
-pkg_install git
 set_up_aur_helper
 
 chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
@@ -310,6 +309,7 @@ pkg_install fish
 # 	f.write('\nForwardX11 yes\n')
 
 # git
+pkg_install git
 pkg_install git-delta
 # https://dandavison.github.io/delta/get-started.html
 chroot_run git config --global core.pager delta
