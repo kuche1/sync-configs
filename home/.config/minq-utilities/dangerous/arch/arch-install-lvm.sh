@@ -249,7 +249,8 @@ chroot_run echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 echo "root:${user_password}" | chroot_run chpasswd
 
 chroot_run useradd -m -g users -G wheel me
-echo "me:${user_password}" | chroot_run chpasswd # TODO this fails with error `user not known to the underlying authentication module`
+echo "me:${user_password}" | chroot_run chpasswd
+	# TODO this fails with error `user not known to the underlying authentication module`
 
 config_visudo
 
