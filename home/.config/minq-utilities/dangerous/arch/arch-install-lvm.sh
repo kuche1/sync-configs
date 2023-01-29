@@ -16,7 +16,7 @@ pkg_install(){
 }
 
 aur_install(){
-	chroot_run su me -c "paru --noconfirm -S --needed \"$@\""
+	echo "${user_password}" | chroot_run su me -c "paru --noconfirm -S --needed \"$@\""
 }
 
 # specific fncs
@@ -116,8 +116,8 @@ cat << EOF2 > /tmp/visudo-fixer.py
 import sys
 import argparse
 
-TO_REPLACE   = '\n# %wheel ALL=(ALL) ALL\n'
-REPLACE_WITH = '\n%wheel ALL=(ALL) ALL\n'
+TO_REPLACE   = '\n# %wheel ALL=(ALL:ALL) ALL\n'
+REPLACE_WITH = '\n%wheel ALL=(ALL:ALL) ALL\n'
 
 parser = argparse.ArgumentParser(description='Command line port of nhentai')
 parser.add_argument(visudo_file)
@@ -130,7 +130,7 @@ with open(visudo_file, 'r') as f:
 match cont.count(TO_REPLACE):
 	case 0:
 		count = cont.count(REPLACE_WITH)
-		assert count == 1, f'invalid number of occurances of uncommented wheel: {count}'
+		assert count == 1, f'invalid number of occurances of uncommented wheel: {count}' # TODO this assert doesn't seem to work
 		print('wheel already set up, exiting')
 		sys.exit()
 	case 1:
