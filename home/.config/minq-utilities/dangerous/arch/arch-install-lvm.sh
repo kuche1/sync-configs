@@ -3,7 +3,7 @@
 set -e
 set -o xtrace
 
-trap 'echo "ctrl+c to enter debug" ; read tmp ; umount /mnt/boot/efi ; umount /mnt ; vgremove --force myVolGr' EXIT
+trap '(test $? == 0 && exit) ; echo "ctrl+c to enter debug" ; read tmp ; umount /mnt/boot/efi ; umount /mnt ; vgremove --force myVolGr' EXIT
 
 # generic fncs
 
@@ -564,4 +564,3 @@ chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
 # final touches
 sync
-echo 'Please run `umount -a` or `umount /mnt/boot/efi && umount /mnt`'
