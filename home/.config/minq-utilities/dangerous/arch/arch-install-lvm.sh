@@ -88,6 +88,7 @@ set_up_aur_helper(){
 	pkg_install git
 	pkg_install cargo
 	# install paru if not already installed
+	# TODO this asks user password for sudo prompt
 	(cat << EOF
 set -e
 paru --version && exit
@@ -96,8 +97,10 @@ rm -rf ./paru
 su me
 git clone https://aur.archlinux.org/paru.git
 cd ./paru
-makepkg -si --noconfirm
+makepkg
 exit
+cd ./paru
+pacman -U paru-*.pkg.tar.zst
 exit
 EOF
 	 ) | chroot_run bash
@@ -191,8 +194,6 @@ config_visudo(){ # TODO untested
 	pkg_install vim
 	chroot_run visudo
 	# TODO this is cancer and needs to be automated
-
-	# WTFFFF THIS STILL DOESNT WORK
 
 }
 
