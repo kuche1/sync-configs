@@ -19,8 +19,7 @@ case "${on_or_off}" in
 		;;
 	*)
 		fg_col='yellow'
-		on_or_off="ERROR:${last_line}"
-		echo "${all_output}" > /tmp/microphone-widget-error-log
+		on_or_off="ERROR"
 		;;
 esac
 

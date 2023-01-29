@@ -351,15 +351,17 @@ chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 
 chroot_run hwclock --systohc
 
-chroot_run echo 'navi' > /etc/hostname
-# TODO don't hardcode the hostname
-
-chroot_run echo '127.0.0.1   localhost' > /etc/hosts
-chroot_run echo '::1 localhost' >> /etc/hosts
-chroot_run echo '127.0.1.1   navi.localdomain    navi' >> /etc/hosts
+(cat << EOF
+echo 'navi' > /etc/hostname
+	# TODO ask user
+echo '127.0.0.1 localhost' > /etc/hosts
+echo '::1 localhost' >> /etc/hosts
+echo '127.0.1.1 navi.localdomain navi' >> /etc/hosts
 # use static instead of 127.0.0.1
+EOF
+) | chroot_run bash
 
-chroot_run pacman --noconfirm -S grub efibootmgr dosfstools os-prober mtools openssh
+pkg_install grub efibootmgr dosfstools os-prober mtools openssh
 # os-prober -> if multiple OS-es
 
 # seems like all of this is needed only if u use encryption
@@ -555,6 +557,14 @@ pkg_install adwaita-qt5 adwaita-qt6
 
 # TODO set up `sync-config`
 # this will also set up the env vars for the dark theme
+
+# audio server
+pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
+# TODO are these vvv supposed ot be run as user or as root?
+chroot_run sudo su me -c 'systemctl --user start pipewire.service'
+chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
+pkg_install alsa-utils
+	# setting and getting volume programatically
 
 # login manager
 pkg_install lightdm lightdm-gtk-greeter
