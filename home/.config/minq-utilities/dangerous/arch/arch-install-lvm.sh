@@ -3,7 +3,7 @@
 set -e
 set -o xtrace
 
-trap '(test $? == 0 && exit) ; echo "ctrl+c to enter debug" ; read tmp ; umount /mnt/boot/efi ; umount /mnt ; vgremove --force myVolGr' EXIT
+trap 'test $? != 0 && (echo "ctrl+c to enter debug" ; read tmp ; umount /mnt/boot/efi ; umount /mnt ; vgremove --force myVolGr)' EXIT
 
 # generic fncs
 
