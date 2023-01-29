@@ -30,7 +30,8 @@ aur_install(){
 # 	) | chroot_run bash
 	# TODO chown might have been the problem with the `visudo` fail
 
-	chroot_run su me -c "paru -S \"$@\""
+	chroot_run su nobody -c "paru -S --noconfirm \"$@\""
+	# TODO this needs to be automated
 }
 
 # specific fncs
