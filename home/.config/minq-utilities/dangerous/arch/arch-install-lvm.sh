@@ -232,6 +232,16 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 pacstrap /mnt base
 
 fix_pacman_config
+
+# TODO delete
+chroot_run useradd -m -g users -G wheel me
+#echo "me:${user_password}" | chpasswd # TODO this fails with error `user not known to the underlying authentication module`
+passwd me
+
+# TODO delete
+config_visudo
+
+# TODO delete
 set_up_aur_helper
 
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
@@ -255,9 +265,6 @@ passwd me
 
 config_visudo
 
-chroot_run useradd -m -g users -G wheel me
-#echo "me:${user_password}" | chpasswd # TODO this fails with error `user not known to the underlying authentication module`
-passwd me
 set_up_aur_helper
 
 chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
