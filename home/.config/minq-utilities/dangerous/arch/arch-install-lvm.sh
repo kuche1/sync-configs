@@ -145,48 +145,52 @@ config_visudo(){ # TODO untested
 # EOF
 # 	) | chroot_run bash
 
-	(cat << EOF
-import sys
-import os
-import stat
+# 	(cat << EOF
+# import sys
+# import os
+# import stat
 
-with open('/tmp/visudo-fixer.py', 'w') as f:
-	f.write('''#! /usr/bin/env python3
-import sys
+# with open('/tmp/visudo-fixer.py', 'w') as f:
+# 	f.write('''#! /usr/bin/env python3
+# import sys
 
-TO_REPLACE   = '\n# %wheel ALL=(ALL) ALL\n'
-REPLACE_WITH = '\n%wheel ALL=(ALL) ALL\n'
+# TO_REPLACE   = '\n# %wheel ALL=(ALL) ALL\n'
+# REPLACE_WITH = '\n%wheel ALL=(ALL) ALL\n'
 
-visudo_file = sys.argv[1]
-with open(visudo_file, 'r') as f:
-	cont = f.read()
+# visudo_file = sys.argv[1]
+# with open(visudo_file, 'r') as f:
+# 	cont = f.read()
 
-match cont.count(TO_REPLACE):
-	case 0:
-		count = cont.count(REPLACE_WITH)
-		assert count == 1, f'invalid number of occurances of uncommented wheel: {count}'
-		print('wheel already set up, exiting')
-		sys.exit()
-	case 1:
-		cont = cont.replace(TO_REPLACE, REPLACE_WITH)
-	case other:
-		assert False, f'invalid number of occurances of commented wheel: {other}'
+# match cont.count(TO_REPLACE):
+# 	case 0:
+# 		count = cont.count(REPLACE_WITH)
+# 		assert count == 1, f'invalid number of occurances of uncommented wheel: {count}'
+# 		print('wheel already set up, exiting')
+# 		sys.exit()
+# 	case 1:
+# 		cont = cont.replace(TO_REPLACE, REPLACE_WITH)
+# 	case other:
+# 		assert False, f'invalid number of occurances of commented wheel: {other}'
 
-with open(visudo_file, 'w') as f:
-	f.write(cont)
+# with open(visudo_file, 'w') as f:
+# 	f.write(cont)
 
-''')
+# ''')
 
 
 
-st = os.stat('/tmp/visudo-fixer.py')
-os.chmod('/tmp/visudo-fixer.py', st.st_mode | stat.S_IEXEC)
+# st = os.stat('/tmp/visudo-fixer.py')
+# os.chmod('/tmp/visudo-fixer.py', st.st_mode | stat.S_IEXEC)
 
-os.system('EDITOR=/tmp/visudo-fixer.py visudo')
+# os.system('EDITOR=/tmp/visudo-fixer.py visudo')
 
-sys.exit()
-EOF
-	) | chroot_run python3
+# sys.exit()
+# EOF
+# 	) | chroot_run python3
+
+	pkg_install vim
+	chroot_run visudo
+	# TODO this is cancer and needs to be automated
 
 }
 
