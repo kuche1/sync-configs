@@ -16,8 +16,6 @@ pkg_install(){
 }
 
 aur_install(){
-	return
-	# TODO remove once paru is fied
 	chroot_run paru --noconfirm -S --needed "$@"
 }
 
@@ -80,9 +78,6 @@ fix_pacman_config(){
 }
 
 set_up_aur_helper(){
-	return
-	# TODI remove after config_visudo is fixed
-
 	# needs to be called after the user has been created
 
 	pkg_install base-devel
@@ -533,9 +528,8 @@ chroot_run sed -i -z 's%\n#autologin-user=\n%\nautologin-user=me\n%' /etc/lightd
 chroot_run systemctl enable lightdm
 
 # boot time
-aur_install update-grub
 chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/grub
-chroot_run update_grub
+chroot_run chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 # TODO make `quiet` into `noquiet`
     # sudo_replace_string(GRUB_CONF_PATH,# TODO fix if not the first item
     #     '\nGRUB_CMDLINE_LINUX_DEFAULT="quiet ',
