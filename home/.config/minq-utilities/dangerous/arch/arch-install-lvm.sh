@@ -16,7 +16,7 @@ pkg_install(){
 }
 
 aur_install(){
-	chroot_run su me -c "echo \"${user_password}\" | paru --sudo sudo --sudoflags -S -k --noconfirm -S --needed \"$@\""
+	chroot_run su me -c "echo \"${user_password}\" | paru --sudo sudo --sudoflags -S --noconfirm -S --needed \"$@\""
 }
 
 # specific fncs
@@ -191,12 +191,13 @@ config_visudo(){
 # 	) | chroot_run python3
 
 	chroot_run bash -c "echo -e '\n%wheel ALL=(ALL:ALL) ALL\n' | EDITOR='tee -a' visudo"
+	# TODO this is gay but it works
 
-	# TODO remove once confirmed that the above code works
-	pkg_install vim
-	chroot_run visudo
-	# TODO this is cancer and needs to be automated
+	# u can verify with
+	#pkg_install vim
+	#chroot_run visudo
 
+	# TODO we could also try using `/etc/sudoers.d` (it's the very last line in the `visudo` file)
 }
 
 # main
