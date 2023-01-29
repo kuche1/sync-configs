@@ -1,2 +1,4 @@
 
 MANGOHUD=1
+GTK_THEME=Adwaita-dark
+QT_QPA_PLATFORMTHEME=qt5ct

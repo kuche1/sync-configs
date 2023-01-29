@@ -3,6 +3,16 @@
 set -e
 set -o xtrace
 
+on_exit(){
+	ret_code="$?"
+	umount /mnt/boot/efi || echo 0
+	umount /mnt || echo 0
+	if [ "${ret_code}" != 0 ]; then
+		vgremove --force myVolGr || echo 0
+	fi
+	exit ${ret_code}
+}
+
 trap 'test $? != 0 && (echo "ctrl+c to enter debug" ; read tmp ; umount /mnt/boot/efi ; umount /mnt ; vgremove --force myVolGr)' EXIT
 
 # generic fncs
@@ -422,35 +432,6 @@ pkg_install wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-l
 # ok version of java since some apps may require java (ewwww)
 pkg_install jre11-openjdk
 
-# TODO
-    # # unify theme # we could also install adwaita-qt and adwaita-qt6
-    #     # themes can be found in `/usr/share/themes` (or at lean on ubuntu)
-    #     # docs on xsettings `https://wiki.archlinux.org/title/Xsettingsd`
-    # #aur_install('adwaita-qt', 'adwaita-qt6')
-    # pkg_install('adwaita-qt5', 'adwaita-qt6')
-    # pkg_install('lxappearance-gtk3') # GTK theme control panel
-    # pkg_install('qt5ct', 'qt6ct') # qt theme control panel
-    # with tempfile.NamedTemporaryFile('w', delete=False) as f:
-    #     f.write('GTK_THEME=Adwaita-dark\n')
-    #     f.write('QT_QPA_PLATFORMTHEME=qt5ct\n')
-    #     f.write('MANGOHUD=1\n')
-    #     f.write('EDITOR=micro\n')
-    #     # f.write('TERMINAL=wezterm\n')
-    #     f.write('BROWSER=librewolf\n')
-    #     f.write('\n')
-    #     # f.write('# linux-xanmod variables\n')
-    #     # f.write('_microarchitecture=15 # zen3\n')
-    #     # f.write('use_numa=n # n==I don\'t have multiple processors\n')
-    #     # f.write('#use_tracers=n # n==limits debugging and analysis of the kernel\n')
-    #     # f.write('#_makenconfig=y # tweak kernel options prior to a build via nconfig\n')
-    #     f.write('\n')
-    #     name = f.name
-    # sudo_replace_file(ENVIRONMENT_PATH, name)
-
-    # # dark theme
-    # pkg_install('gnome-themes-extra')
-    # aur_install('paper-icon-theme')
-
 # terminal utilities
 pkg_install sysstat # utilities for system stats
 #aur_install bootiso # safer dd alternative
@@ -552,14 +533,38 @@ pkg_install syncthing
     #     with open(VMWARE_PREFERENCES_PATH, mode) as f: # TODO check if exists first
     #         f.write('\nmks.gl.allowBlacklistedDrivers = "TRUE"\n')
 
+# TODO
+    # # unify theme # we could also install adwaita-qt and adwaita-qt6
+    #     # themes can be found in `/usr/share/themes` (or at lean on ubuntu)
+    #     # docs on xsettings `https://wiki.archlinux.org/title/Xsettingsd`
+    # pkg_install('lxappearance-gtk3') # GTK theme control panel
+
+    # aur_install('paper-icon-theme')
+
+# install adwaita for gtk3
+pkg_install gtk3
+# install adwaita for gtk2
+pkg_install gnome-themes-extra
+# install adwaita for qt
+pkg_install adwaita-qt5 adwaita-qt6
+# an alternative is
+    # themes can be found in `/usr/share/themes` (or at lean on ubuntu)
+    # docs on xsettings `https://wiki.archlinux.org/title/Xsettingsd`
+# you can also install theme setter for qt
+	# pkg_install qt5ct qt6ct
+
+# TODO set up `sync-config`
+# this will also set up the env vars for the dark theme
+
 # login manager
 pkg_install lightdm lightdm-gtk-greeter
-# unneeded? create group # sudo groupadd -r autologin
-# unneeded? add to autologin # term(['sudo', 'gpasswd', '-a', USERNAME, 'autologin'])
 chroot_run sed -i -z 's%\n#autologin-user=\n%\nautologin-user=me\n%' /etc/lightdm/lightdm.conf
-#sudo groupadd -r autologin
-#sudo gpasswd -a me autologin
+chroot_run groupadd -r autologin
+chroot_run gpasswd -a me autologin
 chroot_run systemctl enable lightdm
 
-# final touches
+# unmount and sync
+umount /mnt/boot/efi
+umount /mnt
 sync
+# TODO remove the unmounting once the `trap` fnc has been confirmed to work properly
