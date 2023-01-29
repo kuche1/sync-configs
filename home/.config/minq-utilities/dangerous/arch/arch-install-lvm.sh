@@ -32,7 +32,7 @@ aur_install(){
 
 	(cat << EOF
 su me
-echo "${user_password}" | sudo -S echo 1
+echo "${user_password}" | sudo -S echo gaysex
 paru --noconfirm -S --needed "$@"
 exit
 EOF
