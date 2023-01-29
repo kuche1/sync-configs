@@ -314,13 +314,13 @@ pacstrap /mnt base
 
 fix_pacman_config
 
-# pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
-# chroot_run systemctl enable NetworkManager
-# # also install some wifi tools
-# pkg_install wpa_supplicant wireless_tools netctl
+pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
+chroot_run systemctl enable NetworkManager
+# also install some wifi tools
+pkg_install wpa_supplicant wireless_tools netctl
 
-# add_lvm2_hook_to_mkinitcpio
-# chroot_run mkinitcpio -p linux-zen
+add_lvm2_hook_to_mkinitcpio
+chroot_run mkinitcpio -p linux-zen
 
 chroot_run echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
 chroot_run locale-gen
