@@ -250,10 +250,14 @@ chroot_run echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 echo "root:${user_password}" | chpasswd
 
 chroot_run useradd -m -g users -G wheel me
-echo "me:${user_password}" | chpasswd
+#echo "me:${user_password}" | chpasswd # TODO this fails with error `user not known to the underlying authentication module`
+passwd me
 
 config_visudo
 
+chroot_run useradd -m -g users -G wheel me
+#echo "me:${user_password}" | chpasswd # TODO this fails with error `user not known to the underlying authentication module`
+passwd me
 set_up_aur_helper
 
 chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
