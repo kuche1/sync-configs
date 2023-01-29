@@ -35,9 +35,8 @@ aur_install(){
 
 	(cat << EOF
 su me
-echo "${user_password}" | sudo -Sk echo 1
+echo "${user_password}" | sudo -S -k echo 1
 paru --noconfirm -S --needed "$@"
-exit
 exit
 EOF
 	) | chroot_run bash
@@ -122,7 +121,6 @@ makepkg
 exit
 cd ./paru-bin
 pacman --noconfirm -U paru-*.pkg.tar.zst
-exit
 EOF
 	 ) | chroot_run bash
 	# paru settings
