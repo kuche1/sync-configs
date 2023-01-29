@@ -106,15 +106,57 @@ EOF
 }
 
 config_visudo(){ # TODO untested
-	(cat << EOF
-echo 'yes im being executed (part 0)'
-read tmp
+# 	(cat << EOF
+# echo 'yes im being executed (part 0)'
+# read tmp
 
-cat << EOF2 > /tmp/visudo-fixer.py
-#! /usr/bin/env python3
+# cat << EOF2 > /tmp/visudo-fixer.py
+# #! /usr/bin/env python3
+# import sys
+
+# input('yes, im being executed')
+
+# TO_REPLACE   = '\n# %wheel ALL=(ALL) ALL\n'
+# REPLACE_WITH = '\n%wheel ALL=(ALL) ALL\n'
+
+# visudo_file = sys.argv[1]
+# with open(visudo_file, 'r') as f:
+# 	cont = f.read()
+
+# match cont.count(TO_REPLACE):
+# 	case 0:
+# 		count = cont.count(REPLACE_WITH)
+# 		assert count == 1, f'invalid number of occurances of uncommented wheel: {count}'
+# 		print('wheel already set up, exiting')
+# 		sys.exit()
+# 	case 1:
+# 		cont = cont.replace(TO_REPLACE, REPLACE_WITH)
+# 	case other:
+# 		assert False, f'invalid number of occurances of commented wheel: {other}'
+
+# with open(visudo_file, 'w') as f:
+# 	f.write(cont)
+
+# EOF2
+
+# chmod +x /tmp/visudo-fixer.py
+# EDITOR=/tmp/visudo-fixer.py visudo
+# exit
+# EOF
+# 	) | chroot_run bash
+
+	(cat << EOF
+input('yes, im being executed (part0)')
+
+import sys
+import os
+import stat
+
+with open('/tmp/visudo-fixer.py', 'w') as f:
+	f.write('''#! /usr/bin/env python3
 import sys
 
-input('yes, im being executed')
+input('yes, im being executed (part1)')
 
 TO_REPLACE   = '\n# %wheel ALL=(ALL) ALL\n'
 REPLACE_WITH = '\n%wheel ALL=(ALL) ALL\n'
@@ -137,13 +179,19 @@ match cont.count(TO_REPLACE):
 with open(visudo_file, 'w') as f:
 	f.write(cont)
 
-EOF2
+''')
 
-chmod +x /tmp/visudo-fixer.py
-EDITOR=/tmp/visudo-fixer.py visudo
-exit
+
+
+st = os.stat('/tmp/visudo-fixer.py')
+os.chmod('/tmp/visudo-fixer.py', st.st_mode | stat.S_IEXEC)
+
+os.system('EDITOR=/tmp/visudo-fixer.py visudo')
+
+sys.exit()
 EOF
-	) | chroot_run bash
+	) | chroot_run python3
+
 }
 
 # main
