@@ -16,7 +16,8 @@ pkg_install(){
 }
 
 aur_install(){
-	paru --noconfirm -S --needed "$@"
+	return # TORo remove this when the paru installer starts working
+	chroot_run paru --noconfirm -S --needed "$@"
 }
 
 # specific fncs
@@ -78,6 +79,8 @@ fix_pacman_config(){ # TODO untested
 }
 
 set_up_aur_helper(){ # TODO untested # TODO this fails with `pacman failed to install missing dependencies: cargo`
+	return # TODO fix the retarded error
+
 	# compilation threads (related to the AUR helper)
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
 		# we need `base-devel` installed, otherwise the config file will not be created
@@ -91,7 +94,7 @@ rm -rf ./paru
 su me
 git clone https://aur.archlinux.org/paru.git
 cd ./paru
-makepkg -si
+makepkg -si --noconfirm
 exit
 exit
 EOF
