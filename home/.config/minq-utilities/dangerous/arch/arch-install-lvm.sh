@@ -16,6 +16,8 @@ pkg_install(){
 }
 
 aur_install(){
+	return
+	# TODO fix paru installation
 	chroot_run paru --noconfirm -S --needed "$@"
 }
 
@@ -78,6 +80,9 @@ fix_pacman_config(){ # TODO untested
 }
 
 set_up_aur_helper(){ # TODO untested # TODO this fails with `pacman failed to install missing dependencies: cargo`
+	return
+	# TODO fix error
+
 	pkg_install base-devel
 	# compilation threads (related to the AUR helper)
 	chroot_run sed -i -z 's%\n#MAKEFLAGS="-j2"\n%\nMAKEFLAGS="-j$(nproc)"\n%' /etc/makepkg.conf
@@ -232,17 +237,6 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 pacstrap /mnt base
 
 fix_pacman_config
-
-# TODO delete
-chroot_run useradd -m -g users -G wheel me
-#echo "me:${user_password}" | chpasswd # TODO this fails with error `user not known to the underlying authentication module`
-passwd me
-
-# TODO delete
-config_visudo
-
-# TODO delete
-set_up_aur_helper
 
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
 chroot_run systemctl enable NetworkManager
