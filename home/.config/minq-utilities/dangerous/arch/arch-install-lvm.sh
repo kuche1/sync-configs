@@ -30,12 +30,9 @@ aur_install(){
 # 	) | chroot_run bash
 	# TODO chown might have been the problem with the `visudo` fail
 
-	# chroot_run su me -c "paru -S --noconfirm \"$@\""
-	# TODO this needs to be automated
-
 	(cat << EOF
 su me
-echo "${user_password}" | sudo -S -k echo 1
+echo "${user_password}" | sudo -S echo 1
 paru --noconfirm -S --needed "$@"
 exit
 EOF
