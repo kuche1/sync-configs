@@ -108,9 +108,13 @@ EOF
 config_visudo(){ # TODO untested
 	chroot_run bash
 	(cat << EOF
+bash
+
 cat << EOF2 > /tmp/visudo-fixer.py
 #! /usr/bin/env python3
 import sys
+
+input('yes, im being executed')
 
 TO_REPLACE   = '\n# %wheel ALL=(ALL) ALL\n'
 REPLACE_WITH = '\n%wheel ALL=(ALL) ALL\n'
