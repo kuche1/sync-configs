@@ -106,9 +106,9 @@ EOF
 }
 
 config_visudo(){ # TODO untested
-	chroot_run bash
 	(cat << EOF
-bash
+echo 'yes im being executed (part 0)'
+read tmp
 
 cat << EOF2 > /tmp/visudo-fixer.py
 #! /usr/bin/env python3
