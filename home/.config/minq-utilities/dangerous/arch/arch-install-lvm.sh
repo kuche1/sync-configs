@@ -20,7 +20,7 @@ aur_install(){
 	(cat << EOF
 su me
 echo "#! /usr/bin/env bash" > /tmp/free-sudo.sh
-echo "echo arguments passed: \$@" >> /tmp/free-sudo.sh
+echo "test -z \"\$@\" && exit" >> /tmp/free-sudo.sh
 echo "echo \"${user_password}\" | sudo -S -k \"\$@\"" >> /tmp/free-sudo.sh
 chmod +x /tmp/free-sudo.sh
 paru --sudo /tmp/free-sudo.sh --noconfirm -S --needed "$@"
@@ -104,13 +104,12 @@ set_up_aur_helper(){
 set -e
 paru --version && exit
 cd /tmp
-rm -rf ./paru
 su me
-git clone https://aur.archlinux.org/paru.git
-cd ./paru
+git clone https://aur.archlinux.org/paru-bin.git
+cd ./paru-bin
 makepkg
 exit
-cd ./paru
+cd ./paru-bin
 pacman --noconfirm -U paru-*.pkg.tar.zst
 exit
 EOF
