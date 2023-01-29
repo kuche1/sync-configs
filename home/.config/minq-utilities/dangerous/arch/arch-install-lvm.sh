@@ -16,6 +16,8 @@ pkg_install(){
 }
 
 aur_install(){
+	return
+	# TODO fix this
 	chroot_run su me -c "echo \"${user_password}\" | paru --noconfirm -S --needed \"$@\""
 }
 
