@@ -16,7 +16,15 @@ pkg_install(){
 }
 
 aur_install(){
-	chroot_run su me -c "echo \"${user_password}\" | paru --sudo sudo --sudoflags -S --noconfirm -S --needed \"$@\""
+	# chroot_run su me -c "echo \"${user_password}\" | paru --sudo sudo --sudoflags -S --noconfirm -S --needed \"$@\""
+	(cat << EOF
+echo "#! /usr/bin/env bash" > /tmp/free-sudo.sh
+echo "\"${user_password}\" | sudo -S -k \"\$@\"" >> /tmp/free-sudo.sh
+chown me /tmp/free-sudo.sh
+su me -c "paru --sudo /tmp/free-sudo.sh --noconfirm -S --needed \"$@\""
+EOF
+	) | chroot_run
+	# TODO chown might have been the problem with the `visudo` fail
 }
 
 # specific fncs
