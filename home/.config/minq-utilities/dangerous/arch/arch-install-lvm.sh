@@ -192,6 +192,7 @@ EOF
 # EOF
 # 	) | chroot_run python3
 
+	# TODO remove once confirmed that the above code works
 	pkg_install vim
 	chroot_run visudo
 	# TODO this is cancer and needs to be automated
