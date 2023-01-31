@@ -41,6 +41,7 @@ aur_install(){
 	# TODO chown might have been the problem with the `visudo` fail
 
 	(cat << EOF
+set -e
 su me
 echo "${user_password}" | sudo -S echo gaysex
 paru --noconfirm -S --needed $@
@@ -332,10 +333,15 @@ pkg_install wpa_supplicant wireless_tools netctl
 add_lvm2_hook_to_mkinitcpio
 chroot_run mkinitcpio -p linux-zen
 
+(cat << EOF
+set -e
+
 chroot_run echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
 chroot_run locale-gen
 
 chroot_run echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+EOF
+) | chroot_run bash
 
 echo "root:${user_password}" | chroot_run chpasswd
 
@@ -352,6 +358,7 @@ chroot_run ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 chroot_run hwclock --systohc
 
 (cat << EOF
+set -e
 echo 'navi' > /etc/hostname
 	# TODO ask user
 echo '127.0.0.1 localhost' > /etc/hosts
@@ -489,6 +496,13 @@ pkg_install firefox # browser
 
 # file manager
 pkg_install thunar thunar-archive-plugin gvfs
+pkg_install tumbler # thumbnails
+	pkg_install ffmpegthumbnailer # video
+	pkg_install poppler-glib # pdf
+	pkg_install libgsf # odf
+	pkg_install libgepub # epub
+	pkg_install libopenraw # raw
+	pkg_install freetype2 # font
 #caja caja-open-terminal
 
 pkg_install steam
@@ -564,8 +578,28 @@ pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
 # TODO are these vvv supposed ot be run as user or as root?
 chroot_run sudo su me -c 'systemctl --user start pipewire.service'
 chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
-pkg_install alsa-utils
-	# setting and getting volume programatically
+pkg_install alsa-utils # setting and getting volume programatically
+
+# VM
+pkg_install virtualbox virtualbox-host-dkms
+pkg_install virtualbox-guest-iso
+	# this is the guest additions disk
+	# .iso file is located at `/usr/lib/virtualbox/additions/VBoxGuestAdditions.iso`
+chroot_run usermod -a -G vboxusers me
+	# allows for accesing USB devices
+chroot_run modprobe vboxdrv
+
+# swap
+(cat << EOF
+set -e
+dd if=/dev/zero of=/swapfile bs=1M count=65536 status=progress
+	# create 64GiB swap file
+chmod 0600 /swapfile
+mkswap -U clear /swapfile
+swapon /swapfile
+echo -e '\n/swapfile none swap defaults 0 0' >> /etc/fstab
+EOF
+) | chroot_run bash
 
 # login manager
 pkg_install lightdm lightdm-gtk-greeter
