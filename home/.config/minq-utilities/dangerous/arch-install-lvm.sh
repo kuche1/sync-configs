@@ -483,8 +483,9 @@ pkg_install gnome-disk-utility
 pkg_install baobab # disk usage anal
 pkg_install gparted
 #pkg_install ark # archive manager
-#pkg_install transmission-gtk # torrent
-	# torrent client # qbittorrent causes PC to lag, also has a weird bug where it refuses to download torrents
+pkg_install transmission-gtk # torrent
+	# qbittorrent causes PC to lag, also has a weird bug where it refuses to download torrents
+	# update LVM: qbittorrent's GUI freezes
 pkg_install tigervnc # vnc
 pkg_install ksysguard # task manager
 pkg_install songrec # find a song by sample
@@ -503,6 +504,7 @@ pkg_install tumbler # thumbnails
 	pkg_install libgepub # epub
 	pkg_install libopenraw # raw
 	pkg_install freetype2 # font
+pkg_install unrar
 #caja caja-open-terminal
 
 pkg_install steam

@@ -2,10 +2,13 @@
 
 set -e
 
-if [ "$#" -ne 1 ]; then
-	echo "invalid number of arguments"
-	exit 1
-fi
+ME="$BASH_SOURCE"
+
+# TODO
+# if [ "$#" -ne 1 ]; then
+# 	echo "invalid number of arguments"
+# 	exit 1
+# fi
 
 type="$1"
 
@@ -22,8 +25,16 @@ case "${type}" in
 	'dec-small')
 		amount='-1.0%'
 		;;
+	'amount')
+		amount="$2"
+		;;
+	'fix')
+		"${ME}" 'inc-small'
+		"${ME}" 'dec-small'
+		exit 0
+		;;
 	*)
-		echo "ERROR: invalid type"
+		echo "ERROR: invalid type: ${type}"
 		exit 1
 		;;
 esac
