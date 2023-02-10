@@ -441,6 +441,25 @@ pkg_install wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-l
 # ok version of java since some apps may require java (ewwww)
 pkg_install jre11-openjdk
 
+# DE
+pkg_install i3
+aur_install xkblayout-state-git # keyboard language switcher
+pkg_install python-psutil # needed to determine weather laptop or not
+pkg_install python-i3ipc
+pkg_install dex # autostart
+pkg_install network-manager-applet
+pkg_install rofi # menu
+pkg_install spectacle # screenshooter
+pkg_install mate-polkit # polkit
+pkg_install pacman-contrib # needed for `checkupdates`
+
+# audio server
+pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
+# TODO are these vvv supposed ot be run as user or as root?
+#chroot_run sudo su me -c 'systemctl --user start pipewire.service'
+chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
+pkg_install alsa-utils # setting and getting volume programatically
+
 # terminal utilities
 pkg_install sysstat # utilities for system stats
 #aur_install bootiso # safer dd alternative
@@ -461,25 +480,6 @@ pkg_install htop # system monitor
 pkg_install trash-cli # trash manager
 #pkg_install streamlink # enables watching streams (examples: yt, twitch)
 aur_install ani-cli-git # anime watcher
-
-# DE
-pkg_install i3
-aur_install xkblayout-state-git # keyboard language switcher
-pkg_install python-psutil # needed to determine weather laptop or not
-pkg_install python-i3ipc
-pkg_install dex # autostart
-pkg_install network-manager-applet
-pkg_install rofi # menu
-pkg_install spectacle # screenshooter
-pkg_install mate-polkit # polkit
-pkg_install pacman-contrib # needed for `checkupdates`
-
-# audio server
-pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
-# TODO are these vvv supposed ot be run as user or as root?
-#chroot_run sudo su me -c 'systemctl --user start pipewire.service'
-chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
-pkg_install alsa-utils # setting and getting volume programatically
 
 # additional programs
 aur_install mangohud lib32-mangohud # gayming overlay
