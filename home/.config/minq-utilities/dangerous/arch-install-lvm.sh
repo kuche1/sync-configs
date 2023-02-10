@@ -477,7 +477,7 @@ pkg_install pacman-contrib # needed for `checkupdates`
 # audio server
 pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
 # TODO are these vvv supposed ot be run as user or as root?
-chroot_run sudo su me -c 'systemctl --user start pipewire.service'
+#chroot_run sudo su me -c 'systemctl --user start pipewire.service'
 chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
 pkg_install alsa-utils # setting and getting volume programatically
 
