@@ -485,9 +485,9 @@ aur_install ani-cli-git # anime watcher
 aur_install mangohud lib32-mangohud # gayming overlay
 #aur_install freezer-appimage # music # commented out due to slow download
 aur_install nuclear-player-bin # music
-aur_install mcomix-git # .cbr file reader (manga) (Junji Ito)
+#aur_install mcomix-git # .cbr file reader (manga) (Junji Ito)
 pkg_install gnome-disk-utility
-pkg_install baobab # disk usage anal
+pkg_install baobab # disk usage analyzer
 pkg_install gparted
 #pkg_install ark # archive manager
 pkg_install transmission-gtk # torrent
@@ -589,7 +589,9 @@ pkg_install virtualbox-guest-iso
 	# .iso file is located at `/usr/lib/virtualbox/additions/VBoxGuestAdditions.iso`
 chroot_run usermod -a -G vboxusers me
 	# allows for accesing USB devices
-chroot_run modprobe vboxdrv
+#chroot_run modprobe vboxdrv
+	# no need to activate it right away
+	# the user will be restarting the machine anyways
 
 # swap
 (cat << EOF
