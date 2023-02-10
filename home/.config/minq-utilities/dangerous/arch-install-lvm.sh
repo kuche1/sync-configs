@@ -5,6 +5,10 @@ set -o xtrace
 
 on_exit(){
 	ret_code="$?"
+	if [ "${ret_code}" != 0 ]; then
+		echo "an error has been encountered; press ctrl+c to enter debug"
+		read tmp
+	fi
 	umount /mnt/boot/efi || echo 0
 	umount /mnt || echo 0
 	if [ "${ret_code}" != 0 ]; then
@@ -13,7 +17,8 @@ on_exit(){
 	exit ${ret_code}
 }
 
-trap 'test $? != 0 && (echo "ctrl+c to enter debug" ; read tmp ; umount /mnt/boot/efi ; umount /mnt ; vgremove --force myVolGr)' EXIT
+#trap 'test $? != 0 && (echo "ctrl+c to enter debug" ; read tmp ; umount /mnt/boot/efi ; umount /mnt ; vgremove --force myVolGr)' EXIT
+trap on_exit EXIT
 
 # generic fncs
 
@@ -602,6 +607,7 @@ chmod 0600 /swapfile
 mkswap -U clear /swapfile
 swapon /swapfile
 echo -e '\n/swapfile none swap defaults 0 0' >> /etc/fstab
+swapoff /swapfile
 EOF
 ) | chroot_run bash
 
