@@ -336,10 +336,10 @@ chroot_run mkinitcpio -p linux-zen
 (cat << EOF
 set -e
 
-chroot_run echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
-chroot_run locale-gen
+echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
+locale-gen
 
-chroot_run echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 EOF
 ) | chroot_run bash
 
