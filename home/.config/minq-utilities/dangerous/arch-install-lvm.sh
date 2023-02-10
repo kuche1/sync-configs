@@ -474,6 +474,13 @@ pkg_install spectacle # screenshooter
 pkg_install mate-polkit # polkit
 pkg_install pacman-contrib # needed for `checkupdates`
 
+# audio server
+pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
+# TODO are these vvv supposed ot be run as user or as root?
+chroot_run sudo su me -c 'systemctl --user start pipewire.service'
+chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
+pkg_install alsa-utils # setting and getting volume programatically
+
 # additional programs
 aur_install mangohud lib32-mangohud # gayming overlay
 #aur_install freezer-appimage # music # commented out due to slow download
@@ -574,13 +581,6 @@ pkg_install adwaita-qt5 adwaita-qt6
 
 # TODO set up `sync-config`
 # this will also set up the env vars for the dark theme
-
-# audio server
-pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
-# TODO are these vvv supposed ot be run as user or as root?
-chroot_run sudo su me -c 'systemctl --user start pipewire.service'
-chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
-pkg_install alsa-utils # setting and getting volume programatically
 
 # VM
 pkg_install virtualbox virtualbox-host-dkms
