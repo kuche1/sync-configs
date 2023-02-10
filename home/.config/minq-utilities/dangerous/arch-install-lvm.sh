@@ -441,6 +441,13 @@ pkg_install wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-l
 # ok version of java since some apps may require java (ewwww)
 pkg_install jre11-openjdk
 
+# audio server
+pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
+# TODO are these vvv supposed ot be run as user or as root?
+#chroot_run sudo su me -c 'systemctl --user start pipewire.service'
+chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
+pkg_install alsa-utils # setting and getting volume programatically
+
 # DE
 pkg_install i3
 aur_install xkblayout-state-git # keyboard language switcher
@@ -452,13 +459,6 @@ pkg_install rofi # menu
 pkg_install spectacle # screenshooter
 pkg_install mate-polkit # polkit
 pkg_install pacman-contrib # needed for `checkupdates`
-
-# audio server
-pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
-# TODO are these vvv supposed ot be run as user or as root?
-#chroot_run sudo su me -c 'systemctl --user start pipewire.service'
-chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
-pkg_install alsa-utils # setting and getting volume programatically
 
 # terminal utilities
 pkg_install sysstat # utilities for system stats
