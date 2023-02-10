@@ -67,11 +67,11 @@ set $refresh_mic_indicator pkill -RTMIN+11 i3blocks
 ## adjust volume proper events
 #fucking shit cancer, might by worth trying with lower sleed values (to decrease lag)
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh inc-small && $refresh_volume_widget && sleep 0.5 && ~/.config/minq-utilities/volume-set.sh fix
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh inc-small && $refresh_volume_widget && sleep 1 && ~/.config/minq-utilities/volume-set.sh fix && $refresh_volume_widget
 	# TODO we can add another call to `$refresh_volume_widget` after the fix since the volume at the bar could fuck up
 	# TODO or maybe `volume-set.sh` is the one who sould be refreshing the volume bar
 
-bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh dec-small && $refresh_volume_widget && sleep 0.5 && ~/.config/minq-utilities/volume-set.sh fix
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh dec-small && $refresh_volume_widget && sleep 1 && ~/.config/minq-utilities/volume-set.sh fix && $refresh_volume_widget
 
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_volume_widget
 
