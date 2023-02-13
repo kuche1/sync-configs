@@ -521,6 +521,9 @@ pkg_install tumbler # thumbnails
 	pkg_install libopenraw # raw
 	pkg_install freetype2 # font
 #caja caja-open-terminal
+arch_chroot xdg-mime default thunar.desktop inode/directory
+	# set as default file browser
+	# TODO maybe this needs to be executed as the user
 
 # archive manager
 pkg_install xarchiver
