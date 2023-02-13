@@ -506,6 +506,7 @@ aur_install rustdesk-bin # remote desktop
 pkg_install mpv # video player
 pkg_install nomacs # image viewer
 pkg_install firefox # browser
+pkg_install obs-studio # screen sharing
 
 # file manager
 pkg_install thunar thunar-archive-plugin gvfs
