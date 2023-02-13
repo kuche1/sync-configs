@@ -80,7 +80,7 @@ bindsym XF86AudioMicMute exec --no-startup-id ~/.config/minq-utilities/volume-se
 # adjust volume fake events
 bindsym XF86AudioNext exec --no-startup-id ~/.config/minq-utilities/volume-set.sh inc && $refresh_volume_widget
 bindsym XF86AudioPrev exec --no-startup-id ~/.config/minq-utilities/volume-set.sh dec && $refresh_volume_widget
-bindsym $mod+m exec ~/.config/minq-utilities/microphone-set.sh && $refresh_mic_indicator
+bindsym $mod+m exec --no-startup-id ~/.config/minq-utilities/microphone-set.sh && $refresh_mic_indicator
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
@@ -90,15 +90,6 @@ bindsym $mod+KP_Enter exec ~/.config/minq-utilities/terminal.sh
 # start a terminal with python3
 bindsym $mod+backslash exec ~/.config/minq-utilities/terminal-python3.sh
 
-# start browser
-bindsym $mod+b exec ~/.config/minq-utilities/browser
-
-# start freenet browser
-bindsym $mod+Shift+b exec ~/.config/minq-utilities/browser-freenet
-
-# start file explorer
-bindsym $mod+n exec thunar
-
 # start dmenu (a program launcher)
 #bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
@@ -107,6 +98,18 @@ bindsym $mod+n exec thunar
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 bindsym $mod+d exec "rofi -modi drun,run -show drun"
+
+# open torrent magnets
+bindsym $mod+t exec ~/.config/minq-utilities/torrent-open-magnet
+
+# start browser
+bindsym $mod+b exec ~/.config/minq-utilities/browser
+
+# start freenet browser
+bindsym $mod+Shift+b exec ~/.config/minq-utilities/browser-freenet
+
+# start file explorer
+bindsym $mod+n exec thunar
 
 # change focus
 bindsym $mod+j focus left
@@ -366,7 +369,7 @@ for_window [title="Maggot baits"] floating enable
 #
 
 # fixes the theme
-exec --no-startup-id  xsettingsd
+#exec --no-startup-id xsettingsd
 
 set $is_not_laptop python3 -c '__import__("sys").exit(__import__("psutil").sensors_battery())'
 
@@ -380,7 +383,8 @@ exec --no-startup-id ~/.config/minq-utilities/polkit.sh
 exec --no-startup-id thunar --daemon
 
 # open torrent but only if not laptop
-exec --no-startup-id $is_not_laptop && transmission-gtk --minimized
+exec --no-startup-id $is_not_laptop && ~/.config/minq-utilities/torrent --minimized
+	# TODO replace with `torrent-minimized` or `torrent-daemon` ?
 
 # keyboard language
 #bindsym $mod+i exec --no-startup-id setxkbmap -layout "us"
