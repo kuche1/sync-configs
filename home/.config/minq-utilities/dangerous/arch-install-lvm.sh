@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 set -e
-set -o xtrace
+# exit on error
 
 on_exit(){
 	ret_code="$?"
@@ -261,6 +261,10 @@ done
 printf ">>>>>> Enter password: \n"
 read user_password
 
+# enable debug output from now on
+set -o xtrace
+# you can disable this with `set +o xtrace`
+
 # format boot disk
 parted -s ${boot_disk} mklabel gpt
 
@@ -448,10 +452,9 @@ pkg_install jre11-openjdk
 
 # audio server
 pkg_install pipewire lib32-pipewire wireplumber pipewire-pulse pipewire-jack
-# TODO are these vvv supposed ot be run as user or as root?
-#chroot_run sudo su me -c 'systemctl --user start pipewire.service'
 chroot_run sudo su me -c 'systemctl --user enable pipewire.service'
 pkg_install alsa-utils # setting and getting volume programatically
+pkg_install pavucontrol # GUI volume control
 
 # DE
 pkg_install i3
@@ -517,8 +520,13 @@ pkg_install tumbler # thumbnails
 	pkg_install libgepub # epub
 	pkg_install libopenraw # raw
 	pkg_install freetype2 # font
-pkg_install unrar
 #caja caja-open-terminal
+
+# archive manager
+pkg_install xarchiver
+	# gui
+pkg_install bzip2 gzip p7zip tar unrar unzip xz zip zstd
+	# some formats
 
 pkg_install steam
 # TODO
