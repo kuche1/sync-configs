@@ -282,6 +282,8 @@ for disk in ${additional_disks}; do
 done
 
 boot_partition=${boot_disk}1
+# TODO if use is using SSD this will be `}p1` and not just `}1`
+# same goes for the line on the bottom
 
 # write all LVM parts into variable
 lvm_partitions=${boot_disk}2
