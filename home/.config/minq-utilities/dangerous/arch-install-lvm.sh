@@ -490,6 +490,7 @@ pkg_install htop # system monitor
 pkg_install trash-cli # trash manager
 #pkg_install streamlink # enables watching streams (examples: yt, twitch)
 aur_install ani-cli-git # anime watcher
+pkg_install imagemagic # image converter
 
 # additional programs
 aur_install mangohud lib32-mangohud # gayming overlay
@@ -506,6 +507,7 @@ pkg_install transmission-gtk # torrent
 pkg_install tigervnc # vnc
 pkg_install ksysguard # task manager
 pkg_install songrec # find a song by sample
+pkg_install mousepad # text editor
 aur_install vscodium-bin # IDE
 aur_install rustdesk-bin # remote desktop
 pkg_install mpv # video player

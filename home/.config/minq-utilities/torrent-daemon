@@ -5,5 +5,5 @@ import sys
 from lib.run_program import run_program
 
 run_program(
-    ['transmission-gtk'],
+    ['transmission-gtk', '--minimized'],
 )
