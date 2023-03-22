@@ -346,22 +346,23 @@ bar {
         strip_workspace_numbers yes
 }
 
-# per-applicatino settings [get class -> `xprop | grep CLASS` or `xprop | grep NAME`]
+### per-applicatino settings [get class -> `xprop | grep CLASS` or `xprop | grep NAME`]
 #
-## set floating
+### set floating
 for_window [class="fk"] floating enable #----------------------------# godot
 for_window [class="gnome-calculator"] floating enable
+for_window [class="idkman"] floating enable #------------------------# godot
 for_window [class="matplotlib"] floating enable
 for_window [class="simple-3d-game"] floating enable #----------------# godot
 for_window [class="SIGMA"] floating enable #-------------------------# godot
 for_window [class="steam_proton" title="^euphoria$"] floating enable
 for_window [class="wasp"] floating enable #--------------------------# godot
 for_window [title="Maggot baits"] floating enable
-## set sticky
+### set sticky
 #for_window [class="spectacle"] sticky enable
-## set workspace
-#assign [class="Guilded"] $ws27
-#assign [class="discord"] $ws28
+### set workspace
+assign [class="transmission-gtk"] $ws28
+assign [class="Mumble"] $ws27
 
 #
 # exec - executes only on initial launch of i3

@@ -507,13 +507,15 @@ pkg_install transmission-gtk # torrent
 pkg_install tigervnc # vnc
 pkg_install ksysguard # task manager
 pkg_install songrec # find a song by sample
-pkg_install mousepad # text editor
+pkg_install pluma # text editor
 aur_install vscodium-bin # IDE
 aur_install rustdesk-bin # remote desktop
 pkg_install mpv # video player
 pkg_install nomacs # image viewer
 pkg_install firefox # browser
+	pkg_install firefox-i18n-en-us firefox-i18n-bg # spelling
 pkg_install obs-studio # screen sharing
+pkg_install gummi # latex editor
 
 # file manager
 pkg_install thunar thunar-archive-plugin gvfs
