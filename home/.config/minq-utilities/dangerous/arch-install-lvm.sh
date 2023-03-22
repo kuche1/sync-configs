@@ -422,6 +422,9 @@ pkg_install fish
 # ) | chroot_run bash
 chroot_run bash -c 'chsh -s $(which fish) me'
 
+# fonts
+pkg_install noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
+
 # TODO
 # # ssh stuff
 # pkg_install('openssh') # TODO? check for alternative
