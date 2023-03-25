@@ -99,17 +99,24 @@ bindsym $mod+backslash exec ~/.config/minq-utilities/terminal-python3.sh
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 bindsym $mod+d exec "rofi -modi drun,run -show drun"
 
+##### application shortcuts
+
 # open torrent magnets
 bindsym $mod+t exec ~/.config/minq-utilities/torrent-open-magnet
 
-# start browser
+# browser
 bindsym $mod+b exec ~/.config/minq-utilities/browser
 
-# start freenet browser
-bindsym $mod+Shift+b exec ~/.config/minq-utilities/browser-freenet
+# browser - freenet
+bindsym $mod+Shift+f exec ~/.config/minq-utilities/browser-freenet
 
-# start file explorer
+# browser - freenet
+bindsym $mod+Shift+h exec ~/.config/minq-utilities/browser-hentai
+
+# file explorer
 bindsym $mod+n exec thunar
+
+##### else
 
 # change focus
 bindsym $mod+j focus left
