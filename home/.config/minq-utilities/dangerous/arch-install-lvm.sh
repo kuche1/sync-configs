@@ -31,20 +31,6 @@ pkg_install(){
 }
 
 aur_install(){
-	# chroot_run su me -c "echo \"${user_password}\" | paru --sudo sudo --sudoflags -S --noconfirm -S --needed \"$@\""
-
-# 	(cat << EOF
-# su me
-# #echo "#! /usr/bin/env bash" > /tmp/free-sudo.sh
-# #echo "echo \"${user_password}\" | sudo -S -k \"\$@\"" >> /tmp/free-sudo.sh
-# #chmod +x /tmp/free-sudo.sh
-# #paru --sudo /tmp/free-sudo.sh --noconfirm -S --needed "$@"
-# echo "${user_password}" | paru --sudo sudo --sudoflags -Sk --noconfirm -S --needed "$@"
-# exit
-# EOF
-# 	) | chroot_run bash
-	# TODO chown might have been the problem with the `visudo` fail
-
 	(cat << EOF
 set -e
 su me
@@ -141,87 +127,6 @@ EOF
 }
 
 config_visudo(){
-# 	(cat << EOF
-
-# cat << EOF2 > /tmp/visudo-fixer.py
-# #! /usr/bin/env python3
-# import sys
-# import argparse
-
-# TO_REPLACE   = '\n# %wheel ALL=(ALL:ALL) ALL\n'
-# REPLACE_WITH = '\n%wheel ALL=(ALL:ALL) ALL\n'
-
-# parser = argparse.ArgumentParser(description='Command line port of nhentai')
-# parser.add_argument(visudo_file)
-# args = parser.parse_args()
-# visudo_file = args.visudo_file
-
-# with open(visudo_file, 'r') as f:
-# 	cont = f.read()
-
-# match cont.count(TO_REPLACE):
-# 	case 0:
-# 		count = cont.count(REPLACE_WITH)
-# 		assert count == 1, f'invalid number of occurances of uncommented wheel: {count}' # TODO this assert doesn't seem to work
-# 		print('wheel already set up, exiting')
-# 		sys.exit()
-# 	case 1:
-# 		cont = cont.replace(TO_REPLACE, REPLACE_WITH)
-# 	case other:
-# 		assert False, f'invalid number of occurances of commented wheel: {other}'
-
-# with open(visudo_file, 'w') as f:
-# 	f.write(cont)
-
-# EOF2
-
-# chmod +x /tmp/visudo-fixer.py
-# EDITOR=/tmp/visudo-fixer.py visudo
-# exit
-# EOF
-# 	) | chroot_run bash
-
-# 	(cat << EOF
-# import sys
-# import os
-# import stat
-
-# with open('/tmp/visudo-fixer.py', 'w') as f:
-# 	f.write('''#! /usr/bin/env python3
-# import sys
-
-# TO_REPLACE   = '\n# %wheel ALL=(ALL:ALL) ALL\n'
-# REPLACE_WITH = '\n%wheel ALL=(ALL:ALL) ALL\n'
-
-# visudo_file = sys.argv[1]
-# with open(visudo_file, 'r') as f:
-# 	cont = f.read()
-
-# match cont.count(TO_REPLACE):
-# 	case 0:
-# 		count = cont.count(REPLACE_WITH)
-# 		assert count == 1, f'invalid number of occurances of uncommented wheel: {count}'
-# 		print('wheel already set up, exiting')
-# 		sys.exit()
-# 	case 1:
-# 		cont = cont.replace(TO_REPLACE, REPLACE_WITH)
-# 	case other:
-# 		assert False, f'invalid number of occurances of commented wheel: {other}'
-
-# with open(visudo_file, 'w') as f:
-# 	f.write(cont)
-
-# ''')
-
-# st = os.stat('/tmp/visudo-fixer.py')
-# os.chmod('/tmp/visudo-fixer.py', st.st_mode | stat.S_IEXEC)
-
-# os.system('EDITOR=/tmp/visudo-fixer.py visudo')
-
-# sys.exit()
-# EOF
-# 	) | chroot_run python3
-
 	pkg_install sudo
 		# this installs the `visudo` command
 
@@ -517,6 +422,7 @@ pkg_install mpv # video player
 pkg_install nomacs # image viewer
 pkg_install firefox # browser
 	pkg_install firefox-i18n-en-us firefox-i18n-bg # spelling
+aur_install thorium-browser-bin # chromium browser (for the sites that require that)
 pkg_install obs-studio # screen sharing
 pkg_install gummi # latex editor
 
@@ -569,6 +475,7 @@ pkg_install syncthing
 
 # vmware
 # TODO
+	# VMWARE_PREFERENCES_PATH = os.path.expanduser('~/.vmware/preferences')
     # if (not LAPTOP) and INSTALL_VMWARE:
     #     if not os.path.isdir(VMWARE_VMS_PATH):
     #         os.makedirs(VMWARE_VMS_PATH)
