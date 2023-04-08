@@ -411,7 +411,7 @@ pkg_install htop # system monitor
 pkg_install trash-cli # trash manager
 #pkg_install streamlink # enables watching streams (examples: yt, twitch)
 aur_install ani-cli-git # anime watcher
-pkg_install imagemagic # image converter
+pkg_install imagemagick # image converter
 
 # additional programs
 aur_install mangohud lib32-mangohud # gayming overlay
