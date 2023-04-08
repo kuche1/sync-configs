@@ -432,7 +432,7 @@ pkg_install pluma # text editor
 aur_install vscodium-bin # IDE
 aur_install rustdesk-bin # remote desktop
 pkg_install mpv # video player
-aur_install nomacs # image viewer
+#aur_install nomacs # image viewer # TODO wtf download is broken
 pkg_install firefox # browser
 	pkg_install firefox-i18n-en-us firefox-i18n-bg # spelling
 aur_install thorium-browser-bin # chromium browser (for the sites that require that)
