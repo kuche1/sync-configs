@@ -17,7 +17,6 @@ on_exit(){
 	exit ${ret_code}
 }
 
-#trap 'test $? != 0 && (echo "ctrl+c to enter debug" ; read tmp ; umount /mnt/boot/efi ; umount /mnt ; vgremove --force myVolGr)' EXIT
 trap on_exit EXIT
 
 # generic fncs
@@ -559,8 +558,4 @@ chroot_run groupadd -r autologin
 chroot_run gpasswd -a me autologin
 chroot_run systemctl enable lightdm
 
-# unmount and sync
-umount /mnt/boot/efi
-umount /mnt
 sync
-# TODO remove the unmounting once the `trap` fnc has been confirmed to work properly
