@@ -142,6 +142,8 @@ config_visudo(){
 
 # main
 
+number_of_disks=1
+
 # let user select boot disk
 lsblk
 printf ">>>>>> Enter boot disk (example: /dev/sda): \n"
@@ -160,7 +162,18 @@ while true; do
 	echo "checking if device exists"
 	test -b ${disk}
 	additional_disks="${additional_disks} ${disk}"
+	let 'number_of_disks+=1'
 done
+
+# striped lvm
+lvcreate_striped_flags=''
+printf ">>>>>> Use striped lvm? (leave empty for no): \n"
+read use_striped_lvm
+if [ "${use_striped_lvm}" != "" ]; then # use striped
+	printf ">>>>>> Select stripe number (current disk number ${number_of_disks}): \n"
+	read stripe_number
+	lvcreate_striped_flags="${lvcreate_striped_flags}-i${stripe_number}"
+fi
 
 # get password
 printf ">>>>>> Enter password: \n"
@@ -214,7 +227,7 @@ vgs
 vgchange -a y myVolGr
 
 # create logical volume
-lvcreate --yes -l 100%FREE myVolGr -n myRootVol
+lvcreate --yes -l 100%FREE myVolGr -n myRootVol ${lvcreate_striped_flags}
 
 # activate the volume group (wtf does this event do anything?)
 vgchange -a y myVolGr
