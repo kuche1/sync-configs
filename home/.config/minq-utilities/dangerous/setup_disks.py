@@ -23,6 +23,9 @@ class Device:
     def __lt__(s, other):
         return s.free_space < other.free_space
     def use_space(s, size):
+        remainder = size % 64
+        if remainder != 0:
+            size += (64 - remainder)
         s.used_space += size
         s.free_space -= size
 
@@ -79,7 +82,7 @@ while True:
 
     for dev in devs:
         #term(['parted', '-s', dev.path, 'mkpart', 'primary', 'ext4', f'{dev.used_space}B', f'{dev.used_space+size}B'])
-        term(['parted', '-s', dev.path, 'mkpart', 'primary', f'{dev.used_space+1}B', f'{dev.used_space+size}B'])
+        term(['parted', '-s', dev.path, 'mkpart', 'primary', f'{dev.used_space}B', f'{dev.used_space+size}B'])
         term(['parted', '-s', dev.path, 'set', dev.part, 'raid', 'on'])
         dev.use_space(size)
 
