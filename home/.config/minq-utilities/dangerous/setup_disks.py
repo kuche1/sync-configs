@@ -34,7 +34,7 @@ class Device:
         return f'{s.taken_space}GiB'
     
     def get_cur_part(s):
-        return f'{s.path}{s.cur_part}'
+        return f'{s.path}{s.part}'
 
 out = term_out(['lsblk', '--json'])
 devices = json.loads(out)
