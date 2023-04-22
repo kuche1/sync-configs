@@ -3,6 +3,8 @@
 set -e
 # exit on error
 
+HERE=$(dirname "$BASH_SOURCE")
+
 on_exit(){
 	ret_code="$?"
 	if [ "${ret_code}" != 0 ]; then
@@ -141,38 +143,38 @@ config_visudo(){
 
 # main
 
-number_of_disks=1
+# number_of_disks=1
 
-# let user select boot disk
-lsblk
-printf ">>>>>> Enter boot disk (example: /dev/sda): \n"
-read boot_disk
-echo "checking if device exists"
-test -b ${boot_disk}
-	# `-b` is for block device
+# # let user select boot disk
+# lsblk
+# printf ">>>>>> Enter boot disk (example: /dev/sda): \n"
+# read boot_disk
+# echo "checking if device exists"
+# test -b ${boot_disk}
+# 	# `-b` is for block device
 
-# let user select additional disks for lvm
-additional_disks=""
-while true; do
-	lsblk
-	printf ">>>>>> Enter additional disks (example: /dev/sdb) (leave empty to end): \n"
-	read disk
-	test -z "${disk}" && break
-	echo "checking if device exists"
-	test -b ${disk}
-	additional_disks="${additional_disks} ${disk}"
-	let 'number_of_disks+=1'
-done
+# # let user select additional disks for lvm
+# additional_disks=""
+# while true; do
+# 	lsblk
+# 	printf ">>>>>> Enter additional disks (example: /dev/sdb) (leave empty to end): \n"
+# 	read disk
+# 	test -z "${disk}" && break
+# 	echo "checking if device exists"
+# 	test -b ${disk}
+# 	additional_disks="${additional_disks} ${disk}"
+# 	let 'number_of_disks+=1'
+# done
 
-# striped lvm
-lvcreate_striped_flags=''
-printf ">>>>>> Use striped lvm? (leave empty for no): \n"
-read use_striped_lvm
-if [ "${use_striped_lvm}" != "" ]; then # use striped
-	printf ">>>>>> Select stripe number (current disk number ${number_of_disks}): \n"
-	read stripe_number
-	lvcreate_striped_flags="${lvcreate_striped_flags}-i${stripe_number}"
-fi
+# # striped lvm
+# lvcreate_striped_flags=''
+# printf ">>>>>> Use striped lvm? (leave empty for no): \n"
+# read use_striped_lvm
+# if [ "${use_striped_lvm}" != "" ]; then # use striped
+# 	printf ">>>>>> Select stripe number (current disk number ${number_of_disks}): \n"
+# 	read stripe_number
+# 	lvcreate_striped_flags="${lvcreate_striped_flags}-i${stripe_number}"
+# fi
 
 # get password
 printf ">>>>>> Enter password: \n"
@@ -182,64 +184,66 @@ read user_password
 set -o xtrace
 # you can disable this with `set +o xtrace`
 
-# format boot disk
-parted -s ${boot_disk} mklabel gpt
+# # format boot disk
+# parted -s ${boot_disk} mklabel gpt
 
-parted -s ${boot_disk} mkpart primary fat32 0% 512MiB
-parted -s ${boot_disk} set 1 esp on
+# parted -s ${boot_disk} mkpart primary fat32 0% 512MiB
+# parted -s ${boot_disk} set 1 esp on
 
-parted -s ${boot_disk} mkpart primary ext4 512MiB 100%
-parted -s ${boot_disk} set 2 lvm on
+# parted -s ${boot_disk} mkpart primary ext4 512MiB 100%
+# parted -s ${boot_disk} set 2 lvm on
 
-# format other disks
-for disk in ${additional_disks}; do
-	parted -s ${disk} mklabel gpt
-	parted -s ${disk} mkpart primary ext4 0% 100%
-	parted -s ${disk} set 1 lvm on
-done
+# # format other disks
+# for disk in ${additional_disks}; do
+# 	parted -s ${disk} mklabel gpt
+# 	parted -s ${disk} mkpart primary ext4 0% 100%
+# 	parted -s ${disk} set 1 lvm on
+# done
 
-boot_partition=${boot_disk}1
-# TODO if use is using SSD this will be `}p1` and not just `}1`
-# same goes for the line on the bottom
+# boot_partition=${boot_disk}1
+# # TODO if use is using SSD this will be `}p1` and not just `}1`
+# # same goes for the line on the bottom
 
-# write all LVM parts into variable
-lvm_partitions=${boot_disk}2
-for disk in ${additional_disks}; do
-	lvm_partitions="${lvm_partitions} ${disk}1"
-done
+# # write all LVM parts into variable
+# lvm_partitions=${boot_disk}2
+# for disk in ${additional_disks}; do
+# 	lvm_partitions="${lvm_partitions} ${disk}1"
+# done
 
-# activate
-for part in ${lvm_partitions}; do
-	pvcreate ${part}
-done
+# # activate
+# for part in ${lvm_partitions}; do
+# 	pvcreate ${part}
+# done
 
-# check if everything is OK
-pvs
+# # check if everything is OK
+# pvs
 
-vgcreate myVolGr ${lvm_partitions}
+# vgcreate myVolGr ${lvm_partitions}
 
-# check
-vgs
+# # check
+# vgs
 
-# activate the volume group (wtf does this event do anything?)
-# this might be useless
-#vgchange -a y myVolGr
-# TODO testing removing this, will have to revert it if it actually breaks things
+# # activate the volume group (wtf does this event do anything?)
+# # this might be useless
+# #vgchange -a y myVolGr
+# # TODO testing removing this, will have to revert it if it actually breaks things
 
-# create logical volume
-lvcreate --yes -l 100%FREE myVolGr -n myRootVol ${lvcreate_striped_flags}
+# # create logical volume
+# lvcreate --yes -l 100%FREE myVolGr -n myRootVol ${lvcreate_striped_flags}
 
-# activate the volume group (wtf does this event do anything?)
-#vgchange -a y myVolGr
-# TODO testing removing this, will have to revert it if it actually breaks things
+# # activate the volume group (wtf does this event do anything?)
+# #vgchange -a y myVolGr
+# # TODO testing removing this, will have to revert it if it actually breaks things
 
-# check
-lvs
+# # check
+# lvs
 
-# format
-mkfs.fat -F32 ${boot_partition}
-mkfs.ext4 -F /dev/mapper/myVolGr-myRootVol
-	# `-F` so that there are no confirmation prompts from the user
+# # format
+# mkfs.fat -F32 ${boot_partition}
+# mkfs.ext4 -F /dev/mapper/myVolGr-myRootVol
+# 	# `-F` so that there are no confirmation prompts from the user
+
+"${HERE}"/setup_disks.py
 
 mount /dev/mapper/myVolGr-myRootVol /mnt
 
