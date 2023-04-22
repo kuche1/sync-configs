@@ -6,6 +6,8 @@ import json
 VOL_GR_NAME = 'myVolGr'
 LV_NAME = 'myRootVol'
 
+SECTOR_SIZE = 512 # TODO this might be wrong
+
 def term(cmd:list[str], *a, **kw):
     print(f'+ running: {" ".join(cmd)}')
     return subprocess.run(cmd, check=True, *a, **kw)
@@ -23,9 +25,9 @@ class Device:
     def __lt__(s, other):
         return s.free_space < other.free_space
     def use_space(s, size):
-        remainder = size % 64
+        remainder = size % SECTOR_SIZE
         if remainder != 0:
-            size += (64 - remainder)
+            size += (SECTOR_SIZE - remainder)
         s.used_space += size
         s.free_space -= size
 
