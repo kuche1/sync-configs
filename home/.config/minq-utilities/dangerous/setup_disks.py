@@ -7,7 +7,7 @@ VOL_GR_NAME = 'myVolGr'
 LV_NAME = 'myRootVol'
 
 def term(cmd:list[str], *a, **kw):
-    print(f'+ running: {" ".join(cmd)}')
+    print(f'+ running `{" ".join(cmd)}`')
     return subprocess.run(cmd, check=True, *a, **kw)
 
 def term_out(cmd:list[str]):
