@@ -14,10 +14,10 @@ def term_out(cmd:list[str]):
     return term(cmd, capture_output=True).stdout.decode()
 
 class Device:
-    def __init__(s, path, cur_part, cur_used_space):
+    def __init__(s, path, cur_part):
         s.path = path
         s.part = cur_part
-        s.used_space = cur_used_space
+        s.used_space = 0
         s.total_space = int(term_out(['blockdev', '--getsize64', path]))
         s.free_space = s.total_space - s.used_space
     def __lt__(s, other):
@@ -62,10 +62,11 @@ term(['parted', '-s', boot_dev, 'set', '1', 'esp', 'on'])
 
 term(['mkfs.fat', '-F32', f'{boot_dev}1'])
 
-devs = [Device(boot_dev, 2, boot_dev_bytes)]
+devs = [Device(boot_dev, 2)]
+devs[0].use_space(boot_dev_bytes)
 for dev in devices:
     term(['parted', '-s', dev, 'mklabel', 'gpt'])
-    devs.append(Device(dev, 1, 0))
+    devs.append(Device(dev, 1))
 
 cur_md = 0
 
