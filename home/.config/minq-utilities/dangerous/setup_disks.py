@@ -32,6 +32,9 @@ class Device:
     def inc_cur_space(s, size:int)->str:
         s.taken_space += size
         return f'{s.taken_space}GiB'
+    
+    def get_cur_part(s):
+        return f'{s.path}{s.cur_part}'
 
 out = term_out(['lsblk', '--json'])
 devices = json.loads(out)
@@ -86,7 +89,7 @@ while True:
         dev.part += 1
         term(['parted', '-s', dev.path, 'set', dev.part, 'raid', 'on'])
 
-    term(['mdadm', '-Cv', '-l0', '-c64', f'-n{len(devs)}', f'/dev/md{cur_md}'] + [dev.path for dev in devs])
+    term(['mdadm', '-Cv', '-l0', '-c64', f'-n{len(devs)}', f'/dev/md{cur_md}'] + [dev.get_cur_part() for dev in devs])
     cur_md += 1
 
     while True:
