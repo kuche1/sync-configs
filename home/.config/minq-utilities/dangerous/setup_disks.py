@@ -87,7 +87,7 @@ while True:
     for dev in devs:
         term(['parted', '-s', dev.path, 'mkpart', 'primary', dev.get_cur_space(), dev.inc_cur_space(size)])
         dev.part += 1
-        term(['parted', '-s', dev.path, 'set', dev.part, 'raid', 'on'])
+        #term(['parted', '-s', dev.path, 'set', dev.part, 'raid', 'on'])
 
     term(['mdadm', '-Cv', '-l0', '-c64', f'-n{len(devs)}', f'/dev/md{cur_md}'] + [dev.get_cur_part() for dev in devs])
     cur_md += 1
