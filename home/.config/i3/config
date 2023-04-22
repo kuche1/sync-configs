@@ -303,6 +303,7 @@ for_window [class="SIGMA"] floating enable #-------------------------# godot
 for_window [class="steam_proton" title="^euphoria$"] floating enable
 for_window [class="wasp"] floating enable #--------------------------# godot
 for_window [title="Maggot baits"] floating enable
+for_window [title="Making History TGW"] floating enable
 ### set sticky
 #for_window [class="spectacle"] sticky enable
 ### set workspace
@@ -398,9 +399,9 @@ exec --no-startup-id $is_not_laptop && ~/.config/minq-utilities/torrent-daemon
 # keyboard language
 #bindsym $mod+i exec --no-startup-id setxkbmap -layout "us"
 #bindsym $mod+o exec --no-startup-id setxkbmap -layout "bg(phonetic)"
-exec_always --no-startup-id setxkbmap -layout "us,bg(phonetic)" -option "grp:alt_shift_toggle"
+#exec_always --no-startup-id setxkbmap -layout "us,bg(phonetic)" -option "grp:alt_shift_toggle"
 #exec_always --no-startup-id setxkbmap -layout "us,bg(phonetic)" -option "grp:alts_toggle"
-#exec_always --no-startup-id setxkbmap -layout "us,bg(phonetic)" -option "grp:ctrls_toggle"
+exec_always --no-startup-id setxkbmap -layout "us,bg(phonetic)" -option "grp:ctrls_toggle"
 
 # audio sharing sync
 #exec_always --no-startup-id ~/.config/i3/create-virtual-sinks-for-audio-sharing.sh
