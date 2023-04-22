@@ -7,6 +7,7 @@ VOL_GR_NAME = 'myVolGr'
 LV_NAME = 'myRootVol'
 
 def term(cmd:list[str], *a, **kw):
+    cmd = [str(c) for c in cmd]
     print(f'+ running `{" ".join(cmd)}`')
     return subprocess.run(cmd, check=True, *a, **kw)
 
@@ -77,7 +78,7 @@ while True:
         break
 
     print(term_out(['lsblk']))
-    size = input('Select size for next raid0 (example: 80 (in GiB)): ')
+    size = input('Select size for next raid0 in GiB (example: 79): ')
     assert int(size) == float(size) # needs to be an int
     size = int(size)
     for dev in devs:
