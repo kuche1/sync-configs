@@ -6,11 +6,12 @@ import json
 VOL_GR_NAME = 'myVolGr'
 LV_NAME = 'myRootVol'
 
-def term(cmd:list[str]):
-    return subprocess.run(cmd, check=True)
+def term(cmd:list[str], *a, **kw):
+    print(f'+ running: {' '.join(cmd)}')
+    return subprocess.run(cmd, check=True, *a, **kw)
 
 def term_out(cmd:list[str]):
-    return subprocess.run(cmd, check=True, capture_output=True).stdout.decode()
+    return term(cmd, capture_output=True).stdout.decode()
 
 class Device:
     def __init__(s, path, cur_part, cur_used_space):
