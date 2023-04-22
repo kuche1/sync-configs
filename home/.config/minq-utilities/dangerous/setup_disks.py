@@ -84,7 +84,7 @@ while True:
 
     for dev in devs:
         #term(['parted', '-s', dev.path, 'mkpart', 'primary', 'ext4', f'{dev.used_space}B', f'{dev.used_space+size}B'])
-        term(['parted', '-s', dev.path, 'mkpart', 'primary', f'{dev.used_space}B', f'{dev.used_space+size}B'])
+        term(['parted', '-s', dev.path, 'mkpart', 'primary', f'{dev.used_space+1}B', f'{dev.used_space+size}B'])
         term(['parted', '-s', dev.path, 'set', dev.part, 'raid', 'on'])
         dev.use_space(size)
 
