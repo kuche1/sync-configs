@@ -111,6 +111,11 @@ for md in range(cur_md):
 for md in mds:
     term(['pvcreate', md])
 
+for dev in devs:
+    term(['parted', '-s', dev.path, 'mkpart', 'primary', dev.get_cur_space(), '100%'])
+    # TODO cur_space if now out of data
+    dev.part += 1
+
 term(['vgcreate', 'myVolGr'] + mds + [dev.get_cur_part() for dev in devs]) # include all raid0s and the empty space of the last disk (if there is one)
 
 term(['lvcreate', '--yes', '-l', '100%FREE', 'myVolGr', '-n', 'myRootVol'])
