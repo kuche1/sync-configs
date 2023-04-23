@@ -99,8 +99,8 @@ while True:
         dev = input('> ')
         if dev == '':
             break
-        paths.remove(dev)
         del devs[paths.index(dev)]
+        paths.remove(dev)
 
 mds = []
 for md in range(cur_md):
