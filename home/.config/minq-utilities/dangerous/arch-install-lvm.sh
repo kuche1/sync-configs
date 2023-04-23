@@ -21,6 +21,7 @@ on_exit(){
 			dev=/dev/md${i}
 			test -b ${dev} || break
 			mdadm --stop ${dev}
+			mdadm --remove ${dev}
 			let 'i+=1'
 		done
 	fi
