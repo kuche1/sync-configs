@@ -24,6 +24,8 @@ on_exit(){
 			mdadm --remove ${dev}
 			let 'i+=1'
 		done
+
+		# TODO mdadm --zero-superblock /dev/sda2 /dev/sdb1
 	fi
 	exit ${ret_code}
 }
