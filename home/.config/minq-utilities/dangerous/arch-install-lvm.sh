@@ -164,11 +164,6 @@ set -o xtrace
 
 "${HERE}"/setup_disks.py
 
-mount /dev/mapper/myVolGr-myRootVol /mnt
-
-mkdir -p /mnt/boot/efi
-mount ${boot_partition} /mnt/boot/efi
-
 mkdir /mnt/etc
 
 genfstab -U -p /mnt >> /mnt/etc/fstab

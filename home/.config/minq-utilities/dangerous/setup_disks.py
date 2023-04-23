@@ -68,6 +68,8 @@ dev = input('> ')
 boot_dev = dev
 devs.remove(boot_dev)
 
+boot_part = f'{boot_dev}1'
+
 term(['parted', '-s', boot_dev, 'mkpart', 'primary', 'fat32', '0%', '1GiB'])
 term(['parted', '-s', boot_dev, 'set', '1', 'esp', 'on'])
 term(['mkfs.fat', '-F32', f'{boot_dev}1'])
@@ -121,3 +123,9 @@ term(['vgcreate', 'myVolGr'] + mds + [dev.get_cur_part() for dev in devs]) # inc
 term(['lvcreate', '--yes', '-l', '100%FREE', 'myVolGr', '-n', 'myRootVol'])
 
 term(['mkfs.ext4', '-F', '/dev/mapper/myVolGr-myRootVol'])
+
+term(['mount', '/dev/mapper/myVolGr-myRootVol', '/mnt'])
+
+term(['mkdir', '-p', '/mnt/boot/efi'])
+
+term(['mount', boot_part, '/mnt/boot/efi'])
