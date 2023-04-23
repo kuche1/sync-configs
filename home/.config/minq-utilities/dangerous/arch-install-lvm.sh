@@ -11,10 +11,10 @@ on_exit(){
 		echo "an error has been encountered; press ctrl+c to enter debug"
 		read tmp
 	fi
-	umount /mnt/boot/efi || echo 0
-	umount /mnt || echo 0
+	umount /mnt/boot/efi || true
+	umount /mnt || true
 	if [ "${ret_code}" != 0 ]; then
-		vgremove --force myVolGr || echo 0
+		vgremove --force myVolGr || true
 
 		i=0
 		while true; do
