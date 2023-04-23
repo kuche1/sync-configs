@@ -81,7 +81,7 @@ while True:
         break
 
     print(term_out(['lsblk']))
-    size = input('Select size for next raid0 in GiB (example: 79): ')
+    size = input('Select size for next raid0 in GiB (you should select the actual size - 1) (example: 79): ')
     assert int(size) == float(size) # needs to be an int
     size = int(size)
     for dev in devs:
@@ -111,7 +111,7 @@ for md in range(cur_md):
 for md in mds:
     term(['pvcreate', md])
 
-term(['vgcreate', 'myVolGr'] + mds + devs) # include all raid0s and the empty space of the last disk (if there is one)
+term(['vgcreate', 'myVolGr'] + mds + [dev.path for dev in devs]) # include all raid0s and the empty space of the last disk (if there is one)
 
 term(['lvcreate', '--yes', '-l', '100%FREE', 'myVolGr', '-n', 'myRootVol'])
 
