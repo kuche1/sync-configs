@@ -177,7 +177,7 @@ config_visudo(){
 # fi
 
 # get password
-printf ">>>>>> Enter password: \n"
+printf "Enter password: \n> "
 read user_password
 
 # enable debug output from now on
