@@ -104,27 +104,33 @@ while True:
         del devs[paths.index(dev)]
         paths.remove(dev)
 
-mds = []
-for md in range(cur_md):
-    md = f'/dev/md{md}'
-    mds.append(md)
-    # term(['mkfs.ext4', md])
+    break # TODO debug
 
-for md in mds:
-    term(['pvcreate', md])
+# mds = []
+# for md in range(cur_md):
+#     md = f'/dev/md{md}'
+#     mds.append(md)
+#     # term(['mkfs.ext4', md])
 
-for dev in devs:
-    term(['parted', '-s', dev.path, 'mkpart', 'primary', dev.get_cur_space(), '100%'])
-    # TODO cur_space is now out of data
-    dev.part += 1
+# for md in mds:
+#     term(['pvcreate', md])
 
-term(['vgcreate', 'myVolGr'] + mds + [dev.get_cur_part() for dev in devs]) # include all raid0s and the empty space of the last disk (if there is one)
+# for dev in devs:
+#     term(['parted', '-s', dev.path, 'mkpart', 'primary', dev.get_cur_space(), '100%'])
+#     # TODO cur_space is now out of data
+#     dev.part += 1
 
-term(['lvcreate', '--yes', '-l', '100%FREE', 'myVolGr', '-n', 'myRootVol'])
+# term(['vgcreate', 'myVolGr'] + mds + [dev.get_cur_part() for dev in devs]) # include all raid0s and the empty space of the last disk (if there is one)
 
-term(['mkfs.ext4', '-F', '/dev/mapper/myVolGr-myRootVol'])
+# term(['lvcreate', '--yes', '-l', '100%FREE', 'myVolGr', '-n', 'myRootVol'])
 
-term(['mount', '/dev/mapper/myVolGr-myRootVol', '/mnt'])
+# term(['mkfs.ext4', '-F', '/dev/mapper/myVolGr-myRootVol'])
+
+# term(['mount', '/dev/mapper/myVolGr-myRootVol', '/mnt'])
+
+term(['mkfs.ext4', '-F', '/dev/md0']) # TODO debug
+
+term(['mount', '/dev/md0', '/mnt']) # TODO debug
 
 term(['mkdir', '-p', '/mnt/boot/efi'])
 
