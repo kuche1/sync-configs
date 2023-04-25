@@ -158,6 +158,10 @@ config_visudo(){
 printf "Enter password: \n> "
 read user_password
 
+# minimal install, used for debugging
+printf ">>>>>> Do you want minimal install (used for debugging) (leave empty for no)?: \n"
+read minimal_install
+
 # enable debug output from now on
 set -o xtrace
 # you can disable this with `set +o xtrace`
@@ -174,6 +178,7 @@ pacstrap /mnt base
 fix_pacman_config
 
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
+pkg_install mdadm # important for raid
 chroot_run systemctl enable NetworkManager
 # also install some wifi tools
 pkg_install wpa_supplicant wireless_tools netctl
@@ -240,9 +245,9 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
 # update-grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
-# TODO debug
-sync
-exit 0
+if [ "${minimal_install}" != ""]; then
+	exit 0
+fi
 
 # display server
 pkg_install xorg-server

@@ -261,6 +261,7 @@ pacstrap /mnt base
 fix_pacman_config
 
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog lvm2
+pkg_install mdadm # important for raid
 chroot_run systemctl enable NetworkManager
 # also install some wifi tools
 pkg_install wpa_supplicant wireless_tools netctl
@@ -327,7 +328,6 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
 # update-grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
-# TODO debug
 if [ "${minimal_install}" != ""]; then
 	exit 0
 fi
