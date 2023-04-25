@@ -5,6 +5,7 @@ set -e
 
 on_exit(){
 	ret_code="$?"
+	sync
 	if [ "${ret_code}" != 0 ]; then
 		echo "an error has been encountered; press ctrl+c to enter debug"
 		read tmp
@@ -178,6 +179,10 @@ fi
 printf ">>>>>> Enter password: \n"
 read user_password
 
+# minimal install, used for debugging
+printf ">>>>>> Do you want minimal install (used for debugging) (leave empty for no)?: \n"
+read minimal_install
+
 # enable debug output from now on
 set -o xtrace
 # you can disable this with `set +o xtrace`
@@ -323,8 +328,9 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
 # TODO debug
-sync
-exit 0
+if [ "${minimal_install}" != ""]; then
+	exit 0
+fi
 
 # display server
 pkg_install xorg-server
@@ -563,5 +569,3 @@ chroot_run sed -i -z 's%\n#autologin-user=\n%\nautologin-user=me\n%' /etc/lightd
 chroot_run groupadd -r autologin
 chroot_run gpasswd -a me autologin
 chroot_run systemctl enable lightdm
-
-sync
