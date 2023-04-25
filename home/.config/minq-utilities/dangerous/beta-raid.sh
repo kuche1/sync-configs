@@ -253,8 +253,13 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
 if [ "${minimal_install}" != ""]; then
+	printf "minimal install is on\n"
 	exit 0
 fi
+
+printf "minimal install is off\n"
+
+read tmp
 
 # display server
 pkg_install xorg-server
