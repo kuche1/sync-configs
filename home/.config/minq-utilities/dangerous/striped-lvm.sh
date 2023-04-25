@@ -146,7 +146,7 @@ number_of_disks=1
 
 # let user select boot disk
 lsblk
-printf ">>>>>> Enter boot disk (example: /dev/sda): \n"
+printf "Enter boot disk (example: /dev/sda): \n> "
 read boot_disk
 echo "checking if device exists"
 test -b ${boot_disk}
@@ -156,7 +156,7 @@ test -b ${boot_disk}
 additional_disks=""
 while true; do
 	lsblk
-	printf ">>>>>> Enter additional disks (example: /dev/sdb) (leave empty to end): \n"
+	printf "Enter additional disks (example: /dev/sdb) (leave empty to end): \n> "
 	read disk
 	test -z "${disk}" && break
 	echo "checking if device exists"
@@ -167,20 +167,20 @@ done
 
 # striped lvm
 lvcreate_striped_flags=''
-printf ">>>>>> Use striped lvm? (leave empty for no): \n"
+printf "Use striped lvm? (leave empty for no): \n> "
 read use_striped_lvm
 if [ "${use_striped_lvm}" != "" ]; then # use striped
-	printf ">>>>>> Select stripe number (current disk number ${number_of_disks}): \n"
+	printf "Select stripe number (current disk number ${number_of_disks}): \n> "
 	read stripe_number
 	lvcreate_striped_flags="${lvcreate_striped_flags}-i${stripe_number}"
 fi
 
 # get password
-printf ">>>>>> Enter password: \n"
+printf "Enter password: \n> "
 read user_password
 
 # minimal install, used for debugging
-printf ">>>>>> Do you want minimal install (used for debugging) (leave empty for no)?: \n"
+printf "Do you want minimal install (used for debugging) (leave empty for no)?: \n> "
 read minimal_install
 
 # enable debug output from now on

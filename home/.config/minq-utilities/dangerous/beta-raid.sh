@@ -159,7 +159,7 @@ printf "Enter password: \n> "
 read user_password
 
 # minimal install, used for debugging
-printf ">>>>>> Do you want minimal install (used for debugging) (leave empty for no)?: \n"
+printf "Do you want minimal install (used for debugging) (leave empty for no)?: \n> "
 read minimal_install
 
 # enable debug output from now on
