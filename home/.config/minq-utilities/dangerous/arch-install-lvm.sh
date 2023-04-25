@@ -240,6 +240,10 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
 # update-grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
+# TODO debug
+sync
+exit 0
+
 # display server
 pkg_install xorg-server
 
