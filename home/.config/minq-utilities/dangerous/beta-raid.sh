@@ -26,6 +26,12 @@ on_exit(){
 		done
 
 		# TODO mdadm --zero-superblock /dev/sda2 /dev/sdb1
+		# TODo vvvv this is a hack
+		for letter in a b c ; do
+			for number in 1 2 3 ; do
+				mdadm --zero-superblock /dev/sd${letter}${number} || true
+			done
+		done
 	fi
 	exit ${ret_code}
 }
