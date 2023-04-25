@@ -172,7 +172,8 @@ read minimal_install
 set -o xtrace
 # you can disable this with `set +o xtrace`
 
-"${HERE}"/setup_disks.py
+# TODO debug, uncomment
+# "${HERE}"/setup_disks.py
 
 mkdir /mnt/etc
 
