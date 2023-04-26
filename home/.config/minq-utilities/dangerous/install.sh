@@ -69,7 +69,7 @@ import sys
 HOOKS_NEW = ' lvm2 mdadm_udev filesystems '
 
 BINARIES_ORIGINAL = '\nBINARIES=""\n'
-BINARIES_NEW ='\nBINARIES="/sbin/mdmon"\n'
+BINARIES_NEW = '\nBINARIES="/sbin/mdmon"\n'
 
 with open('/etc/mkinitcpio.conf', 'r') as f:
 	cont = f.read()
@@ -94,7 +94,7 @@ cont = cont[:found.start()] + hooks + cont[found.end():]
 # add mdadm to binaries
 
 count = cont.count(BINARIES_ORIGINAL)
-assert count == 1, f'string `{BINARIES_ORIGINAL}` found {count} times'
+assert count == 1, f'string "{BINARIES_ORIGINAL}" found {count} times (should have been 1)'
 cont = cont.replace(BINARIES_ORIGINAL, BINARIES_NEW)
 
 # save changes
