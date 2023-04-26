@@ -5,16 +5,29 @@ set -e
 
 on_exit(){
 	ret_code="$?"
+
 	sync
+
 	if [ "${ret_code}" != 0 ]; then
 		echo "an error has been encountered; press ctrl+c to enter debug"
 		read tmp
 	fi
+
 	umount /mnt/boot/efi || echo 0
 	umount /mnt || echo 0
+
 	if [ "${ret_code}" != 0 ]; then
 		vgremove --force myVolGr || echo 0
+
+		mdadm --stop /dev/md0
+
+		mdadm --zero-superblock /dev/sda1 || true
+		# TODO vvvv hack
+		for letter in a b c d e ; do
+			mdadm --zero-superblock /dev/sd${letter}2 || true
+		done
 	fi
+
 	exit ${ret_code}
 }
 
@@ -55,8 +68,8 @@ import sys
 
 HOOKS_NEW = ' lvm2 mdadm_udev filesystems '
 
-BINARIES_ORIGINAL = 'BINARIES=""'
-BINARIES_NEW ='BINARIES="/sbin/mdmon"'
+BINARIES_ORIGINAL = '\nBINARIES=""\n'
+BINARIES_NEW ='\nBINARIES="/sbin/mdmon"\n'
 
 with open('/etc/mkinitcpio.conf', 'r') as f:
 	cont = f.read()
@@ -80,7 +93,8 @@ cont = cont[:found.start()] + hooks + cont[found.end():]
 
 # add mdadm to binaries
 
-assert cont.count(BINARIES_ORIGINAL) == 1
+count = cont.count(BINARIES_ORIGINAL)
+assert count == 1, f'string `{BINARIES_ORIGINAL}` found {count} times'
 cont = cont.replace(BINARIES_ORIGINAL, BINARIES_NEW)
 
 # save changes
