@@ -301,7 +301,8 @@ else # mdadm
 	parted -s /dev/md0 mklabel gpt
 
 	parted -s /dev/md0 mkpart primary ext4 0% 100%
-	mkfs.ext4 /dev/md0p1
+	mkfs.ext4 -F /dev/md0p1
+		# `-F` so that there are no confirmation prompts from the user
 
 	mount /dev/md0p1 /mnt
 
