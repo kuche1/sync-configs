@@ -321,7 +321,7 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 # u can also double-check the file just in case
 if [ $use_mdadm == 1 ]; then
 	# TODO automate
-	micro /mnt/etc/fstab
+	#micro /mnt/etc/fstab
 	# (replace UUIDs with device name. Ex: /dev/md0p1, /dev/md0p2)
 
 	# NOTE we can try to remove the `-U` flag
