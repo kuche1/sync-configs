@@ -217,6 +217,9 @@ mkdir /mnt/etc
 genfstab -U -p /mnt >> /mnt/etc/fstab
 # u can also double-check the file just in case
 
+# TODO
+micro /mnt/etc/fstab
+
 pacstrap /mnt base
 
 fix_pacman_config
