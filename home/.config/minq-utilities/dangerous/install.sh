@@ -322,14 +322,6 @@ mkdir /mnt/etc
 
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
-# if [ $use_mdadm == 1 ]; then
-# 	# TODO automate
-# 	micro /mnt/etc/fstab
-# 	# (replace UUIDs with device name. Ex: /dev/md0p1, /dev/md0p2)
-
-# 	# NOTE we can try to remove the `-U` flag
-# fi
-
 pacstrap /mnt base
 
 fix_pacman_config
@@ -405,10 +397,6 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
     # sudo_replace_string(GRUB_CONF_PATH,# TODO fix if not the first item
     #     '\nGRUB_CMDLINE_LINUX_DEFAULT="quiet ',
     #     '\nGRUB_CMDLINE_LINUX_DEFAULT="noquiet ')
-# if [ $use_mdadm == 1 ]; then
-# 	# TODO can we make it so that this is not needed
-# 	chroot_run sed -i -z 's%\n#GRUB_DISABLE_LINUX_UUID=true\n%\nGRUB_DISABLE_LINUX_UUID=true\n%' /etc/default/grub
-# fi
 # update-grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
