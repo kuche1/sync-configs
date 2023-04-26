@@ -405,10 +405,10 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
     # sudo_replace_string(GRUB_CONF_PATH,# TODO fix if not the first item
     #     '\nGRUB_CMDLINE_LINUX_DEFAULT="quiet ',
     #     '\nGRUB_CMDLINE_LINUX_DEFAULT="noquiet ')
-if [ $use_mdadm == 1 ]; then
-	# TODO can we make it so that this is not needed
-	chroot_run sed -i -z 's%\n#GRUB_DISABLE_LINUX_UUID=true\n%\nGRUB_DISABLE_LINUX_UUID=true\n%' /etc/default/grub
-fi
+# if [ $use_mdadm == 1 ]; then
+# 	# TODO can we make it so that this is not needed
+# 	chroot_run sed -i -z 's%\n#GRUB_DISABLE_LINUX_UUID=true\n%\nGRUB_DISABLE_LINUX_UUID=true\n%' /etc/default/grub
+# fi
 # update-grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
