@@ -174,6 +174,42 @@ set -o xtrace
 
 # TODO debug, uncomment
 # "${HERE}"/setup_disks.py
+# TODO debug, remove
+
+parted -s /dev/sda mklabel gpt
+parted -s /dev/sdb mklabel gpt
+
+parted -s /dev/sda mkpart primary 0% 100%
+parted -s /dev/sdb mkpart primary 0% 100%
+
+mdadm -Cv /dev/md0 -l0 -n2 /dev/sd[a-b]1
+
+parted -s /dev/md0 mklabel gpt
+
+parted -s /dev/md0 mkpart primary fat32 0% 512MiB
+parted -s /dev/md0 set 1 esp on
+mkfs.fat -F32 /dev/md0p1
+
+parted -s /dev/md0 mkpart primary ext4 512MiB 100%
+mkfs.ext4 /dev/md0p2
+
+mount /dev/md0p2 /mnt
+
+mkdir -p /mnt/boot/efi
+mount /dev/md0p1 /mnt/boot/efi
+
+# TODO
+# Once the installation completed we need to create fstab entries for the installed OS.
+# genfstab -U /mnt > /mnt/etc/fstab
+# nano /mnt/etc/fstab (replace UUIDs with device name. Ex: /dev/md0p1, /dev/md0p2)
+# NOTE we can just remove the `-U` flag
+
+# TODO `mdadm --detail --scan --verbose   >>   /mnt/etc/mdadm.conf`
+
+# TODO Work on some grub stuff
+# Now edit mkinitcpio.conf file. Add mdadm_udev to HOOKS and /sbin/mdmon to BINARIES
+
+# TODO end
 
 mkdir /mnt/etc
 
@@ -252,7 +288,7 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
 # update-grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
-if [ "${minimal_install}" != ""]; then
+if [ "${minimal_install}" != "" ]; then
 	printf "minimal install is on\n"
 	exit 0
 fi

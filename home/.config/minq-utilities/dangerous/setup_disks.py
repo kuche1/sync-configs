@@ -91,6 +91,7 @@ while True:
         dev.part += 1
         #term(['parted', '-s', dev.path, 'set', dev.part, 'raid', 'on'])
 
+    # TODO no need to specifu the blocksize with `-c64`
     term(['mdadm', '-Cv', '-l0', '-c64', f'-n{len(devs)}', f'/dev/md{cur_md}'] + [dev.get_cur_part() for dev in devs])
     cur_md += 1
 

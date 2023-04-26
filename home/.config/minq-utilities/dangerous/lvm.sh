@@ -328,7 +328,7 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
 # update-grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
-if [ "${minimal_install}" != ""]; then
+if [ "${minimal_install}" != "" ]; then
 	exit 0
 fi
 
