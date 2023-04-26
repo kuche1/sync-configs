@@ -3,6 +3,8 @@
 set -e
 # exit on error
 
+HERE=$(dirname "$BASH_SOURCE")
+
 on_exit(){
 	ret_code="$?"
 
