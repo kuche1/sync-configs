@@ -1,5 +1,12 @@
 #! /usr/bin/env bash
 
+# resources
+#
+# raid0 mdadm
+# https://www.golinuxcloud.com/configure-software-raid-0-array-linux/
+# https://blog.bjdean.id.au/2020/10/md-software-raid-and-lvm-logical-volume-management/#pvcreate
+# (most important, almost solved my problem singlehandedly) https://www.serveradminz.com/blog/installation-of-arch-linux-using-software-raid/
+
 set -e
 # exit on error
 
