@@ -72,8 +72,8 @@ import sys
 
 HOOKS_NEW = ' lvm2 mdadm_udev filesystems '
 
-BINARIES_ORIGINAL = '\nBINARIES=""\n'
-BINARIES_NEW = '\nBINARIES="/sbin/mdmon"\n'
+BINARIES_ORIGINAL = '\nBINARIES=()\n'
+BINARIES_NEW = '\nBINARIES=(/sbin/mdmon)\n'
 
 with open('/etc/mkinitcpio.conf', 'r') as f:
 	cont = f.read()
