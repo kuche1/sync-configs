@@ -186,7 +186,7 @@ echo "checking if device exists"
 test -b ${boot_disk}
 	# `-b` is for block device
 
-# let user select additional disks for lvm
+# let user select additional disks
 additional_disks=""
 while true; do
 	lsblk
@@ -198,6 +198,7 @@ while true; do
 	additional_disks="${additional_disks} ${disk}"
 	let 'number_of_disks+=1'
 done
+#additional_disks=$("$HERE"/select_devices $boot_disk)
 
 # mdadm raid0
 
@@ -320,14 +321,14 @@ mount ${boot_partition} /mnt/boot/efi
 mkdir /mnt/etc
 
 genfstab -U -p /mnt >> /mnt/etc/fstab
-# u can also double-check the file just in case
-if [ $use_mdadm == 1 ]; then
-	# TODO automate
-	#micro /mnt/etc/fstab
-	# (replace UUIDs with device name. Ex: /dev/md0p1, /dev/md0p2)
 
-	# NOTE we can try to remove the `-U` flag
-fi
+# if [ $use_mdadm == 1 ]; then
+# 	# TODO automate
+# 	micro /mnt/etc/fstab
+# 	# (replace UUIDs with device name. Ex: /dev/md0p1, /dev/md0p2)
+
+# 	# NOTE we can try to remove the `-U` flag
+# fi
 
 pacstrap /mnt base
 
