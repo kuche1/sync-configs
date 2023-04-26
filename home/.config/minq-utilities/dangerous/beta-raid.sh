@@ -179,24 +179,25 @@ set -o xtrace
 parted -s /dev/sda mklabel gpt
 parted -s /dev/sdb mklabel gpt
 
-parted -s /dev/sda mkpart primary 0% 100%
+parted -s /dev/sda mkpart primary fat32 0% 512MiB
+parted -s /dev/sda set 1 esp on
+mkfs.fat -F32 /dev/sda1
+
+parted -s /dev/sda mkpart primary ext4 512MiB 100%
+
 parted -s /dev/sdb mkpart primary 0% 100%
 
-mdadm -Cv /dev/md0 -l0 -n2 /dev/sd[a-b]1
+mdadm -Cv /dev/md0 -l0 -n2 /dev/sda2 /dev/sdb1
 
 parted -s /dev/md0 mklabel gpt
 
-parted -s /dev/md0 mkpart primary fat32 0% 512MiB
-parted -s /dev/md0 set 1 esp on
-mkfs.fat -F32 /dev/md0p1
+parted -s /dev/md0 mkpart primary ext4 0% 100%
+mkfs.ext4 /dev/md0p1
 
-parted -s /dev/md0 mkpart primary ext4 512MiB 100%
-mkfs.ext4 /dev/md0p2
-
-mount /dev/md0p2 /mnt
+mount /dev/md0p1 /mnt
 
 mkdir -p /mnt/boot/efi
-mount /dev/md0p1 /mnt/boot/efi
+mount /dev/sda1 /mnt/boot/efi
 
 # TODO
 # Once the installation completed we need to create fstab entries for the installed OS.
@@ -216,6 +217,9 @@ mkdir /mnt/etc
 genfstab -U -p /mnt >> /mnt/etc/fstab
 # u can also double-check the file just in case
 
+# TODO
+micro /mnt/etc/fstab
+
 pacstrap /mnt base
 
 fix_pacman_config
@@ -226,7 +230,17 @@ chroot_run systemctl enable NetworkManager
 # also install some wifi tools
 pkg_install wpa_supplicant wireless_tools netctl
 
+# TODO
+mdadm --detail --scan --verbose >> /mnt/etc/mdadm.conf
+
 add_lvm2_hook_to_mkinitcpio
+
+micro /mnt/etc/mkinitcpio.conf
+# Now edit mkinitcpio.conf file. Add mdadm_udev to HOOKS and /sbin/mdmon to BINARIES
+#nano /etc/mkinitcpio.conf
+#HOOKS="base udev autodetect modconf block mdadm_udev filesystems fsck"
+#BINARIES="/sbin/mdmon"
+
 chroot_run mkinitcpio -p linux-zen
 
 (cat << EOF
@@ -275,6 +289,9 @@ pkg_install grub efibootmgr dosfstools os-prober mtools openssh
 	# to GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 cryptdevice=/dev/sdb2:myVolGr:allow-discards"
 	#
 	# uncomment "#GRUB_ENABLE_CRYPTODISK=y"
+
+# TODO
+micro /mnt/etc/default/grub #(Uncomment GRUB_DISABLE_LINUX_UUID=true)
 
 # install grub
 chroot_run grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=SEXlinux --recheck
