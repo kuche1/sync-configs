@@ -21,10 +21,14 @@ on_exit(){
 
 		mdadm --stop /dev/md0
 
-		mdadm --zero-superblock /dev/sda1 || true
-		# TODO vvvv hack
-		for letter in a b c d e ; do
-			mdadm --zero-superblock /dev/sd${letter}2 || true
+		# mdadm --zero-superblock /dev/sda2 || true
+		# # TODO vvvv hack
+		# for letter in b c d e ; do
+		# 	mdadm --zero-superblock /dev/sd${letter}2 || true
+		# done
+
+		for part in $data_partitions ; do
+			mdadm --zero-superblock $part || true
 		done
 	fi
 
