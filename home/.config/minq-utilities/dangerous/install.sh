@@ -206,6 +206,8 @@ while true; do
 	let 'number_of_disks+=1'
 done
 #additional_disks=$("$HERE"/select_devices $boot_disk)
+# TODO ^^^^^ reaplce the section with this
+# 	when the `additional_disks` problem is resolved
 
 # mdadm raid0
 
@@ -527,7 +529,10 @@ pkg_install firefox # browser
 	pkg_install firefox-i18n-en-us firefox-i18n-bg # spelling
 aur_install thorium-browser-bin # chromium browser (for the sites that require that)
 pkg_install obs-studio # screen sharing
-pkg_install gummi # latex editor
+# latex editor
+	pkg_install gummi # works, but no features
+	pkg_install texworks # can navigate from editor to PDF and reverse, but refuses to compile from time to tike
+	pkg_install texmaker # best
 
 # file manager
 pkg_install thunar thunar-archive-plugin gvfs
