@@ -504,6 +504,7 @@ pkg_install trash-cli # trash manager
 #pkg_install streamlink # enables watching streams (examples: yt, twitch)
 aur_install ani-cli-git # anime watcher
 pkg_install imagemagick # image converter
+aur_install timeshift-bin # backup
 
 # additional programs
 aur_install mangohud lib32-mangohud # gayming overlay
@@ -513,7 +514,6 @@ aur_install nuclear-player-bin # music
 pkg_install gnome-disk-utility
 pkg_install baobab # disk usage analyzer
 pkg_install gparted
-#pkg_install ark # archive manager
 pkg_install transmission-gtk # torrent
 	# qbittorrent causes PC to lag, also has a weird bug where it refuses to download torrents
 	# update LVM: qbittorrent's GUI freezes
@@ -548,11 +548,9 @@ chroot_run xdg-mime default thunar.desktop inode/directory
 	# set as default file browser
 	# TODO maybe this needs to be executed as the user
 
-# archive manager
-pkg_install xarchiver
-	# gui
-pkg_install bzip2 gzip p7zip tar unrar unzip xz zip zstd
-	# some formats
+# archiver manager
+pkg_install xarchiver # gui
+pkg_install bzip2 gzip p7zip tar unrar unzip xz zip zstd # some formats
 
 pkg_install steam
 # TODO
