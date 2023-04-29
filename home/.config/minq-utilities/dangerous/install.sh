@@ -169,10 +169,6 @@ config_visudo(){
 	# we could also try using `/etc/sudoers.d` (it's the very last line in the `visudo` file)
 }
 
-# dependencies
-
-pacman -S --needed micro
-
 # main
 
 # get password
