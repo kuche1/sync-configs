@@ -479,7 +479,8 @@ pkg_install spectacle # screenshooter
 pkg_install mate-polkit # polkit
 pkg_install pacman-contrib # needed for `checkupdates`
 
-# terminal utilities
+##### terminal utilities
+
 pkg_install sysstat # utilities for system stats
 #aur_install bootiso # safer dd alternative
 pkg_install fd # find alternative
@@ -502,12 +503,14 @@ aur_install ani-cli-git # anime watcher
 pkg_install imagemagick # image converter
 aur_install timeshift-bin # backup
 
-# additional programs
+##### additional programs
+
 aur_install mangohud lib32-mangohud # gayming overlay
 #aur_install freezer-appimage # music # commented out due to slow download
 aur_install nuclear-player-bin # music
 #aur_install mcomix-git # .cbr file reader (manga) (Junji Ito)
 pkg_install gnome-disk-utility
+	pkg_install ntfs-3g # allows for formatting to ntfs
 pkg_install baobab # disk usage analyzer
 pkg_install gparted
 pkg_install transmission-gtk # torrent
@@ -529,6 +532,8 @@ pkg_install obs-studio # screen sharing
 	pkg_install gummi # works, but no features
 	pkg_install texworks # can navigate from editor to PDF and reverse, but refuses to compile from time to tike
 	pkg_install texmaker # best
+aur_install flashpoint-launcher-bin # flash games
+pkg_install mumble
 
 # file manager
 pkg_install thunar thunar-archive-plugin gvfs

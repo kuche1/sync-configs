@@ -295,6 +295,7 @@ bar {
 
 ### set floating
 for_window [class="fk"] floating enable #----------------------------# godot
+for_window [class="flashplayer_32_sa.exe"] floating enable
 for_window [class="gnome-calculator"] floating enable
 for_window [class="idkman"] floating enable #------------------------# godot
 for_window [class="matplotlib"] floating enable
