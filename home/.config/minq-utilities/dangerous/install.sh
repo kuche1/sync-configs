@@ -449,11 +449,17 @@ chroot_run git config --global delta.navigate true
 chroot_run git config --global merge.conflictstyle diff3
 chroot_run git config --global diff.colorMoved default
 
+# cpu ucode
+# AMD
+	pkg_install amd-ucode
+# intel
+	pkg_install intel-ucode
+
 # video drivers
-pkg_install lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
-	# AMD
-pkg_install lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader
-	# intel
+# AMD
+	pkg_install lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
+# intel
+	pkg_install lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader
 
 # wine
 pkg_install wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader
@@ -533,7 +539,9 @@ pkg_install obs-studio # screen sharing
 	pkg_install texworks # can navigate from editor to PDF and reverse, but refuses to compile from time to tike
 	pkg_install texmaker # best
 aur_install flashpoint-launcher-bin # flash games
-pkg_install mumble
+# voice chat and messaging
+	pkg_install mumble
+	pkg_install discord
 
 # file manager
 pkg_install thunar thunar-archive-plugin gvfs
@@ -554,17 +562,7 @@ pkg_install xarchiver # gui
 pkg_install bzip2 gzip p7zip tar unrar unzip xz zip zstd # some formats
 
 pkg_install steam
-# TODO
-    # sudo_replace_string('/usr/share/applications/steam.desktop',
-    #     '\nExec=/usr/bin/steam-runtime %U\n',
-    #     '\nExec=/usr/bin/steam-runtime -silent -nochatui -nofriendsui %U\n')
 pkg_install lib32-libappindicator-gtk2 # makes it so that the taskbar menu follows the system theme; does not always work
-
-pkg_install discord
-# TODO
-    # sudo_replace_string('/usr/share/applications/discord.desktop',
-    #     '\nExec=/usr/bin/discord\n',
-    #     '\nExec=/usr/bin/discord --disable-smooth-scrolling\n')
 
 pkg_install syncthing
 # TODO
