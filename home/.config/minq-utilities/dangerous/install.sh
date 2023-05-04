@@ -176,7 +176,7 @@ printf "Enter password: \n> "
 read user_password
 
 # minimal install, used for debugging
-printf "Do you want minimal install (used for debugging) (leave empty for no)?: \n> "
+printf 'Leave line empty for a regular install, otherwise minimal install will be selected\n> '
 read minimal_install
 
 number_of_disks=1
@@ -193,7 +193,7 @@ test -b ${boot_disk}
 additional_disks=""
 while true; do
 	lsblk
-	printf "Enter additional disks (example: /dev/sdb) (leave empty to end): \n> "
+	printf 'Enter additional disks (example: /dev/sdb) (leave empty to end): \n> '
 	read disk
 	test -z "${disk}" && break
 	echo "checking if device exists"
@@ -211,15 +211,15 @@ lvcreate_striped_flags=''
 use_lvm=0
 use_mdadm=0
 
-printf 'Use jbod or raid0? (leave empty for jbod)\n> '
-read use_raid0
-if [ "${use_raid0}" == "" ]; then # jbod
+printf 'Leave line empty for `raid0`, otherwise `jbod` will be selected\n> '
+read use_jbod
+if [ "$use_jbod" != "" ]; then # jbod
 	use_lvm=1
 	use_mdadm=0
 else # raid0
-	printf 'Select raid0 provider: lvm(size will be limited by smallest disk but expansion might be easier) or mdadm? (leave empty for lvm)\n> '
-	read use_raid0_mdadm
-	if [ "${use_raid0_mdadm}" == "" ]; then # striped lvm
+	printf 'Select raid0 provider: leave line empty for `mdadm`, otherwise `lvm` will be selected (size will be limited by smallest disk but expansion might be easier)\n> '
+	read use_raid0_lvm
+	if [ "${use_raid0_lvm}" != "" ]; then # striped lvm
 		use_lvm=1
 		use_mdadm=0
 		printf "Select stripe number (current disk number ${number_of_disks}): \n> "
