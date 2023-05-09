@@ -172,40 +172,23 @@ config_visudo(){
 # main
 
 # get password
-printf "Enter password: \n> "
+printf 'Enter password: \n> '
 read user_password
+
+printf 'Install AMD drivers? Leave line empty for no:\n> '
+read use_amd
+
+printf 'Install nvidia drivers? Leave line empty for no:\n> '
+read use_nvidia
+
+printf 'Install intel drivers? Leave line empty for no:\n> '
+read use_intel
 
 # minimal install, used for debugging
 printf 'Leave line empty for a regular install, otherwise minimal install will be selected\n> '
 read minimal_install
 
-number_of_disks=1
-
-# let user select boot disk
-lsblk
-printf "Enter boot disk (example: /dev/sda): \n> "
-read boot_disk
-echo "checking if device exists"
-test -b ${boot_disk}
-	# `-b` is for block device
-
-# let user select additional disks
-additional_disks=""
-while true; do
-	lsblk
-	printf 'Enter additional disks (example: /dev/sdb) (leave empty to end): \n> '
-	read disk
-	test -z "${disk}" && break
-	echo "checking if device exists"
-	test -b ${disk}
-	additional_disks="${additional_disks} ${disk}"
-	let 'number_of_disks+=1'
-done
-#additional_disks=$("$HERE"/select_devices $boot_disk)
-# TODO ^^^^^ reaplce the section with this
-# 	when the `additional_disks` problem is resolved
-
-# mdadm raid0
+# LVM JBOD or LVM RAID0 or mdadm RAID0
 
 lvcreate_striped_flags=''
 use_lvm=0
@@ -237,6 +220,34 @@ if [ $use_lvm == 1 ]; then # lvm
 else # mdadm
 	data_part_type=raid
 fi
+
+# select disks
+
+number_of_disks=1
+
+# let user select boot disk
+lsblk
+printf "Enter boot disk (example: /dev/sda): \n> "
+read boot_disk
+echo "checking if device exists"
+test -b ${boot_disk}
+	# `-b` is for block device
+
+# let user select additional disks
+additional_disks=""
+while true; do
+	lsblk
+	printf 'Enter additional disks (example: /dev/sdb) (leave empty to end): \n> '
+	read disk
+	test -z "${disk}" && break
+	echo "checking if device exists"
+	test -b ${disk}
+	additional_disks="${additional_disks} ${disk}"
+	let 'number_of_disks+=1'
+done
+#additional_disks=$("$HERE"/select_devices $boot_disk)
+# TODO ^^^^^ reaplce the section with this
+# 	when the `additional_disks` problem is resolved
 
 # enable debug output from now on
 set -o xtrace
@@ -456,10 +467,18 @@ chroot_run git config --global diff.colorMoved default
 	pkg_install intel-ucode
 
 # video drivers
-# AMD
+
+if [ "$use_amd" != "" ]; then
 	pkg_install lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
-# intel
+fi
+
+if [ "$use_nvidia" != "" ]; then
+	pkg_install nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader
+fi
+
+if [ "$use_intel" != "" ]; then
 	pkg_install lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader
+fi
 
 # wine
 pkg_install wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader
@@ -508,6 +527,7 @@ pkg_install trash-cli # trash manager
 aur_install ani-cli-git # anime watcher
 pkg_install imagemagick # image converter
 aur_install timeshift-bin # backup
+pkg_install man
 
 ##### additional programs
 
@@ -538,6 +558,7 @@ pkg_install obs-studio # screen sharing
 	pkg_install gummi # works, but no features
 	pkg_install texworks # can navigate from editor to PDF and reverse, but refuses to compile from time to tike
 	pkg_install texmaker # best
+	pkg_install texlive-lang # non-english support
 aur_install flashpoint-launcher-bin # flash games
 # voice chat and messaging
 	pkg_install mumble

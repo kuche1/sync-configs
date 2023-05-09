@@ -107,8 +107,9 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
-# focus the parent container
+# focus the parent/child container
 bindsym $mod+a focus parent
+bindsym $mod+z focus child
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -301,6 +302,7 @@ for_window [class="idkman"] floating enable #------------------------# godot
 for_window [class="matplotlib"] floating enable
 for_window [class="simple-3d-game"] floating enable #----------------# godot
 for_window [class="SIGMA"] floating enable #-------------------------# godot
+for_window [class="spectacle"] floating enable
 for_window [class="steam_proton" title="^euphoria$"] floating enable
 for_window [class="wasp"] floating enable #--------------------------# godot
 for_window [title="Maggot baits"] floating enable

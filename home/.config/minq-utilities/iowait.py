@@ -4,7 +4,7 @@ import re
 import subprocess
 import time
 
-LOG_ENTRIES = 5 # 1 entry == 1 second
+LOG_ENTRIES = 4 # 1 entry == 1 second
 
 def collect_data_and_print(process):
     records = []
