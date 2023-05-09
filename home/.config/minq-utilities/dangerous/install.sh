@@ -70,6 +70,9 @@ EOF
 # specific fncs
 
 edit_mkinitcpio(){
+	# dependencies
+	pkg_install python3
+
 	# chroot_run micro /etc/mkinitcpio.conf
 	# # find "HOOKS="
 	# # before "filesystem" insert "encrypt lvm2"
