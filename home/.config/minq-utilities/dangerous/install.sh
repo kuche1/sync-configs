@@ -64,7 +64,9 @@ echo "${user_password}" | sudo -S echo gaysex
 paru --noconfirm -S --needed $@
 exit
 EOF
-	) | chroot_run bash
+	) | chroot_run bash || {
+		echo "failed to install AUR package(s) \`$@\`" | chroot_run tee -a install-error-log
+	}
 }
 
 # specific fncs
