@@ -10,11 +10,16 @@
 set -e
 # exit on error
 
+INSTALL_LOG_FILE=/install-error-log
+
 HERE=$(dirname "$BASH_SOURCE")
 
 on_exit(){
 	ret_code="$?"
 
+	log "install finished, return code is $ret_code; syncing..."
+	sync
+	log "synced"
 	sync
 
 	if [ "${ret_code}" != 0 ]; then
@@ -41,6 +46,8 @@ on_exit(){
 		done
 	fi
 
+	echo "Check \`$INSTALL_LOG_FILE\` for the install logs"
+
 	exit ${ret_code}
 }
 
@@ -65,8 +72,12 @@ paru --noconfirm -S --needed $@
 exit
 EOF
 	) | chroot_run bash || {
-		echo "failed to install AUR package(s) \`$@\`" | chroot_run tee -a install-error-log
+		log "failed to install AUR package(s) \`$@\`"
 	}
+}
+
+log(){
+	echo "$@" | chroot_run tee -a "$INSTALL_LOG_FILE"
 }
 
 # specific fncs
@@ -175,6 +186,8 @@ config_visudo(){
 }
 
 # main
+
+log "starting installation"
 
 # get password
 printf 'Enter password: \n> '
