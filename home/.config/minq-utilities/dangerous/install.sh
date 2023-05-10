@@ -567,10 +567,13 @@ pkg_install pluma # text editor
 pkg_install code # FOSS vscode # IDE
 aur_install rustdesk-bin # remote desktop
 pkg_install mpv # video player
-#aur_install nomacs # image viewer # TODO wtf download is broken
-pkg_install firefox # browser
-	pkg_install firefox-i18n-en-us firefox-i18n-bg # spelling
-aur_install thorium-browser-bin # chromium browser (for the sites that require that)
+# image viewer
+	#aur_install nomacs # wtf download is broken
+	pkg_install deepin-image-viewer
+# browser
+	pkg_install firefox # main browser
+		pkg_install firefox-i18n-en-us firefox-i18n-bg # spelling
+	aur_install thorium-browser-bin # chromium browser (for the sites that require that)
 pkg_install obs-studio # screen sharing
 # latex editor
 	pkg_install gummi # works, but no features
