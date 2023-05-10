@@ -187,8 +187,6 @@ config_visudo(){
 
 # main
 
-log "starting installation"
-
 # get password
 printf 'Enter password: \n> '
 read user_password
@@ -348,6 +346,8 @@ else # mdadm
 	mount /dev/md0p1 /mnt
 
 fi
+
+log "starting installation"
 
 mkdir -p /mnt/boot/efi
 mount ${boot_partition} /mnt/boot/efi
