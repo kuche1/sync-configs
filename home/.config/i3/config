@@ -314,7 +314,7 @@ assign [class="transmission-gtk"] $ws28
 assign [class="Mumble"] $ws27
 assign [class="discord"] $ws26
 
-##### volume
+##### volume and media keys
 
 # Use pactl to adjust volume in PulseAudio.
 #set $refresh_volume_widget killall -SIGUSR1 i3status
@@ -341,6 +341,10 @@ bindsym XF86AudioMicMute exec --no-startup-id ~/.config/minq-utilities/volume-se
 bindsym XF86AudioNext exec --no-startup-id ~/.config/minq-utilities/volume-set.sh inc && $refresh_volume_widget
 bindsym XF86AudioPrev exec --no-startup-id ~/.config/minq-utilities/volume-set.sh dec && $refresh_volume_widget
 bindsym $mod+m exec --no-startup-id ~/.config/minq-utilities/microphone-set.sh && $refresh_mic_indicator
+
+# brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/minq-utilities/brightness.sh inc
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/minq-utilities/brightness.sh dec
 
 ##### launch application
 
