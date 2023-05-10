@@ -347,8 +347,6 @@ else # mdadm
 
 fi
 
-log "starting installation"
-
 mkdir -p /mnt/boot/efi
 mount ${boot_partition} /mnt/boot/efi
 
@@ -357,6 +355,8 @@ mkdir /mnt/etc
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 pacstrap /mnt base
+
+log "starting installation"
 
 fix_pacman_config
 
