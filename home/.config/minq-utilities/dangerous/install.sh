@@ -191,6 +191,9 @@ config_visudo(){
 printf 'Enter password: \n> '
 read user_password
 
+printf 'Enter swap amount (example: 64G)\n> '
+read swap_amount
+
 printf 'Install AMD drivers? Leave line empty for no:\n> '
 read use_amd
 
@@ -362,7 +365,19 @@ fix_pacman_config
 
 pkg_install linux-zen linux-zen-headers linux-firmware micro base-devel networkmanager dialog
 pkg_install lvm2 # needed only for lvm
-pkg_install mdadm # needed obly for mdadm # TODO not needed?
+pkg_install mdadm # needed only for mdadm
+
+# swap
+(cat << EOF
+set -e
+fallocate -l "$swap_amount" /swapfile
+chmod 0600 /swapfile
+mkswap -U clear /swapfile
+swapon /swapfile
+echo -e '\n/swapfile none swap defaults 0 0' >> /etc/fstab
+swapoff /swapfile
+EOF
+) | chroot_run bash
 
 chroot_run systemctl enable NetworkManager
 # also install some wifi tools
@@ -672,19 +687,6 @@ chroot_run usermod -a -G vboxusers me
 #chroot_run modprobe vboxdrv
 	# no need to activate it right away
 	# the user will be restarting the machine anyways
-
-# swap
-(cat << EOF
-set -e
-dd if=/dev/zero of=/swapfile bs=1M count=65536 status=progress
-	# create 64GiB swap file
-chmod 0600 /swapfile
-mkswap -U clear /swapfile
-swapon /swapfile
-echo -e '\n/swapfile none swap defaults 0 0' >> /etc/fstab
-swapoff /swapfile
-EOF
-) | chroot_run bash
 
 # login manager
 pkg_install lightdm lightdm-gtk-greeter
