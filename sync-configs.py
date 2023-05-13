@@ -161,6 +161,10 @@ if __name__ == '__main__':
         choices=[i[0] for i in pwd.getpwall()],
         help='User to set up the config files for. If in doubt, you can use `$USER`.',
     )
+    parser.add_argument(
+        'sync_location',
+        help=f'Location to sync configs from. If in doubt, you can use `{os.path.join(HERE, "sync-location")}`.',
+    )
     args = parser.parse_args()
 
-    main(args.user, os.path.join(HERE, 'sync-location'))
+    main(args.user, args.sync_location)
