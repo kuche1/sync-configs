@@ -88,23 +88,34 @@ def main(user):
         raise Exception(f'User `{user}` does not exist')
 
     home = f'/home/{user}/'
+    sync_location = os.path.join(HERE, 'home')
 
     # sync home folder
 
-    for d, fols, fils in os.walk(os.path.join(HERE, 'home')):
+    for d, fols, fils in os.walk(sync_location):
+
         for fil in fils:
             real_file = os.path.join(home, fil)
             file_to_be_symlinked = os.path.join(d, fil)
             safely_symlink(real_file, file_to_be_symlinked)
+
         for fol in fols:
-            if fol != '.config':
-                raise Exception(f'Undefined case')
-            for d, sub_fols, sub_fils in os.walk(os.path.join(d, fol)):
-                for symlink_target in sub_fols+sub_fils:
-                    real_path = os.path.join(home, fol, symlink_target)
-                    to_be_symlinked = os.path.join(d, symlink_target)
-                    safely_symlink(real_path, to_be_symlinked)
-                break
+
+            if fol == '.config':
+                for d, sub_fols, sub_fils in os.walk(os.path.join(d, fol)):
+                    for symlink_target in sub_fols+sub_fils:
+                        real_path = os.path.join(home, fol, symlink_target)
+                        to_be_symlinked = os.path.join(d, symlink_target)
+                        safely_symlink(real_path, to_be_symlinked)
+                    break
+
+            else:
+                folder_path_home = os.path.join(home, fol)
+                folder_path_repo = os.path.join(d, fol)
+                print(f'{folder_path_home=}')
+                print(f'{folder_path_repo=}')
+                # safely_symlink(folder_path_home, folder_path_repo)
+
         break
     
     # sync senvironment
