@@ -1,0 +1,13 @@
+#! /usr/bin/env python3
+
+import sys
+
+from lib.run_program import run_program
+
+run_program(
+    ['firefox', '-P', 'freenet'],
+)
+
+# #! /usr/bin/env bash
+# 
+# firefox -P freenet

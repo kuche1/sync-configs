@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+HERE=$(dirname "$BASH_SOURCE")
+
+magnet="$(rofi -dmenu -p 'Enter magnet link:')"
+if [ $? != 0 ]; then
+    exit 1
+fi
+
+"${HERE}"/torrent "${magnet}"

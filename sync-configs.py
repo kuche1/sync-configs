@@ -81,18 +81,17 @@ def sudo_append_to_file(file, data):
             os.chmod(f_exec.name, st.st_mode | stat.S_IEXEC)
         subprocess.run(['sudo', 'env', f_exec_name], check=True)
 
-def main(user):
+def main(user, sync_location):
     try:
         pwd.getpwnam(user)
     except KeyError:
         raise Exception(f'User `{user}` does not exist')
 
     home = f'/home/{user}/'
-    sync_location = os.path.join(HERE, 'home')
 
     # sync home folder
 
-    for d, fols, fils in os.walk(sync_location):
+    for d, fols, fils in os.walk(os.path.join(sync_location, 'home')):
 
         for fil in fils:
             real_file = os.path.join(home, fil)
@@ -126,7 +125,7 @@ def main(user):
         environment = f.read()
     environment = environment.splitlines()
 
-    with open(os.path.join(HERE, 'environment')) as f:
+    with open(os.path.join(sync_location, 'environment')) as f:
         additions_to_env = f.read()
     additions_to_env = additions_to_env.splitlines()
 
@@ -151,7 +150,7 @@ def main(user):
 
     tmp = '/usr/share/X11/xorg.conf.d/90-mouse-accel.conf'
     print(f'setting file {tmp}')
-    sudo_safely_copy(os.path.join(HERE, 'mouse'), tmp)
+    sudo_safely_copy(os.path.join(sync_location, 'mouse'), tmp)
 
     print('Done')
 
@@ -164,4 +163,4 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    main(args.user)
+    main(args.user, os.path.join(HERE, 'sync-location'))
