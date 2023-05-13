@@ -6,17 +6,15 @@ STEP=0.1
 MAX=1.0
 MIN=0.1
 
+HERE=$(dirname -- $(readlink -f -- "$BASH_SOURCE"))
+
 get_brightness(){
     xrandr --verbose | awk '/Brightness/ { print $2; exit }'
 }
 
-get_xrandr_output(){ # TODo export this fnc
-    xrandr --verbose | awk '/ connected / { print $1; exit }'
-}
-
 set_brightness(){
     value="$1"
-    xrandr --output $(get_xrandr_output) --brightness $value
+    xrandr --output $("$HERE"/get-xrandr-output.sh) --brightness $value
 }
 
 action="$1"

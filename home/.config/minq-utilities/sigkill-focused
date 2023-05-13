@@ -3,4 +3,4 @@
 set -e
 
 id=$(xprop -id $(xdotool getwindowfocus) | grep -Ini pid | cut -d ' ' -f 3)
-kill -9 "${id}"
+kill -9 "$id"

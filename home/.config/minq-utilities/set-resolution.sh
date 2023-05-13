@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
-# ubuntu
-xrandr --output DisplayPort-0 --mode 1920x1080 --rate 144.00 --primary
+set -e
 
-# arch
-xrandr --output DP-1 --mode 1920x1080 --rate 144.00 --primary
+HERE=$(dirname -- $(readlink -f -- "$BASH_SOURCE"))
+
+xrandr --output $("$HERE"/get-xrandr-output.sh) --mode 1920x1080 --rate 144.00 --primary
