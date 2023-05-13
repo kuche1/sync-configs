@@ -22,38 +22,38 @@ on_exit(){
 	log "synced"
 	sync
 
-	if [ "${ret_code}" != 0 ]; then
+	if [ "$ret_code" != 0 ]; then
 		echo "an error has been encountered; press ctrl+c to enter debug"
 		read tmp
 	fi
 
+	clear_used_storage_devices $ret_code
+
+	echo "Check \`$INSTALL_LOG_FILE\` for the install logs"
+
+	exit ${ret_code}
+}
+
+clear_used_storage_devices(){
+	delete="$1"
+
 	umount /mnt/boot/efi || true
 	umount /mnt || true
 
-	if [ "${ret_code}" != 0 ]; then
+	if [ "$delete" != 0 ]; then
 		vgremove --force myVolGr || true
 
 		mdadm --stop /dev/md0
-
-		# mdadm --zero-superblock /dev/sda2 || true
-		# # TODO vvvv hack
-		# for letter in b c d e ; do
-		# 	mdadm --zero-superblock /dev/sd${letter}2 || true
-		# done
 
 		for part in $data_partitions ; do
 			mdadm --zero-superblock $part || true
 		done
 
-		# TODO shit hardcoded solution
+		# TODO shit hardcoded solution, make the other solution work somehow
 		for part in /dev/sda2 /dev/sdb1 /dev/sdc1 ; do
 			mdadm --zero-superblock $part || true
 		done
 	fi
-
-	echo "Check \`$INSTALL_LOG_FILE\` for the install logs"
-
-	exit ${ret_code}
 }
 
 trap on_exit EXIT
@@ -202,20 +202,32 @@ BOOT_PARTITION_SIZE=1GiB
 printf 'Enter password: \n> '
 read user_password
 
+# swap
 printf 'Enter swap amount (example: 64G)\n> '
 read swap_amount
 
-printf 'Install AMD drivers? Leave line empty for no:\n> '
+# amd drivers
+printf 'Install AMD drivers? Leave line empty for `no`:\n> '
 read use_amd
 
-printf 'Install nvidia drivers? Leave line empty for no:\n> '
+# nvidia drivers
+printf 'Install nvidia drivers? Leave line empty for `no`:\n> '
 read use_nvidia
 
-printf 'Install intel drivers? Leave line empty for no:\n> '
+# intel drivers
+printf 'Install intel drivers? Leave line empty for `no`:\n> '
 read use_intel
 
+# ucode amd
+printf 'Install AMD CPU ucode? Leave line empty for `no`:\n> '
+read install_ucode_amd
+
+# ucode intel
+printf 'Install intel CPU ucode? Leave line empty for `no`:\n> '
+read install_ucode_intel
+
 # minimal install, used for debugging
-printf 'Leave line empty for a regular install, otherwise minimal install will be selected\n> '
+printf 'Use minimal install? Leave line empty for `no`:\n> '
 read minimal_install
 
 # LVM JBOD or LVM RAID0 or mdadm RAID0
@@ -282,6 +294,8 @@ done
 # enable debug output from now on
 set -o xtrace
 # you can disable this with `set +o xtrace`
+
+clear_used_storage_devices 1
 
 # format boot disk
 parted -s ${boot_disk} mklabel gpt
@@ -460,7 +474,7 @@ chroot_run sed -i -z 's%\nGRUB_TIMEOUT=5\n%\nGRUB_TIMEOUT=1\n%' /etc/default/gru
 # update-grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 
-if [ "${minimal_install}" != "" ]; then
+if [ "$minimal_install" != "" ]; then
 	exit 0
 fi
 
@@ -505,10 +519,12 @@ chroot_run git config --global merge.conflictstyle diff3
 chroot_run git config --global diff.colorMoved default
 
 # cpu ucode
-# AMD
+if [ "$install_ucode_amd" != "" ]; then
 	pkg_install amd-ucode
-# intel
+fi
+if [ "$install_ucode_intel" != "" ]; then
 	pkg_install intel-ucode
+fi
 
 # video drivers
 
