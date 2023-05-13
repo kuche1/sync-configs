@@ -44,6 +44,11 @@ on_exit(){
 		for part in $data_partitions ; do
 			mdadm --zero-superblock $part || true
 		done
+
+		# TODO shit hardcoded solution
+		for part in /dev/sda2 /dev/sdb1 /dev/sdc1 ; do
+			mdadm --zero-superblock $part || true
+		done
 	fi
 
 	echo "Check \`$INSTALL_LOG_FILE\` for the install logs"
@@ -77,7 +82,9 @@ EOF
 }
 
 log(){
-	echo "$@" | chroot_run tee -a "$INSTALL_LOG_FILE"
+	echo "$@" | chroot_run tee -a "$INSTALL_LOG_FILE" || {
+		echo "ERROR: could not log message"
+	}
 }
 
 # specific fncs
@@ -187,6 +194,10 @@ config_visudo(){
 
 # main
 
+# TODO wtf cancer shit, try and use 512 if possible
+#BOOT_PARTITION_SIZE=512MiB
+BOOT_PARTITION_SIZE=1GiB
+
 # get password
 printf 'Enter password: \n> '
 read user_password
@@ -224,7 +235,7 @@ else # raid0
 	if [ "${use_raid0_lvm}" != "" ]; then # striped lvm
 		use_lvm=1
 		use_mdadm=0
-		printf "Select stripe number (current disk number ${number_of_disks}): \n> "
+		printf "Select stripe number (you might want to set the number of disks you intend to use here): \n> "
 		read stripe_number
 		lvcreate_striped_flags="${lvcreate_striped_flags}-i${stripe_number}"
 	else # mdadm
@@ -275,10 +286,10 @@ set -o xtrace
 # format boot disk
 parted -s ${boot_disk} mklabel gpt
 
-parted -s ${boot_disk} mkpart primary fat32 0% 512MiB
+parted -s ${boot_disk} mkpart primary fat32 0% $BOOT_PARTITION_SIZE
 parted -s ${boot_disk} set 1 esp on
 
-parted -s ${boot_disk} mkpart primary ext4 512MiB 100%
+parted -s ${boot_disk} mkpart primary ext4 $BOOT_PARTITION_SIZE 100%
 parted -s ${boot_disk} set 2 $data_part_type on
 
 # format other disks
