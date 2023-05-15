@@ -25,5 +25,6 @@ fix_launcher(){
     cat -- "$original" | sed -z "s^$to_replace^$replace_with^" > "$local"
 }
 
+mkdir -p ~/.local/share/applications
 fix_launcher discord '\nExec=/usr/bin/discord\n' '\nExec=/usr/bin/discord --disable-smooth-scrolling\n'
 fix_launcher steam '\nExec=/usr/bin/steam-runtime %U\n' '\nExec=/usr/bin/steam-runtime -silent -nochatui -nofriendsui %U\n'
