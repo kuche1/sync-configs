@@ -19,22 +19,26 @@ def get_name_for_deletion(file):
     new_name = f'{file}.deleted.{now}'
     return new_name
 
-def safely_delete(file):
-    new_name = get_name_for_deletion(file)
-    print(f'renaming `{file}` to `{new_name}`')
-    os.rename(file, new_name)
+def safely_delete(node):
+    if not os.path.exists(node) and not os.path.islink(node):
+        return False
+    new_name = get_name_for_deletion(node)
+    print(f'renaming `{node}` to `{new_name}`')
+    os.rename(node, new_name)
+    return True
 
 def safely_symlink(dest, source):
     if os.path.islink(dest):
         link_target = os.readlink(dest)
         if link_target == source:
             return
-    if os.path.exists(dest):
-        safely_delete(dest)
+    if not safely_delete(dest):
+        return
     print(f'symlinking `{dest}` to point to `{source}`')
     os.symlink(source, dest)
 
 def sudo_safely_delete(file):
+    # TODO implement check functionality from `safely_delete`
     new_name = get_name_for_deletion(file)
     print(f'sudo safely deleting `{file}` to `{new_name}`')
     with tempfile.NamedTemporaryFile(mode='w', delete=False) as f_exec:
@@ -89,6 +93,8 @@ def main(user, sync_location):
 
     home = f'/home/{user}/'
 
+    sync_location = os.path.realpath(sync_location)
+
     # sync home folder
 
     for d_repo, fols, fils in os.walk(os.path.join(sync_location, 'home')):
@@ -109,9 +115,24 @@ def main(user, sync_location):
                     break
 
             else:
+
                 folder_path_home = os.path.join(home, fol)
                 folder_path_repo = os.path.join(d_repo, fol)
-                safely_symlink(folder_path_home, folder_path_repo)
+
+                if fol == '.unison':
+                    os.makedirs(folder_path_home, exist_ok=True)
+
+                    for d, _, sub_fils in os.walk(folder_path_repo):
+                        for fil in sub_fils:
+                            if not fil.endswith('.prf'):
+                                continue
+                            file_path_home = os.path.join(folder_path_home, fil)
+                            file_path_repo = os.path.join(d, fil)
+                            safely_symlink(file_path_home, file_path_repo)
+                        break
+
+                else:
+                    safely_symlink(folder_path_home, folder_path_repo)
 
         break
     
