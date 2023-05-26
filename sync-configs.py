@@ -21,19 +21,18 @@ def get_name_for_deletion(file):
 
 def safely_delete(node):
     if not os.path.exists(node) and not os.path.islink(node):
-        return False
+        return
     new_name = get_name_for_deletion(node)
     print(f'renaming `{node}` to `{new_name}`')
     os.rename(node, new_name)
-    return True
 
 def safely_symlink(dest, source):
     if os.path.islink(dest):
         link_target = os.readlink(dest)
         if link_target == source:
             return
-    if not safely_delete(dest):
-        return
+    print(dest)
+    safely_delete(dest)
     print(f'symlinking `{dest}` to point to `{source}`')
     os.symlink(source, dest)
 
@@ -106,33 +105,42 @@ def main(user, sync_location):
 
         for fol in fols:
 
-            if fol == '.config':
+            folder_path_home = os.path.join(home, fol)
+            folder_path_repo = os.path.join(d_repo, fol)
+
+            if fol in ['.mozilla']: # just symlink
+                safely_symlink(folder_path_home, folder_path_repo)
+
+            elif fol == '.config':
                 for d, sub_fols, sub_fils in os.walk(os.path.join(d_repo, fol)):
+                    assert len(sub_fils) == 0
+
                     for symlink_target in sub_fols+sub_fils:
                         real_path = os.path.join(home, fol, symlink_target)
                         to_be_symlinked = os.path.join(d, symlink_target)
                         safely_symlink(real_path, to_be_symlinked)
                     break
 
-            else:
+            elif fol == '.local':
+                compdata_path_repo = os.path.join(folder_path_repo, 'share', 'Steam', 'steamapps', 'compatdata')
+                compdata_path_home = os.path.join(folder_path_home, 'share', 'Steam', 'steamapps', 'compatdata')
+                assert os.path.isdir(compdata_path_repo)
+                safely_symlink(compdata_path_home, compdata_path_repo)
 
-                folder_path_home = os.path.join(home, fol)
-                folder_path_repo = os.path.join(d_repo, fol)
+            elif fol == '.unison':
+                os.makedirs(folder_path_home, exist_ok=True)
 
-                if fol == '.unison':
-                    os.makedirs(folder_path_home, exist_ok=True)
+                for d, _, sub_fils in os.walk(folder_path_repo):
+                    for fil in sub_fils:
+                        if not fil.endswith('.prf'):
+                            continue
+                        file_path_home = os.path.join(folder_path_home, fil)
+                        file_path_repo = os.path.join(d, fil)
+                        safely_symlink(file_path_home, file_path_repo)
+                    break
 
-                    for d, _, sub_fils in os.walk(folder_path_repo):
-                        for fil in sub_fils:
-                            if not fil.endswith('.prf'):
-                                continue
-                            file_path_home = os.path.join(folder_path_home, fil)
-                            file_path_repo = os.path.join(d, fil)
-                            safely_symlink(file_path_home, file_path_repo)
-                        break
-
-                else:
-                    safely_symlink(folder_path_home, folder_path_repo)
+            else: # unknown
+                assert False, f'unknown folder: `{fol}` ({folder_path_repo})'
 
         break
     
