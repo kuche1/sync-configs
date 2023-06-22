@@ -3,8 +3,8 @@
 from lib.run_program import run_program
 
 run_program(
-    ['librewolf'],
-    ['firefox', '-P', 'default-release'],
+    ['wezterm'],
+    ['xfce4-terminal'],
 )
 
 # 

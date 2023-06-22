@@ -13,4 +13,12 @@ special_updates=$(
 	) | wc -l
 )
 
-printf "r${regular_updates}s${special_updates}\n"
+number_of_packages=$(
+	pacman -Q | wc -l
+)
+
+percent_of_system_that_needs_update=$(
+	echo "scale=0 ; 100*(${regular_updates}+${special_updates})/${number_of_packages}" | bc
+)
+
+printf "${percent_of_system_that_needs_update}%%r${regular_updates}s${special_updates}\n"

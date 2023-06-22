@@ -130,12 +130,12 @@ set $ws10 "10:0"
 set $ws11 "11:-"
 set $ws12 "12:="
 set $ws13 "13:bs"
-set $ws14 "14:ins"
-set $ws15 "15:hom"
-set $ws16 "16:Pup"
-set $ws17 "17:del"
-set $ws18 "18:end"
-set $ws19 "19:Pdn"
+set $ws14 "14:U1"
+set $ws15 "15:U2"
+set $ws16 "16:U3"
+set $ws17 "17:D1"
+set $ws18 "18:D2"
+set $ws19 "19:D3"
 set $ws20 "20:n0"
 set $ws21 "21:n1"
 set $ws22 "22:n2"
@@ -291,6 +291,12 @@ bar {
         strip_workspace_numbers yes
 }
 
+##### all-applications settings
+
+no_focus [all]
+focus_on_window_activation urgent
+#popup_during_fullscreen ignore # leave_fullscreen
+
 ##### per-application settings
 # [get class -> `xprop | grep CLASS` or `xprop | grep NAME`]
 
@@ -303,6 +309,7 @@ for_window [class="matplotlib"] floating enable
 for_window [class="simple-3d-game"] floating enable #----------------# godot
 for_window [class="SIGMA"] floating enable #-------------------------# godot
 for_window [class="spectacle"] floating enable
+for_window [class="steam_app_381210"] floating enable #--------------# dead by daylight
 for_window [class="steam_proton" title="^euphoria$"] floating enable
 for_window [class="wasp"] floating enable #--------------------------# godot
 for_window [title="Maggot baits"] floating enable
@@ -316,16 +323,16 @@ assign [class="discord"] $ws26
 
 ##### volume and media keys
 
-# Use pactl to adjust volume in PulseAudio.
+# this only works for i3status
+# also, it refreshes the whole i3status, not just the volume widget
 #set $refresh_volume_widget killall -SIGUSR1 i3status
-	# this only works for i3status
-        # also, it refreshes the whole i3status, not just the volume widget
+
+# this only works for i3blocks
 set $refresh_volume_widget pkill -RTMIN+10 i3blocks
-	# this only works for i3blocks
 set $refresh_mic_indicator pkill -RTMIN+11 i3blocks
 
 ## adjust volume proper events
-#fucking shit cancer, might by worth trying with lower sleep values (to decrease lag)
+#fucking shit cancer
 
 #bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/minq-utilities/volume-set.sh inc-small && $refresh_volume_widget && sleep 1 && ~/.config/minq-utilities/volume-set.sh fix && $refresh_volume_widget
 	# TODO we can add another call to `$refresh_volume_widget` after the fix since the volume at the bar could fuck up
@@ -335,12 +342,13 @@ set $refresh_mic_indicator pkill -RTMIN+11 i3blocks
 
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_volume_widget
 
-bindsym XF86AudioMicMute exec --no-startup-id ~/.config/minq-utilities/volume-set.sh && $refresh_volume_widget
+# mute mic
+bindsym XF86AudioMicMute exec --no-startup-id ~/.config/minq-utilities/microphone-set.sh && $refresh_volume_widget
+bindsym $mod+m           exec --no-startup-id ~/.config/minq-utilities/microphone-set.sh && $refresh_mic_indicator
 
 # adjust volume fake events
 bindsym XF86AudioNext exec --no-startup-id ~/.config/minq-utilities/volume-set.sh inc && $refresh_volume_widget
 bindsym XF86AudioPrev exec --no-startup-id ~/.config/minq-utilities/volume-set.sh dec && $refresh_volume_widget
-bindsym $mod+m exec --no-startup-id ~/.config/minq-utilities/microphone-set.sh && $refresh_mic_indicator
 
 # brightness
 bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/minq-utilities/brightness.sh inc
@@ -350,8 +358,8 @@ bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/minq-utilities/brig
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec ~/.config/minq-utilities/terminal.sh
-bindsym $mod+KP_Enter exec ~/.config/minq-utilities/terminal.sh
+bindsym $mod+Return exec ~/.config/minq-utilities/terminal
+bindsym $mod+KP_Enter exec ~/.config/minq-utilities/terminal
 
 # start a terminal with python3
 bindsym $mod+backslash exec ~/.config/minq-utilities/terminal-python3.sh
