@@ -306,6 +306,7 @@ for_window [class="flashplayer_32_sa.exe"] floating enable
 for_window [class="gnome-calculator"] floating enable
 for_window [class="idkman"] floating enable #------------------------# godot
 for_window [class="matplotlib"] floating enable
+for_window [class="MonGirlDreams"] floating enable
 for_window [class="simple-3d-game"] floating enable #----------------# godot
 for_window [class="SIGMA"] floating enable #-------------------------# godot
 for_window [class="spectacle"] floating enable
@@ -319,7 +320,7 @@ for_window [title="Making History TGW"] floating enable
 ### set workspace
 assign [class="transmission-gtk"] $ws28
 assign [class="Mumble"] $ws27
-assign [class="discord"] $ws26
+assign [class="discord"] $ws27
 
 ##### volume and media keys
 
@@ -426,4 +427,4 @@ exec_always --no-startup-id setxkbmap -layout "us,bg(phonetic)" -option "grp:ctr
 
 # open vnc but only if not laptop
 # restart on crash
-exec --no-startup-id $is_not_laptop && while true ; do x0vncserver -rfbauth ~/.vnc/passwd ; done
+#exec --no-startup-id $is_not_laptop && while true ; do x0vncserver -rfbauth ~/.vnc/passwd ; done
