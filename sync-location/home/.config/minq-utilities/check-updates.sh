@@ -14,7 +14,10 @@ special_updates=$(
 )
 
 number_of_packages=$(
-	pacman -Q | wc -l
+	(
+		(pacman -Q | wc -l) ;
+		(dpkg --get-selections) ;
+	) | wc -l
 )
 
 percent_of_system_that_needs_update=$(
