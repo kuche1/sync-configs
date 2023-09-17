@@ -29,6 +29,7 @@ def safely_delete(node):
 def safely_symlink(dest, source):
     if os.path.islink(dest):
         link_target = os.readlink(dest)
+        print(f'+++ {link_target=} {source=}')
         if link_target == source:
             return
     print(dest)
@@ -121,9 +122,16 @@ def main(user, sync_location):
                         safely_symlink(real_path, to_be_symlinked)
                     break
 
-            elif fol == '.local':
+            elif fol == '.local': # TODO this is now depricated; delete after test with arch passes
+                assert False
                 compdata_path_repo = os.path.join(folder_path_repo, 'share', 'Steam', 'steamapps', 'compatdata')
                 compdata_path_home = os.path.join(folder_path_home, 'share', 'Steam', 'steamapps', 'compatdata')
+                assert os.path.isdir(compdata_path_repo)
+                safely_symlink(compdata_path_home, compdata_path_repo)
+
+            elif fol == '.steam':
+                compdata_path_repo = os.path.join(folder_path_repo, 'steam', 'steamapps', 'compatdata')
+                compdata_path_home = os.path.join(folder_path_home, 'steam', 'steamapps', 'compatdata')
                 assert os.path.isdir(compdata_path_repo)
                 safely_symlink(compdata_path_home, compdata_path_repo)
 
