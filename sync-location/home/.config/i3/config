@@ -372,7 +372,7 @@ bindsym $mod+d exec --no-startup-id ~/.config/minq-utilities/program-launcher
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
-bindsym Print exec spectacle --region
+bindsym Print exec ~/.config/minq-utilities/screenshot
 
 bindsym $mod+t exec ~/.config/minq-utilities/torrent-open-magnet
 

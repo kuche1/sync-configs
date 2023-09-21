@@ -14,13 +14,13 @@ type="$1"
 
 case "${type}" in
 	'inc')
-		amount='+5.0%'
+		amount='+3.0%'
 		;;
 	'inc-small')
 		amount='+1.0%'
 		;;
 	'dec')
-		amount='-5.0%'
+		amount='-3.0%'
 		;;
 	'dec-small')
 		amount='-1.0%'

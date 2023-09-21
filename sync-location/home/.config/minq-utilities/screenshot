@@ -1,0 +1,8 @@
+#! /usr/bin/env python3
+
+from lib.run_program import run_program
+
+run_program(
+    ['spectacle', '--region'],
+    ['xfce4-screenshooter'],
+)
