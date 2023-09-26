@@ -4,6 +4,9 @@ set -e
 
 ME="$BASH_SOURCE"
 
+AMOUNT='2.0%'
+AMOUNT_SMALL='1.0%'
+
 # TODO
 # if [ "$#" -ne 1 ]; then
 # 	echo "invalid number of arguments"
@@ -14,16 +17,16 @@ type="$1"
 
 case "${type}" in
 	'inc')
-		amount='+3.0%'
+		amount="+$AMOUNT"
 		;;
 	'inc-small')
-		amount='+1.0%'
+		amount="+$AMOUNT_SMALL"
 		;;
 	'dec')
-		amount='-3.0%'
+		amount="-$AMOUNT"
 		;;
 	'dec-small')
-		amount='-1.0%'
+		amount="-$AMOUNT_SMALL"
 		;;
 	'amount')
 		amount="$2"
