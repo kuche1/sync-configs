@@ -10,7 +10,6 @@ mem = psutil.virtual_memory()
 mem = mem.available # in bytes
 
 # ZFS
-zmem = None
 if os.path.isfile(ZFS_ARCSTATS):
 	with open(ZFS_ARCSTATS, 'r') as f:
 		for line in f.readlines():
@@ -21,13 +20,7 @@ if os.path.isfile(ZFS_ARCSTATS):
 				line = line.split(' ')
 				zmem = line[-1]
 				zmem = int(zmem) # in bytes
+				mem += zmem
 				break
 
-pmem = f'{mem / GIGABYTE:.3}G'
-
-pzmem = ''
-if zmem != None:
-	zmem = mem + zmem
-	pzmem += f' {zmem / GIGABYTE:.3}G'
-
-print(pmem + pzmem)
+print(f'{mem / GIGABYTE:.3}G')
