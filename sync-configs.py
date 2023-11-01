@@ -29,12 +29,17 @@ def safely_delete(node):
 def safely_symlink(dest, source):
     if os.path.islink(dest):
         link_target = os.readlink(dest)
-        print(f'+++ {link_target=} {source=}')
         if link_target == source:
             return
     print(dest)
     safely_delete(dest)
+
     print(f'symlinking `{dest}` to point to `{source}`')
+
+    if not os.path.exists(dest):
+        print(f'ERROR: dest doesn\'t exist `{dest}`')
+        return
+
     os.symlink(source, dest)
 
 def sudo_safely_delete(file):
