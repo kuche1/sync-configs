@@ -395,6 +395,7 @@ exec --no-startup-id nm-applet
 
 # fixes the theme
 #exec --no-startup-id xsettingsd
+exec --no-startup-id xfsettingsd
 
 set $is_not_laptop python3 -c '__import__("sys").exit(__import__("psutil").sensors_battery())'
 
