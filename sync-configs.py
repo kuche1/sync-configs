@@ -38,11 +38,10 @@ def safely_symlink(dest, source):
 
     print(f'symlinking `{dest}` to point to `{source}`')
 
-    if not os.path.exists(dest):
-        print(f'ERROR: dest doesn\'t exist `{dest}`')
-        return
-
-    os.symlink(source, dest)
+    try:
+        os.symlink(source, dest)
+    except:
+        print(f'ERROR: could not symlink')
 
 def sudo_safely_delete(file):
     # TODO implement check functionality from `safely_delete`
@@ -167,7 +166,7 @@ def main(user, sync_location):
 
         new_vars_for_env = []
 
-        with open(FILE_ENV, 'r') as f:
+        with open(FILE_ENV, 'r') as f: # TODO what if env doesn't exist (example nixos)
             environment = f.read()
         environment = environment.splitlines()
 
