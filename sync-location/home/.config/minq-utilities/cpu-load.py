@@ -2,7 +2,7 @@
 
 import os
 
-FORMAT = "%.2f"
+FORMAT = "[%d]%.2f"
 
 avg1, avg5, avg15 = os.getloadavg()
-print(FORMAT%avg1, FORMAT%avg5, FORMAT%avg15)
+print(FORMAT % (1, avg1), FORMAT % (5, avg5), FORMAT % (15, avg15))
