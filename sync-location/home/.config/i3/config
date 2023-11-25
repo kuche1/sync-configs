@@ -318,7 +318,7 @@ for_window [title="Making History TGW"] floating enable
 ### set sticky
 #for_window [class="spectacle"] sticky enable
 ### set workspace
-assign [class="transmission-gtk"] $ws28
+#assign [class="transmission-gtk"] $ws28
 assign [class="Mumble"] $ws27
 assign [class="discord"] $ws27
 
