@@ -146,6 +146,9 @@ set $ws26 "26:n6"
 set $ws27 "27:n7"
 set $ws28 "28:n8"
 set $ws29 "29:n9"
+set $ws30 "30:/"
+set $ws31 "31:*"
+set $ws32 "32:-"
 
 # define workspace keys
 set $ws0k "grave"
@@ -178,6 +181,9 @@ set $ws26k "KP_Right"
 set $ws27k "KP_Home"
 set $ws28k "KP_Up"
 set $ws29k "KP_Prior"
+set $ws30k "KP_Divide"
+set $ws31k "KP_Multiply"
+set $ws32k "KP_Subtract"
 
 # switch to workspace
 bindsym $mod+$ws0k workspace $ws0
@@ -210,6 +216,9 @@ bindsym $mod+$ws26k workspace $ws26
 bindsym $mod+$ws27k workspace $ws27
 bindsym $mod+$ws28k workspace $ws28
 bindsym $mod+$ws29k workspace $ws29
+bindsym $mod+$ws30k workspace $ws30
+bindsym $mod+$ws31k workspace $ws31
+bindsym $mod+$ws32k workspace $ws32
 
 # move focused container to workspace
 bindsym $mod+Shift+$ws0k move container to workspace $ws0
@@ -242,6 +251,9 @@ bindsym $mod+Shift+$ws26k move container to workspace $ws26
 bindsym $mod+Shift+$ws27k move container to workspace $ws27
 bindsym $mod+Shift+$ws28k move container to workspace $ws28
 bindsym $mod+Shift+$ws29k move container to workspace $ws29
+bindsym $mod+Shift+$ws30k move container to workspace $ws30
+bindsym $mod+Shift+$ws31k move container to workspace $ws31
+bindsym $mod+Shift+$ws32k move container to workspace $ws32
 
 # switch to adjesent workspace
 bindsym $mod+bracketright workspace next
