@@ -330,9 +330,9 @@ for_window [title="Making History TGW"] floating enable
 ### set sticky
 #for_window [class="spectacle"] sticky enable
 ### set workspace
-assign [class="Mumble"] $ws28
-assign [class="discord"] $ws28
-#assign [class="transmission-gtk"] $ws28
+assign [class="Mumble"] $ws29
+assign [class="discord"] $ws29
+#assign [class="transmission-gtk"] $ws29
 
 ##### volume and media keys
 
@@ -412,7 +412,7 @@ exec --no-startup-id xfsettingsd
 set $is_not_laptop python3 -c '__import__("sys").exit(__import__("psutil").sensors_battery())'
 
 # display
-exec --no-startup-id sleep 1 && ~/.config/minq-utilities/set-resolution.sh
+exec --no-startup-id sleep 2 && ~/.config/minq-utilities/set-resolution.sh
 
 # polkit
 exec --no-startup-id ~/.config/minq-utilities/polkit.sh
