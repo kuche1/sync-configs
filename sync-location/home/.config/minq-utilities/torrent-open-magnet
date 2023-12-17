@@ -2,7 +2,7 @@
 
 HERE=$(dirname "$BASH_SOURCE")
 
-magnet="$(rofi -dmenu -p 'Enter magnet link:')"
+magnet="$(rofi -dmenu -p 'Enter magnet link')"
 if [ $? != 0 ]; then
     exit 1
 fi
