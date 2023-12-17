@@ -33,7 +33,6 @@ def safely_symlink(dest, source):
         link_target = os.readlink(dest)
         if link_target == source:
             return
-    print(dest)
     safely_delete(dest)
 
     print(f'symlinking `{dest}` to point to `{source}`')
