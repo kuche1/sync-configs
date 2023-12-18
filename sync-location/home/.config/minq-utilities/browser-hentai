@@ -1,9 +1,15 @@
 #! /usr/bin/env python3
 
 import sys
+import os
 
 from lib.run_program import run_program
 
 run_program(
+    ['chromium',
+        '--disable-smooth-scrolling',
+        '--user-data-dir=' + os.path.expanduser("~/.config/my-chromium-profiles/hentai"),
+        '-no-default-browser-check',
+    ],
     ['firefox', '-P', 'hentai'],
 )
