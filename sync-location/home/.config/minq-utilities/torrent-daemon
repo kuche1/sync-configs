@@ -7,4 +7,5 @@ from lib.run_program import run_program
 run_program(
     ['qbittorrent'], # set start minimised from the settings
     ['transmission-gtk', '--minimized'],
+    ['deluge'], # make it start minimised from the settings
 )

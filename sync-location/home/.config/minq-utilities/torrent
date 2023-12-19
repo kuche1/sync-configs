@@ -7,4 +7,5 @@ from lib.run_program import run_program
 run_program(
     ['qbittorrent'],
     ['transmission-gtk'],
+    ['deluge'],
 )
