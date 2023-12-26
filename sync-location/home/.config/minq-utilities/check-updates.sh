@@ -3,7 +3,7 @@
 regular_updates=$(
 	(
 		(checkupdates --version >/dev/null && checkupdates) ;
-		(apt --version >/dev/null          && apt list --upgradable) ;
+		(apt --version >/dev/null          && apt list --upgradable) ; # TODO this needs to be reduces by 1
 	) | wc -l
 )
 
