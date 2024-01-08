@@ -15,7 +15,7 @@ special_updates=$(
 
 number_of_packages=$(
 	(
-		(pacman -Q | wc -l) ;
+		(pacman -Q) ;
 		(dpkg --get-selections) ;
 	) | wc -l
 )
