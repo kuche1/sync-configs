@@ -428,7 +428,7 @@ exec --no-startup-id $is_not_laptop && ~/.config/minq-utilities/torrent-daemon
 #bindsym $mod+o exec --no-startup-id setxkbmap -layout "bg(phonetic)"
 #exec_always --no-startup-id setxkbmap -layout "us,bg(phonetic)" -option "grp:alt_shift_toggle"
 #exec_always --no-startup-id setxkbmap -layout "us,bg(phonetic)" -option "grp:alts_toggle"
-exec_always --no-startup-id sleep 2 && setxkbmap -layout "us,bg(phonetic)" -option "grp:ctrls_toggle"
+exec_always --no-startup-id sleep 4 && setxkbmap -layout "us,bg(phonetic)" -option "grp:ctrls_toggle"
 
 # audio sharing sync
 #exec_always --no-startup-id ~/.config/i3/create-virtual-sinks-for-audio-sharing.sh
