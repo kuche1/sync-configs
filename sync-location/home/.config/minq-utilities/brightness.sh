@@ -18,14 +18,13 @@ set_brightness(){
 }
 
 action="$1"
-arg="$2"
 
 case "$action" in
     get)
         get_brightness
         ;;
     set)
-    	set_brightness "$arg"
+    	set_brightness "$2"
     	;;
     inc)
         cur=$(get_brightness)
