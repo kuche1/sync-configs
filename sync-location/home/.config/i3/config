@@ -394,9 +394,9 @@ bindsym $mod+Shift+h exec ~/.config/minq-utilities/browser-hentai
 
 bindsym $mod+n exec thunar
 
-##### background
+##### desktop background
 
-exec --no-startup-id nitrogen --set-scaled ~/Desktop/tumblr_ovrfy1mumB1tc4vb9o1_1280.jpg
+# exec --no-startup-id nitrogen --set-scaled ~/Desktop/tumblr_ovrfy1mumB1tc4vb9o1_1280.jpg
 
 ########## autostart
 
@@ -419,7 +419,7 @@ set $is_not_laptop python3 -c '__import__("sys").exit(__import__("psutil").senso
 exec --no-startup-id sleep 3 && ~/.config/minq-utilities/set-resolution.sh
 
 # polkit
-exec --no-startup-id ~/.config/minq-utilities/polkit.sh
+exec --no-startup-id ~/.config/minq-utilities/polkit
 
 # thunar preload
 exec --no-startup-id thunar --daemon

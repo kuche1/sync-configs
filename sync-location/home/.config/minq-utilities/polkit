@@ -1,0 +1,11 @@
+#! /usr/bin/env python3
+
+import sys
+import os
+
+from lib.run_program import run_program
+
+run_program(
+    ['/usr/lib/mate-polkit/polkit-mate-authentication-agent-1'],
+    ['/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1'],
+)
