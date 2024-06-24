@@ -378,7 +378,7 @@ bindsym $mod+KP_Enter exec ~/.config/minq-utilities/terminal
 bindsym $mod+backslash exec ~/.config/minq-utilities/terminal-python3.sh
 
 # program launcher
-bindsym $mod+d exec --no-startup-id ~/.config/minq-utilities/program-launcher
+bindsym $mod+d exec --no-startup-id ~/.config/minq-utilities/menu
 #
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
