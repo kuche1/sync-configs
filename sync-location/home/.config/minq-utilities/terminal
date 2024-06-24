@@ -5,6 +5,7 @@ from lib.run_program import run_program
 run_program(
     ['wezterm'],
     ['xfce4-terminal'],
+    ['gnome-terminal'],
 )
 
 # 
