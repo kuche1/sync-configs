@@ -7,5 +7,5 @@ from lib.run_program import run_program
 
 run_program(
     # YOU MUST NOT TRUCT CHROMIUM WITH THIS (perhaps ungoogled) ['chromium', '--disable-smooth-scrolling', '--user-data-dir=' + os.path.expanduser("~/.config/my-chromium-profiles/default")],
-    ['firefox', '-P', 'freenet'],
+    ['firefox', '-P', 'i2p'],
 )
