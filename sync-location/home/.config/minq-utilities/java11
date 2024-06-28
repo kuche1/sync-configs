@@ -1,0 +1,8 @@
+#! /usr/bin/env python3
+
+from lib.run_program import run_program
+
+run_program(
+    ['/usr/lib/jvm/java-11-openjdk/bin/java'], # arch
+    #['/usr/lib/jvm/java-8-openjdk-amd64/bin/java'], # mint # TODO I haven't actually tested the mint directory for java11
+)
