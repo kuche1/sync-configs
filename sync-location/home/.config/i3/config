@@ -391,6 +391,7 @@ bindsym $mod+t exec ~/.config/minq-utilities/torrent-open-magnet
 bindsym $mod+b exec ~/.config/minq-utilities/browser
 bindsym $mod+Shift+f exec ~/.config/minq-utilities/browser-freenet
 bindsym $mod+Shift+h exec ~/.config/minq-utilities/browser-hentai
+bindsym $mod+Shift+i exec ~/.config/minq-utilities/browser-i2p
 
 bindsym $mod+n exec thunar
 
