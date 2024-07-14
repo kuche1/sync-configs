@@ -10,4 +10,4 @@
 free=$(zpool list | tail -1 | awk '{print $4}')
 total=$(zpool list | tail -1 | awk '{print $2}')
 
-echo "$free/$total"
+echo "free:$free/$total"
