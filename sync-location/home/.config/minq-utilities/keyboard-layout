@@ -1,4 +1,8 @@
 #! /usr/bin/env bash
 
-xkblayout-state print "%s"
-echo
+if xkblayout-state print "%s" ; then
+	echo
+else
+	i3-nagbar -t warning -m 'missing command [xkblayout-state] [paru xkblayout-state]'
+	echo 'ERR'
+fi
