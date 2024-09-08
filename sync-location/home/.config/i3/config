@@ -332,6 +332,7 @@ for_window [title="Making History TGW"] floating enable
 ### set workspace
 assign [class="Mumble"] $ws29
 assign [class="discord"] $ws29
+assign [class="vesktop"] $ws29
 #assign [class="transmission-gtk"] $ws29
 
 ##### volume and media keys
@@ -406,7 +407,7 @@ bindsym $mod+n exec thunar
 
 # autostart .desktop items
 # https://wiki.archlinux.org/index.php/XDG_Autostart
-#exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id dex --autostart --environment i3
 
 exec --no-startup-id nm-applet
 
