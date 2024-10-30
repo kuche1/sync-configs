@@ -1,6 +1,6 @@
 
 MANGOHUD=1
 #GTK_THEME=Adwaita-dark
-#QT_STYLE_OVERRIDE=Adwaita-dark
+QT_STYLE_OVERRIDE=Adwaita-dark
 #QT_QPA_PLATFORMTHEME=qt5ct
 #BROWSER=/home/me/.config/minq-utilities/browser
