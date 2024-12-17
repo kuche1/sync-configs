@@ -3,6 +3,7 @@
 from lib.run_program import run_program
 
 run_program(
+    ['lxterminal'],
     ['wezterm'],
     ['xfce4-terminal'],
     ['gnome-terminal'],

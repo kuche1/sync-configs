@@ -363,8 +363,8 @@ set $refresh_mic_indicator pkill -RTMIN+11 i3blocks
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_volume_widget
 
 # mute mic
-bindsym XF86AudioMicMute exec --no-startup-id ~/.config/minq-utilities/microphone-set.sh && $refresh_volume_widget
-bindsym $mod+m           exec --no-startup-id ~/.config/minq-utilities/microphone-set.sh && $refresh_mic_indicator
+#bindsym XF86AudioMicMute exec --no-startup-id ~/.config/minq-utilities/microphone-set.sh && $refresh_volume_widget
+#bindsym $mod+m           exec --no-startup-id ~/.config/minq-utilities/microphone-set.sh && $refresh_mic_indicator
 
 # adjust volume fake events
 bindsym XF86AudioNext exec --no-startup-id ~/.config/minq-utilities/volume-set.sh inc && $refresh_volume_widget

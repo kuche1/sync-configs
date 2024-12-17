@@ -2,6 +2,6 @@
     "*.zig": {
         "tabstospaces": true
     },
-    "colorscheme": "atom-dark",
+    "colorscheme": "dracula-tc",
     "softwrap": true
 }
