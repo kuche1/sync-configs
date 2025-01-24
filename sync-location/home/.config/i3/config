@@ -400,7 +400,7 @@ bindsym $mod+Shift+f exec ~/.config/minq-utilities/browser-freenet
 bindsym $mod+Shift+h exec ~/.config/minq-utilities/browser-hentai
 bindsym $mod+Shift+i exec ~/.config/minq-utilities/browser-i2p
 
-bindsym $mod+n exec thunar
+bindsym $mod+n exec ~/.config/minq-utilities/file-browser
 
 ##### desktop background
 

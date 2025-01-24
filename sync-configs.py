@@ -114,7 +114,7 @@ def main(user, sync_location):
             folder_path_home = os.path.join(home, fol)
             folder_path_repo = os.path.join(d_repo, fol)
 
-            if fol in ['.mozilla']: # just symlink
+            if fol in ['.mozilla', '.minecraft', '.tlauncher']: # just symlink
                 safely_symlink(folder_path_home, folder_path_repo)
 
             elif fol == '.config':
