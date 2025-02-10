@@ -2,8 +2,11 @@
 
 set -euo pipefail
 
-#awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master)
-vol=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer -D pulse sget Master))
+if amixer -D pulse sget Master &> /dev/null ; then
+	vol=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer -D pulse sget Master))
+elif amixer sget Master &> /dev/null ; then
+	vol=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master))
+fi
 
 vol="${vol::-1}"
 # delete the last character - `%`
