@@ -5,7 +5,7 @@ import sys
 from lib.run_program import run_program
 
 run_program(
-    ['qbittorrent'], # make sore you select `Behaviour > Window state on startup: Hidden`
+    ['qbittorrent'], # make sure you select `Behaviour > Window state on startup: Hidden`
     ['transmission-gtk', '--minimized'],
     ['deluge'], # make it start minimised from the settings
     #['ionice', '-c', '3', 'qbittorrent'], # set start minimised from the settings

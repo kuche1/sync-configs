@@ -3,9 +3,10 @@
 regular_updates=$(
 	(
 		(checkupdates --version >/dev/null && checkupdates) ;
-		(apt --version >/dev/null          && apt list --upgradable) ; # TODO this needs to be reduces by 1
+		(apt --version >/dev/null          && apt list --upgradable) ; # TODO this needs to be reduced by 1
 	) | wc -l
 )
+# TODO: dnf check-upgrade
 
 special_updates=$(
 	(

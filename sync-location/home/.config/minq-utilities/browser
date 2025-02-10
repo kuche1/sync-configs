@@ -5,6 +5,7 @@ import os
 from lib.run_program import run_program
 
 run_program(
+    ['chromite'],
     ['firefox', '-P', 'default-release'],
     ['librewolf'],
     [
