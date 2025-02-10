@@ -1,8 +1,13 @@
 #! /usr/bin/env bash
 
-if xkblayout-state print "%s" ; then
-	echo
-else
-	i3-nagbar -t warning -m 'missing command [xkblayout-state] [paru xkblayout-state]'
-	echo 'ERR'
-fi
+# I used to use this on arch
+#
+# if xkblayout-state print "%s" ; then
+	# echo
+# else
+	# i3-nagbar -t warning -m 'missing command [xkblayout-state] [paru xkblayout-state]'
+	# echo 'ERR'
+# fi
+
+# now I use this on fedora 41
+xkb-switch
