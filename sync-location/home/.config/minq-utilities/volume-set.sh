@@ -48,5 +48,11 @@ case "${type}" in
 		;;
 esac
 
-#pactl set-sink-volume @DEFAULT_SINK@ "${amount}"
-amixer -D pulse set Master "${amount}" > /dev/null
+# pactl set-sink-volume @DEFAULT_SINK@ "${amount}"
+# amixer -D pulse set Master "${amount}" > /dev/null
+
+if amixer -D pulse sget Master &> /dev/null ; then
+	amixer -D pulse set Master "${amount}" > /dev/null
+elif amixer sget Master &> /dev/null ; then
+	amixer set Master "${amount}" > /dev/null
+fi
