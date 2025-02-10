@@ -5,7 +5,10 @@ import os
 from lib.run_program import run_program
 
 run_program(
-    ['chromite'],
+    [
+        'chromite',
+        '--disable-smooth-scrolling',
+    ],
     ['firefox', '-P', 'default-release'],
     ['librewolf'],
     [
