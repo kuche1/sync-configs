@@ -410,6 +410,7 @@ bindsym $mod+n exec ~/.config/minq-utilities/file-browser
 
 # exec --no-startup-id nitrogen --set-scaled ~/Desktop/tumblr_ovrfy1mumB1tc4vb9o1_1280.jpg
 exec --no-startup-id xsetroot -solid "#000000"
+#sudo pacman -S xorg-xsetroot
 
 ########## autostart
 

@@ -1,4 +1,7 @@
 
+# let's just use .profile for now
+# keeping this here just in case
+
 MANGOHUD=1
 #GTK_THEME=Adwaita-dark
 QT_STYLE_OVERRIDE=Adwaita-dark
