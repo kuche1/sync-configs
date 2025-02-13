@@ -41,7 +41,7 @@ def collect_data_and_print(process):
         print(f'{items}s{avg:6.2f}', flush=True)
 
 def main():
-    process = subprocess.Popen(['mpstat', '--dec=2', '1'], stdout=subprocess.PIPE)
+    process = subprocess.Popen(['mpstat', '--dec=2', '1'], stdout=subprocess.PIPE) # sudo pacman -S sysstat
     # can use `--dec=0` to limit to `0` decimal places. default is 2
 
     try:
