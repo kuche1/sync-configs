@@ -65,8 +65,17 @@ def sudo_safely_copy(from_, to): # TODO? check content if a copy is needed
     from_ = os.path.realpath(from_)
     to = os.path.realpath(to)
 
+
     if os.path.exists(to):
+
+        with open(from_, 'rb') as f_from:
+            with open(to, 'rb') as f_to:
+                if f_from.read() == f_to.read():
+                    return
+
         sudo_safely_delete(to)
+
+    print(f'copying {from_} to {to}')
 
     with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
         f.write('import shutil\n')
@@ -217,9 +226,7 @@ def main(user, sync_location):
     sync_location_mouse_file = os.path.join(sync_location, 'mouse')
 
     if os.path.isfile(sync_location_mouse_file):
-
         tmp = '/usr/share/X11/xorg.conf.d/90-mouse-accel.conf'
-        print(f'setting file {tmp}')
         sudo_safely_copy(sync_location_mouse_file, tmp)
 
     print('Done')
