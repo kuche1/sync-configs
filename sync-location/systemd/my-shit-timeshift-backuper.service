@@ -1,0 +1,11 @@
+
+[Unit]
+Description=My shit - timeshift backuper
+After=network.target time-sync.target
+
+[Service]
+Type=simple
+ExecStart=bash -c 'while true ; do timeshift --check ; sleep 1h ; done'
+
+[Install]
+WantedBy=multi-user.target

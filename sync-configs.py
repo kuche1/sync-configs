@@ -61,7 +61,7 @@ def sudo_safely_delete(file):
         f_exec.write(f'os.rename(r"{file}", r"{new_name}")\n')
     subprocess.run(['sudo', 'python3', f_exec_name], check=True) # for some fucking reason using `env` instead of `python3` drops the permissions
 
-def sudo_safely_copy(from_, to): # TODO? check content if a copy is needed
+def sudo_safely_copy(from_, to):
     from_ = os.path.realpath(from_)
     to = os.path.realpath(to)
 
@@ -99,6 +99,15 @@ def sudo_append_to_file(file, data):
             st = os.stat(f_exec.name)
             os.chmod(f_exec.name, st.st_mode | stat.S_IEXEC)
         subprocess.run(['sudo', 'env', f_exec_name], check=True)
+
+def sudo_enable_and_start_service(service):
+    subprocess.run(['sudo', 'systemctl', 'daemon-reload'], check=True)
+
+    print('checking if serivce is enabled...')
+    if subprocess.run(['systemctl', 'is-enabled', service]).returncode == 0:
+        return
+
+    subprocess.run(['sudo', 'systemctl', 'enable', '--now', service], check=True)
 
 def main(user, sync_location):
     try:
@@ -228,6 +237,21 @@ def main(user, sync_location):
     if os.path.isfile(sync_location_mouse_file):
         tmp = '/usr/share/X11/xorg.conf.d/90-mouse-accel.conf'
         sudo_safely_copy(sync_location_mouse_file, tmp)
+    
+    # copy systemd services
+
+    sync_location_systemd_services = os.path.join(sync_location, 'systemd')
+
+    if os.path.isdir(sync_location_systemd_services):
+        for path, _, files in os.walk(sync_location_systemd_services):
+            for file in files:
+                file_path = os.path.join(path, file)
+                dest_path = os.path.join('/etc/systemd/system', file)
+                sudo_safely_copy(file_path, dest_path)
+                sudo_enable_and_start_service(file)
+            break
+
+    # done
 
     print('Done')
 
