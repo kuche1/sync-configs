@@ -38,10 +38,11 @@ def safely_symlink(dest, source):
 
     print(f'symlinking `{dest}` to point to `{source}`')
 
-    try:
-        os.symlink(source, dest)
-    except:
-        print(f'ERROR: could not symlink')
+    # try:
+    #     os.symlink(source, dest)
+    # except:
+    #     print(f'ERROR: could not symlink')
+    os.symlink(source, dest)
 
 def sudo_safely_delete(file):
     # TODO implement check functionality from `safely_delete`
@@ -145,13 +146,6 @@ def main(user, sync_location):
                         to_be_symlinked = os.path.join(d, symlink_target)
                         safely_symlink(real_path, to_be_symlinked)
                     break
-
-            elif fol == '.local': # TODO this is now depricated; delete after test with arch passes
-                assert False
-                compdata_path_repo = os.path.join(folder_path_repo, 'share', 'Steam', 'steamapps', 'compatdata')
-                compdata_path_home = os.path.join(folder_path_home, 'share', 'Steam', 'steamapps', 'compatdata')
-                assert os.path.isdir(compdata_path_repo)
-                safely_symlink(compdata_path_home, compdata_path_repo)
 
             elif fol == '.steam':
                 compdata_path_repo = os.path.join(folder_path_repo, 'steam', 'steamapps', 'compatdata')
