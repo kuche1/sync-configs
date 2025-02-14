@@ -4,12 +4,12 @@ export MANGOHUD=1
 # this seems to work flawlessly
 export QT_QPA_PLATFORMTHEME=gtk3
 
+# hardcode theme to kvantum (add another layer of indirection)
+# export QT_STYLE_OVERRIDE=kvantum-dark
+
 # hardcode theme to adwaita
 #export QT_STYLE_OVERRIDE=Adwaita-dark
 
-# if you want to use a kvantum theme
-# export QT_STYLE_OVERRIDE=kvantum-dark
-
 #GTK_THEME=Adwaita-dark
 #QT_QPA_PLATFORMTHEME=qt5ct
-#BROWSER=/home/me/.config/minq-utilities/browser
+#BROWSER=...
