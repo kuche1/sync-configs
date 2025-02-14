@@ -5,13 +5,6 @@ import os
 from lib.run_program import run_program
 
 run_program(
-    [
-        'chromite',
-        '--disable-smooth-scrolling',
-        '--user-data-dir=' + os.path.expanduser("~/.config/my-chromite-profiles/default"),
-        '-no-default-browser-check',
-    ],
-
     ['firefox', '-P', 'default-release'],
 
     ['librewolf'],
@@ -24,6 +17,14 @@ run_program(
     ],
 
     ['min', '--disable-smooth-scrolling'],
+
+    [
+        'chromite',
+        '--disable-smooth-scrolling',
+        '--user-data-dir=' + os.path.expanduser("~/.config/my-chromite-profiles/default"),
+        '-no-default-browser-check',
+    ],
+
 )
 
 # 
