@@ -6,8 +6,8 @@ import os
 from lib.run_program import run_program
 
 run_program(
+    ['/usr/bin/lxqt-policykit-agent'], # arch
     ['/usr/lib/mate-polkit/polkit-mate-authentication-agent-1'], # arch
     ['/usr/libexec/polkit-mate-authentication-agent-1'], # fedora 41
     ['/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1'],
-    ['/usr/bin/lxqt-policykit-agent'], # arch
 )
