@@ -1,9 +1,17 @@
 
-# let's just use .profile for now
-# keeping this here just in case
-
 MANGOHUD=1
+
+# this seems to work flawlessly
+QT_QPA_PLATFORMTHEME=gtk3
+
+# hardcode theme to kvantum (add another layer of indirection)
+# QT_STYLE_OVERRIDE=kvantum-dark
+
+# hardcode theme to adwaita
+#QT_STYLE_OVERRIDE=Adwaita-dark
+
 #GTK_THEME=Adwaita-dark
-QT_STYLE_OVERRIDE=Adwaita-dark
 #QT_QPA_PLATFORMTHEME=qt5ct
-#BROWSER=/home/me/.config/minq-utilities/browser
+#BROWSER=...
+
+EDITOR=micro
