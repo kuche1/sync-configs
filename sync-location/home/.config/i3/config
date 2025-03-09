@@ -419,7 +419,7 @@ exec --no-startup-id xsetroot -solid "#000000"
 
 # autostart .desktop items
 # https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex --autostart --environment i3
+#exec --no-startup-id dex --autostart --environment i3
 
 exec --no-startup-id nm-applet
 
@@ -459,4 +459,7 @@ exec_always --no-startup-id sleep 7 && setxkbmap -layout "us,bg(phonetic)" -opti
 #exec --no-startup-id $is_not_laptop && while true ; do x0vncserver -rfbauth ~/.vnc/passwd ; done
 
 # brightness daemon
-exec --no-startup-id $is_not_laptop && (~/.config/minq-utilities/loop-adjust-brightness.py &> /tmp/log-loop-adjust-brightness.py &)
+#exec --no-startup-id $is_not_laptop && (~/.config/minq-utilities/loop-adjust-brightness.py &> /tmp/log-loop-adjust-brightness.py &)
+
+# notifications daemon (uncommented since I want to see if it will autostart by a miracle)
+#exec --no-startup-id ~/.config/minq-utilities/notifications-daemon
