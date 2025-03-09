@@ -15,5 +15,3 @@ export QT_QPA_PLATFORMTHEME=gtk3
 #BROWSER=...
 
 export EDITOR=micro
-
-export PATH="$PATH:$HOME/sync/rsync/apps-presistent/bin"
