@@ -5,6 +5,8 @@ import os
 from lib.run_program import run_program
 
 run_program(
+    ['zen-browser'],
+
     ['firefox', '-P', 'default-release'],
 
     ['librewolf'],
@@ -24,7 +26,6 @@ run_program(
         '--user-data-dir=' + os.path.expanduser("~/.config/my-chromite-profiles/default"),
         '-no-default-browser-check',
     ],
-
 )
 
 # 
