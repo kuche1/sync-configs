@@ -43,6 +43,9 @@ client.focused #115511 #115511 #fdf6e3 #008800
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
+# default layout
+workspace_layout tabbed
+
 ########## keybinds
 
 ##### system / DE management
