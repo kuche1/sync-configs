@@ -6,10 +6,10 @@ import os
 from lib.run_program import run_program
 
 run_program(
-    ['firefox', '-P', 'hentai'],
+    ['firefox', '-P', 'h'],
     ['chromium',
         '--disable-smooth-scrolling',
-        '--user-data-dir=' + os.path.expanduser("~/.config/my-chromium-profiles/hentai"),
+        '--user-data-dir=' + os.path.expanduser("~/.config/my-chromium-profiles/h"),
         '-no-default-browser-check',
     ],
 )

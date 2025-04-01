@@ -1,8 +1,14 @@
 #! /usr/bin/env python3
 
 import sys
+import os
 
 from lib.run_program import run_program
+
+HERE = os.path.dirname(os.path.realpath(__file__))
+
+if not os.path.isfile(os.path.join(HERE, 'NOT-AT-WORK')):
+    sys.exit(1)
 
 run_program(
     ['qbittorrent'],
