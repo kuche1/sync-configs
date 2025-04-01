@@ -1,6 +1,12 @@
 #! /usr/bin/env bash
 
+set -euo pipefail
+
 HERE=$(dirname "$BASH_SOURCE")
+
+if [ ! -f "$HERE/NOT-AT-WORK" ]; then
+	exit 1
+fi
 
 magnet="$(rofi -dmenu -p 'Enter magnet link')"
 if [ $? != 0 ]; then
