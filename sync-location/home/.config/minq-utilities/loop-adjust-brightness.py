@@ -18,7 +18,7 @@ def brightness_on():
     global currently_bright
     if not currently_bright:
         currently_bright = True
-        term([f'{HERE}/brightness.sh', 'set', '1.4'])
+        term([f'{HERE}/brightness.sh', 'set', '1.2']) # 1.4
 
 def brightness_off():
     global currently_bright
