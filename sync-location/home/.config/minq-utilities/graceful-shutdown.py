@@ -3,9 +3,10 @@
 import psutil
 import getpass
 import time
+import argparse
 
 KILLLIST = [
-    # 'code',
+    'code',
 
     'qbittorrent',
 
@@ -24,7 +25,21 @@ KILLLIST = [
 SLEEP_CHECK_RUNNING_PROCESSES_AGAIN = 1
 CHECK_RUNNING_PROCESSES_TIMEOUT = 8
 
+COL_RESET =  '\033[0;0m'
+COL_YELLOW = '\033[1;33m'
+COL_RED = '\033[1;31m'
+
 USER = getpass.getuser()
+
+def print_yellow(*a, **kw):
+    print(COL_YELLOW, end='')
+    print(*a, **kw)
+    print(COL_RESET, end='')
+
+def print_red(*a, **kw):
+    print(COL_RED, end='')
+    print(*a, **kw)
+    print(COL_RESET, end='')
 
 def get_remaining_processes():
 
@@ -82,18 +97,20 @@ def get_remaining_processes():
 
     return interesting
 
-def terminate_processes(processes):
-    print('terminating processes:')
+def terminate_processes(processes, pretend:bool):
+    print_yellow('terminating processes:')
     for process in processes:
         print(process)
-        process.terminate()
+        if not pretend:
+            process.terminate()
     print()
 
-def kill_processes(processes):
-    print('killing processes:')
+def kill_processes(processes, pretend:bool):
+    print_red('killing processes:')
     for process in processes:
         print(process)
-        process.kill()
+        if not pretend:
+            process.kill()
     print()
 
 def wait_for_all_to_die(processes):
@@ -121,20 +138,27 @@ def wait_for_all_to_die(processes):
         time.sleep(SLEEP_CHECK_RUNNING_PROCESSES_AGAIN)
         time_left -= SLEEP_CHECK_RUNNING_PROCESSES_AGAIN
 
-def main():
+def main(pretend:bool):
 
     processes = get_remaining_processes()
 
-    terminate_processes(processes)
+    terminate_processes(processes, pretend)
 
     if wait_for_all_to_die(processes):
         return
 
-    terminate_processes(processes)
+    terminate_processes(processes, pretend)
 
     if wait_for_all_to_die(processes):
         return
 
-    kill_processes(processes)
+    kill_processes(processes, pretend)
 
-main()
+def execute():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--pretend', action='store_true')
+    args = parser.parse_args()
+    main(args.pretend)
+
+if __name__ == '__main__':
+    execute()
