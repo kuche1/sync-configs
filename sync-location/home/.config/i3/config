@@ -464,6 +464,7 @@ bar {
         #status_command "$(readlink -f ~/.config/i3/custom-status-command.sh)"
         status_command i3blocks
         strip_workspace_numbers yes
+        # height 30
 }
 
 ###
