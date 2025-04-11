@@ -222,7 +222,7 @@ def main(user, sync_location):
 #         with open(FILE_PROFILE, 'a') as f:
 #             f.write(data)
 
-    safely_symlink(FILE_PROFILE, os.path.join(sync_location, 'profile'))
+    #safely_symlink(FILE_PROFILE, os.path.join(sync_location, 'profile'))
  
     # sync mouse
 
