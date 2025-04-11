@@ -8,6 +8,10 @@ import argparse
 KILLLIST = [
     'code',
 
+    'firefox',
+
+    'mpv',
+
     'qbittorrent',
 
     'steam',
@@ -23,7 +27,7 @@ KILLLIST = [
 # ]
 
 SLEEP_CHECK_RUNNING_PROCESSES_AGAIN = 1
-CHECK_RUNNING_PROCESSES_TIMEOUT = 8
+CHECK_RUNNING_PROCESSES_TIMEOUT = 10
 
 COL_RESET =  '\033[0;0m'
 COL_YELLOW = '\033[1;33m'
