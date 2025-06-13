@@ -3,17 +3,10 @@
 from lib.run_program import run_program
 
 run_program(
+    ['ghostty'],
     ['xfce4-terminal'],
     ['wezterm'],
     ['gnome-terminal'],
     ['qterminal'],
     ['lxterminal'], # no search
 )
-
-# 
-# #! /usr/bin/env bash
-# 
-# (librewolf --version && (librewolf $@ ; exit $?)) ||
-# (firefox --version && (firefox -P default-release $@ ; exit $?))
-# # on ubuntu it seems to be called `default` (not sure, can't double-check)
-# # on arch it's called `default-release`
