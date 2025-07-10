@@ -5,9 +5,10 @@ import os
 from lib.run_program import run_program
 
 run_program(
-    ['zen-browser'],
+    ['firefox'],
+    #['firefox', '-P', 'default-release'],
 
-    ['firefox', '-P', 'default-release'],
+    ['zen-browser'],
 
     ['librewolf'],
 
