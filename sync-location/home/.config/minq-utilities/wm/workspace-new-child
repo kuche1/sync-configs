@@ -1,0 +1,14 @@
+#! /usr/bin/env bash
+
+set -euo pipefail
+
+name=$(rofi -dmenu -p "new workspace name [child]")
+
+if [ -z "$name" ]; then
+	name="child"
+fi
+
+current_workspace_name=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused==true).name')
+name="$current_workspace_name>$name"
+
+i3-msg workspace "$name"

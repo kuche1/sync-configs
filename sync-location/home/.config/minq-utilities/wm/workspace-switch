@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+set -euo pipefail
+
+workspace=$(i3-msg -t get_workspaces | jq -r '.[].name' | rofi -dmenu -p "switch to workspace")
+
+i3-msg workspace "$workspace"

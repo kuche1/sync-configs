@@ -1,0 +1,16 @@
+[global_config]
+[keybindings]
+  resize_left = ""
+  resize_right = ""
+[profiles]
+  [[default]]
+    scrollback_lines = 1000
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]

@@ -1,0 +1,46 @@
+#! /usr/bin/env python3
+
+import subprocess
+import json
+
+# workspace=$(i3-msg -t get_workspaces | jq -r '.[].name' | rofi -dmenu -p "switch to workspace")
+# 
+# i3-msg workspace "$workspace"
+
+
+def get_workspaces():
+    proc = subprocess.run(['i3-msg', '-t', 'get_workspaces'], check=True, capture_output=True)
+
+    data = proc.stdout.decode()
+    data = json.loads(data)
+
+    return [workspace['name'] for workspace in data]
+
+def rofi_input(prompt:str):
+    proc = subprocess.run(['rofi', '-dmenu', '-p', prompt], check=True, capture_output=True)
+    text = proc.stdout.decode().strip()
+    return text
+
+def i3_workspace(name:str):
+    subprocess.run(['i3-msg', 'workspace', name], check=True)
+
+current_ws_name = get_current_workspace()
+
+idx = current_ws_name.rfind('>')
+if idx >= 0:
+    current_ws_name = current_ws_name[:idx]
+else:
+    current_ws_name = ''
+
+print(current_ws_name)
+
+new_ws_name = rofi_input('new workspace name')
+if len(current_ws_name) > 0:
+    new_ws_name = f'{current_ws_name}>{new_ws_name}'
+
+print(new_ws_name)
+
+if len(new_ws_name.strip()) == 0:
+    new_ws_name = "new"
+
+i3_workspace(new_ws_name)
