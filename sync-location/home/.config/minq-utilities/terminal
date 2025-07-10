@@ -3,7 +3,12 @@
 from lib.run_program import run_program
 
 run_program(
+    ['terminator'],
+
     ['ghostty'],
+    # 2025.06.29: when interacting with systemd I get "WARNING: terminal is not fully functional"
+    # 2025.06.29: no scroll bar
+
     ['xfce4-terminal'],
     ['wezterm'],
     ['gnome-terminal'],
