@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+
+set -euo pipefail
+
+setxkbmap -layout "us,bg(phonetic)" -option "grp:ctrls_toggle"
