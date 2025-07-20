@@ -595,6 +595,12 @@ binds {
 ///// xwayland
 /////
 
+// note 2025.07.20
+// in the future this is supposed to get integrated
+// but until then we'll keep this config here
+
+// https://github.com/YaLTeR/niri/wiki/Xwayland
+
 spawn-at-startup "xwayland-satellite"
 
 environment {
