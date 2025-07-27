@@ -1,0 +1,10 @@
+
+# see configs with:
+# man 5 mako
+
+background-color=#285533FF
+# default: #285577FF
+
+default-timeout=60000
+# timeout in ms
+# default: 0 (no timeout)
