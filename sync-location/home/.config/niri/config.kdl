@@ -576,6 +576,7 @@ binds {
     // Mod+Shift+Space { switch-layout "prev"; }
 
     Print { screenshot; }
+    // (2025.08.16: this is not the name of the key) ScrLk { screenshot; } // 2025.08.15: idk if this is the right key name
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 
